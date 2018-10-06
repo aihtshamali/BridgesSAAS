@@ -1,0 +1,52 @@
+@media print{
+	
+	body{
+    background-color: #eee !important;
+    margin-top: 0mm; margin-bottom: 0mm; 
+    margin-left: 0mm; margin-right: 0mm;
+	}
+	
+	.container{
+	width: 100%;
+	margin:auto;
+	}
+
+	.tp-margin{
+  		margin-top: 0px !important;
+	}
+	
+	.img-pad{
+	padding: 4px 0 4px 0px !important; 
+	}
+
+.performance-table tbody tr td{
+	height:13.3px;
+	width: 21.874px;
+	border-right:1px solid #FFF;
+	border-bottom:1px solid #FFF;
+	font-size: 10px;
+	background-color: #F7F7F7;
+	display: table-cell;
+}
+.performance-table thead tr th{
+	border-bottom: 1px solid white;
+    border-top: 0px;
+    border-right: 1px solid #FFF;
+   	border-bottom:1px solid #FFF;
+    width: 21.874px;
+    /*height: 13.3px;*/
+    text-align: center;
+    font-weight: bold;
+    background-color: #dbdbdb;
+    line-height: 13px;
+    color: #555;
+    font-family: calibri;
+    font-size: 12px;
+}
+
+
+	.payslip .task1-wrapper{
+		color:red;
+  width: 100% !important;
+}
+}

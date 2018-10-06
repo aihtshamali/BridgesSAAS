@@ -1,0 +1,115 @@
+/* DivTable.com */
+.divTable{
+  display: table;
+  width: 100%;
+}
+.divTableRow {
+  display: table-row;
+}
+.divTableHeading {
+  background-color: #fff;
+  display: table-header-group;
+}
+.divTableCell, .divTableHead {
+  /*border: 1px solid #ccc;
+  display: table-cell;
+  padding: 2px 5px;*/
+    border-right: 2px solid #ccc;
+    border-top: 2px solid #ccc;
+    border-bottom: 0;
+    display: inline-block;
+    text-align: left;
+    line-height: 100%;
+    width: 43px;
+    height: 30px;
+  }
+.divTableCell{
+   padding:5px;
+    box-sizing:border-box;
+}
+
+.divTableHeading {
+  background-color: #fff;
+  display: table-header-group;
+  font-weight: bold;
+}
+.divTableFoot {
+  background-color: #fff;
+  display: table-footer-group;
+  font-weight: bold;
+}
+.divTableBody {
+  display: table-row-group;
+}
+.padding-0{
+  padding: 0 !important;
+}
+.border-child-0 .divTableCell{
+  border: 0;
+      border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    display: block !important;
+}
+.col-148{
+  width: 147px;
+}
+.table-head{
+  background: #f2f2f2;
+  color: #ac2222;
+  font-weight: bold;
+}
+.table-head .divTableCell{
+  padding: 8px;
+  text-transform: uppercase;
+}
+ .arrT{
+    width: 145px;
+    border: none;
+    float: left;
+    height: 28px;
+    border-bottom: 2px solid #CCC;
+}
+.divTableCell:nth-child(11),
+.divTableCell:nth-child(19),
+.divTableCell:nth-child(27),
+.divTableCell:nth-child(35){
+  border-left: 1px solid #ac2222;
+  border-right: 1px solid #ac2222;
+}
+.divTableCell:nth-child(10),
+.divTableCell:nth-child(18),
+.divTableCell:nth-child(26),
+.divTableCell:nth-child(34){
+  border-right: 0;
+}
+
+.divTableRow.lpb > .divTableCell{
+  border-bottom: 2px solid #ac2222;
+}
+.divTableRow.dcalpb > .divTableCell{
+  border-top: 0;
+}
+/*.table td{
+  width: 150px;
+  height: 50px;
+    -webkit-transition: 0.3s linear;
+    -moz-transition: 0.3s linear;
+    -o-transition: 0.3s linear;
+    transition: 0.3s linear;
+}
+.table td:hover{
+  background: #fbc471;
+  width: 100px;
+  color: #770f;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 1);
+}*/
+.border-child-0 .divTableCell{
+    -webkit-transition: 0.3s linear;
+    -moz-transition: 0.3s linear;
+    -o-transition: 0.3s linear;
+    transition: 0.3s linear;
+}
+.border-child-0 .divTableCell:hover{;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 1);
+}

@@ -1,0 +1,173 @@
+.print_size_school{
+		height :75px !important;
+ 	}
+
+.print_size_consortium{
+    height :75px !important;
+}
+.print_size_analytic{
+    height :75px !important;
+}
+.emergency-contact-school{
+    background: #b00202;
+    color: #fff;
+}
+.emergency-contact-consortium{
+    background: #cfe6d6;
+}
+.emergency-contact-analytic{
+    background: #96b1dc;
+}
+
+.logo-section{
+    width: 80px;
+    padding-top: 3px;
+}
+
+.title-bg{
+    background: #CFE6D6;
+    height: 68px;
+}
+
+
+.project-title{
+    margin-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+     font-size: 16px;
+     font-weight: 600;
+}
+
+.print{
+	page-break-after: auto;
+}
+.logo{
+    height: 65px;
+}
+.mt-20{
+    margin-top: 6px;
+}
+.profile_school{
+    border:2px solid #b00202;
+    border-radius: 2px;
+    width: 65px !important;
+    height: 66px;
+}
+.profile_consortium{
+     border:2px solid #cfe6d6;
+     border-radius: 2px;
+     width: 65px !important;
+     height: 66px;
+}
+.profile_analytic{
+     border:2px solid #96b1dc;
+     border-radius: 2px;
+     width: 65px !important;
+     height: 66px;
+}
+
+.id-text{
+    font-size: 10px;
+    margin:0px;
+    margin-left: 0px;
+    padding-left: 0px;
+
+}
+.sign{
+    height: 32px;
+
+}
+ .since-text{
+        font-size: 14px !important;
+        font-weight:700 ;
+         margin:0px;
+        margin-left: 0px;
+        padding-left: 0px;
+}
+ .name-text{
+    min-height: 18px;
+    font-weight: 600;
+    font-size: 15px;
+    margin: 20px;
+    min-width: 150px;
+
+}
+
+.name-section{
+    border-left: 1px solid #000; 
+    padding-left: 10px;
+    width: 180px !important;
+}
+    	@media print {
+             html, body {
+                 margin:0;
+                 padding:0;
+              }
+    		#hidePrint{
+    			display: none;
+    		}
+            .profile_school{
+                border:2px solid #b00202;
+                border-radius: 2px;
+                width: 65px !important;
+                height: 66px;
+                }
+                .profile_consortium{
+                border:2px solid #cfe6d6;
+                border-radius: 2px;
+                width: 65px !important;
+                height: 66px;
+                }
+                .profile_analytic{
+                border:2px solid #96b1dc;
+                border-radius: 2px;
+                width: 65px !important;
+                height: 66px;
+                }
+            .logo-section{
+                width: 80px;
+                padding-top: 2px;
+                /* padding-left: 10px;
+                padding-right:  10px; */
+
+            }
+            .project-title{
+                    margin-top: 20px;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                     font-size: 16px;
+                     font-weight: 600;
+                }
+            .logo{
+                height: 60px;
+            }
+            .title-bg {
+                width: 200px !important;
+            }
+            .name-section{
+                border-left: 1px solid #000; 
+                width: 200px !important;
+            }
+            .id-text{
+                font-size: 12px;
+                margin:0px;
+                margin-left: 0px;
+                padding-left: 0px;
+
+            }
+            .since-text{
+                font-size: 14px !important;
+                font-weight:700 ;
+                 margin:0px;
+                margin-left: 0px;
+                padding-left: 0px;
+            }
+             @page {
+                 margin:10px;
+                 padding:5px;
+            }
+            }
+            }
+            }
+
+    	}

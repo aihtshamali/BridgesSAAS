@@ -1,0 +1,165 @@
+.mainMenuButton{
+	background-color: #000000;
+	color: #fff;
+	font-size:22px;	
+}
+.subMenuButton{
+	background-color: #6E0001;
+	color: #fff;
+	font-size:15px;	
+	text-align:center;
+	vertical-align:middle;
+	padding-top:5px;
+	border:1px solid #D3D3D3;
+}
+.subMenuButton:hover{
+	background-color: #430101;
+	color: #fff;
+	font-size:17px;	
+	text-decoration:none;
+}
+.checkBox{
+	appearance: none !important;
+	-moz-appearance: none !important;
+	-webkit-appearance: none !important;
+	width: 25px !important;
+	height: 25px !important;
+	margin: 7px 5px 0 2px !important;
+	border: 1px solid #c8c6c6;
+    border-radius: 2px;
+}
+
+.checkBox:checked{
+	
+	background-color: red !important;
+}
+.mainMenuButton, .subMenuButton{
+	height: 40px;
+}
+.mainMenuButtonPerformance, .subMenuButtonPerformance{
+	min-height: 40px;
+}
+.mainMenuButtonPerformance{
+	background-color: #000000;
+	color: #fff;
+	font-size:18px;	
+}
+.checkBoxPerformance{
+	appearance: none !important;
+	-moz-appearance: none !important;
+	-webkit-appearance: none !important;
+	width: 14px !important;
+	height: 14px !important;
+	margin: 7px 5px 0 2px !important;
+	border: 1px solid #c8c6c6;
+    border-radius: 2px;
+	float:left;
+}
+
+.checkBoxPerformance:checked{
+	
+	background-color: red !important;
+}
+.subMenuButtonPerformance{
+	background-color: #6E0001;
+	color: #fff;
+	font-size:12px;	
+	text-align:center;
+	vertical-align:middle;
+	padding-top:5px;
+	border:1px solid #D3D3D3;
+	float:left;
+	
+}
+.subMenuButtonPerformance:hover{
+	background-color: #430101;
+	color: #fff;
+	font-size:14px;	
+	text-decoration:none;
+}
+
+@media print{
+	.mainMenuButton{
+		background-color: #000000;
+		color: #fff;
+		font-size:22px;	
+	}
+	.subMenuButton{
+		background-color: #6E0001;
+		color: #fff;
+		font-size:24px;	
+		text-align:center;
+		vertical-align:middle;
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:5px;
+		padding-right:5px;
+		border:1px solid #D3D3D3;
+		text-decoration:none !important;
+	}
+	.subMenuButton:hover{
+		background-color: #430101;
+		color: #fff;
+		font-size:17px;	
+		text-decoration:none !important;
+	}
+	subMenuButton{text-decoration:none !important;}
+	.checkBox{
+		appearance: none !important;
+		-moz-appearance: none !important;
+		-webkit-appearance: none !important;
+		width: 25px !important;
+		height: 25px !important;
+		margin: 7px 5px 0 2px !important;
+	}
+	
+	.checkBox:checked{
+		
+		background-color: red !important;
+	}
+	.mainMenuButton, .subMenuButton{
+		height: 40px;
+	}
+	.subMenuButtonPerformance{
+		background-color: #6E0001;
+		color: #fff;
+		font-size:24px;	
+		text-align:center;
+		vertical-align:middle;
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:5px;
+		padding-right:5px;
+		border:1px solid #D3D3D3;
+		text-decoration:none !important;
+	}
+	.subMenuButtonPerformance:hover{
+		background-color: #430101;
+		color: #fff;
+		font-size:17px;	
+		text-decoration:none !important;
+	}
+	subMenuButtonPerformance{text-decoration:none !important;}
+	.checkBoxPerformance{
+		appearance: none !important;
+		-moz-appearance: none !important;
+		-webkit-appearance: none !important;
+		width: 25px !important;
+		height: 25px !important;
+		margin: 7px 5px 0 2px !important;
+	}
+	
+	.checkBoxPerformance:checked{
+		
+		background-color: red !important;
+	}
+	.subMenuButtonPerformance{
+		min-height: 40px;
+	}
+	#main_container{float:left;}
+	.left{float:left;}
+	#main_container{text-align:center; margin:0 auto;}
+}
+
+/*********zzz************/
+#innerContainer, #contentContainer{width:100% !important;}

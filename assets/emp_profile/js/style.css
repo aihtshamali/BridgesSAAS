@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:100,200,300,400,500,600,700,800,900');
+
+body{
+	font-family: 'Encode Sans Condensed', sans-serif !important;
+	color: #282828;
+	line-height:1;
+}
+a, .btn, input, .form-control{
+	transition: all ease 0.3s;
+	-webkit-transition: all ease 0.3s;
+	-moz-transition: all ease 0.3s;
+	-ms-transition: all ease 0.3s;
+}
+label{
+margin-bottom:0 !important;
+font-size:12px;
+}
+label.main{
+margin-bottom:0 !important;
+font-weight: bold;
+}
+
+.form-group{
+	margin-bottom: 0px !important;
+    display: table;
+    width: 100%;
+    padding-left: 7px;
+}
+
+.profile_inputs .level_3_heading{
+	margin-bottom:3px;
+}
+.btn{
+padding:0px 6px !important;
+}
+.btn-primary{
+	background-color: #f26522 !important;
+	border:0 !important;
+}
+.btn-primary:hover{
+	background-color: #282828 !important;
+	border:0 !important;
+}
+.level_1_heading{
+	background-color: #f26522;
+	color: #fff;
+	font-size: 25px;
+	font-weight: bold;
+	padding: 2px;
+}
+.level_2_heading{
+	font-size: 20px;
+	font-weight: 700;
+	border-bottom: 1px dashed #b7b7b7;
+	padding-bottom: 10px;
+	margin-top:7px;
+}
+.level_2_heading .fa{
+	color:#ccc;
+}
+.level_3_heading{
+	font-size: 16px;
+	font-weight: 600;
+	padding-bottom: 0;
+}
+.box_heading{
+	font-size: 14px;
+	font-weight: 500;
+}
+.p_score .fa{
+	color: #b8b8b8;
+}
+.checkgrp label, .checkgrp input{
+	float: left;
+}
+.p_score .fa.active{
+	color: #f26522;
+}
+.attachments{
+	text-align:center;
+}
+.attachments .fa{
+	float:none;
+	margin:0 auto;
+	display: inline-block;
+	padding: 0 2px;
+	color:#ccc;
+}
+.level_2_row{
+	padding-bottom: 11px;
+    border-bottom: 1px dashed #b7b7b7;
+}
+.level_2_row:nth-last-child(1){
+	border-bottom: 0;
+}
+.user_thumbnail{
+	margin-top:10px;
+	width:141px;
+	float:left;
+	padding:0 15px;
+}
+.profile_inputs input[type="text"], .companies input[type="text"], .profile_inputs select, .profile_inputs input[type="date"]{
+	width: 150px;
+    float: right;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: 17px;
+    padding: 0 !important;
+}
+.profile_inputs input[type=file]{
+	padding: 6px 0;
+}
+input[type=checkbox], input[type=radio]{
+    top: 3px;
+    margin: 0 6px !important;
+    position: relative;
+}
+.profile_inputs .form-control:focus, .companies .form-control:focus{
+	box-shadow: none;
+	border-bottom: 1px solid #f26522;
+}
+.sep{
+	width: 100%;
+    display: block;
+    clear: both;
+    height: 1px;
+    border-bottom: 1px dashed #b7b7b7;
+    margin: 11px 0;
+
+}
+div[class^="col-"].profile_inputs{
+	padding-left: 60px;
+}
+.form-control{
+font-size:12px !important;
+padding-bottom:15px !important;
+border:0 !important;
+box-shadow: none !important;
+}
+textarea.mc{
+	height: 65px;
+	width: 100% !important;
+	resize: none;
+	overflow:hidden;
+}
+textarea.mc.pd{
+	padding-left: 15px;
+}
+textarea.mc:focus{
+	overflow:auto;
+}
+.education .form-control{
+	width: 100%;
+}
+.profile_inputs.full .form-control{
+	width: 100%;
+}
+select.form-control{
+	padding: 0 !important;
+}
+textarea.form-control{
+	line-height:1;
+	padding:0;
+	transition:all ease 0.3s;
+	-webkit-transition:all ease 0.3s;
+	-ms-transition:all ease 0.3s;
+	padding-top: 6px;
+	
+}
+textarea.form-control:focus{
+	
+	border:1px solid #ccc;
+}
+.res-tbl thead{
+	background-color: #eee;
+}
+.res-tbl th, .res-tbl td{
+	padding: 5px;
+	border:1px solid #ddd;
+}

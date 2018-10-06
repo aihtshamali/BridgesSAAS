@@ -1,0 +1,442 @@
+.print_size_school{
+
+    border-top: 8px solid #b00202;
+
+    /* border-bottom: 16px solid #b00202; */
+
+    width: 235px !important;
+
+    height :300px !important;
+
+    background: url('../img/1.png');
+
+    background-repeat: no-repeat;
+
+    background-size:100% 120%;
+
+       /* border-left: 1px dashed #000;
+
+        border-right: 1px dashed #000;
+
+        border-bottom: 1px dashed #000;*/
+
+        
+
+  }
+
+.print_size_general{
+
+    /* border-bottom: 16px solid #b00202; */
+
+    width: 235px !important;
+
+    height :300px !important;
+
+    /*background: url('../img/1.png');*/
+
+    background-repeat: no-repeat;
+
+    background-size:100% 120%;
+}
+
+
+.print_size_consortium{
+
+    border-top: 8px solid #cfe6d6;
+
+    /* border-bottom: 16px solid #96b1dc; */
+
+    width: 235px !important;
+
+    height :300px !important;
+
+    background: url('../img/consortium new background.png');
+
+    background-repeat: no-repeat;
+
+    background-size:110% 120%;
+
+
+
+     /*border-left: 1px dashed #000;
+
+        border-right: 1px dashed #000;
+
+        border-bottom: 1px dashed #000;*/
+
+
+
+}
+
+.print_size_analytic{
+
+    border-top: 8px solid #96b1dc;
+
+    /* border-bottom: 16px solid #96b1dc; */
+
+    width: 235px !important;
+
+    height :300px !important;
+
+    background: url('../img/background.png');
+
+    background-repeat: no-repeat;
+
+    background-size:100% 120%;
+
+
+
+    /* border-left: 1px dashed #000;
+
+        border-right: 1px dashed #000;
+
+        border-bottom: 1px dashed #000;*/
+
+        
+
+}
+
+
+
+.print_size_FacultyAdmin{
+
+    /*border-top: 8px solid #005099;*/
+
+    /* border-bottom: 16px solid #96b1dc; */
+
+    width: 235px !important;
+
+    height :300px !important;
+
+    background: url('../img/2.jpg');
+
+    background-repeat: no-repeat;
+
+    background-size:100% 120%;
+
+
+
+    /* border-left: 1px dashed #000;
+
+        border-right: 1px dashed #000;
+
+        border-bottom: 1px dashed #000;*/
+
+        
+
+}
+
+.emergency-contact-general{
+
+    background: #b00202 !important;
+
+    color: #fff;
+
+}
+
+.emergency-contact-school{
+
+    background: #b00202 !important;
+
+    color: #fff;
+
+}
+
+.emergency-contact-consortium{
+
+    background: #cfe6d6 !important;
+
+}
+
+.emergency-contact-analytic{
+
+    background: #96b1dc !important;
+
+}
+
+.emergency-contact-FacultyAdmin{
+
+    background: #005099 !important;
+
+    color: #fff;
+
+}
+
+
+
+.project-title{
+
+     font-size: 16px;
+
+     font-weight: 600;
+
+    margin:0px;
+
+    margin-left: 0px;
+
+    padding-left: 0px;
+
+    min-height: 18px;
+
+    height: 18px;
+
+}
+
+
+
+.print{
+
+  page-break-after: auto;
+
+}
+
+.logo{
+
+   height: 67px;
+
+    width: 65px;
+
+}
+
+.profile_general{
+
+
+
+    /*border:2px solid #b00202;
+    border-radius: 2px;
+    */
+
+    width: 60px !important;
+    height: 60px;
+
+}
+
+.profile_school{
+
+
+
+    border:2px solid #b00202;
+
+    border-radius: 2px;
+
+    width: 60px !important;
+
+    height: 60px;
+
+}
+
+.profile_consortium{
+
+     border:2px solid #cfe6d6;
+
+    border-radius: 2px;
+
+    width: 60px !important;
+
+    height: 60px;
+
+}
+
+.profile_analytic{
+
+     border:2px solid #96b1dc;
+
+    border-radius: 2px;
+
+   width: 60px !important;
+
+    height: 60px;
+
+}
+
+.profile_FacultyAdmin{
+
+     /*border:2px solid #000;*/
+
+    border-radius: 2px;
+
+   width: 60px !important;
+
+    height: 60px;
+
+}
+
+
+
+
+
+.id-text{
+
+    font-size: 10px;
+
+    margin:0px;
+
+    margin-left: 0px;
+
+    padding-left: 0px;
+
+    line-height: 12px;
+
+}
+
+.sign{
+
+    height: 32px;
+
+
+
+}
+
+ .name-text{
+
+    min-height: 18px;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    margin: 0px !important;
+
+    margin-left: 0px;
+
+    padding-left: 0px;
+
+    padding-top: 2px;
+}
+/*.mt-2{}*/
+
+      @media print {
+
+             html, body {
+
+                 margin:0;
+
+                 padding:0;
+
+               /* width: 600mm;
+
+                height: 900mm;*/
+
+              }
+
+        #hidePrint{
+
+          display: none;
+
+        }
+
+
+/*
+
+.emergency-contact-school{
+
+    background: #b00202 !important;
+
+    color: #fff;
+
+}
+
+.emergency-contact-consortium{
+
+    background: #cfe6d6 !important;
+
+}
+
+.emergency-contact-analytic{
+
+    background: #96b1dc !important;
+
+}
+
+.emergency-contact-FacultyAdmin{
+
+    background: #005099 !important;
+
+    color: #fff;
+
+}
+*/
+
+          /*  .print_size{
+
+                border-top: 8px solid #b00202;
+
+                border-bottom: 8px solid #b00202;
+
+                width: 240px !important;
+
+                height :320px !important;
+
+                background: url('../img/1.png');
+
+                background-repeat: no-repeat;
+
+                background-size:100% 120%;
+
+                
+
+            }
+
+            .logo{
+
+                height: 65px;
+
+            }        
+
+            .profile{
+
+                border:2px solid #b00202;
+
+                border-radius: 2px;
+
+            }
+
+            .name-text{
+
+                font-weight: 600;
+
+                font-size: 11px;
+
+                margin:0px !important;
+
+            }
+
+            .id-text{
+
+                font-size: 10px;
+
+                margin:0px !important;
+
+                padding: 0px !important;
+
+            }
+
+            .sign{
+
+                height: 20px;
+
+
+
+            } */
+
+
+
+             @page {
+
+                 margin:5px;
+
+                 padding:5px;
+
+                  /*size: auto;  */
+
+                  /*margin: 10%;*/
+
+                  /*size: 8.5in 11in; */
+
+              /*size:600px 900px;*/
+
+            }
+
+
+
+      }

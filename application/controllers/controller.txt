@@ -1,0 +1,140 @@
+    function saveEvaluateTask()
+    {   
+        //echo "<pre>";
+        //var_dump($_POST); var_dump($this->input->post("section1Count")); var_dump($this->input->post("section2Count")); exit;
+        
+        $bFlag =  $this->taskmanagement_m->check_rating_exists($this->input->post('iTaskId'), $this->input->post('iUserId'), 0);
+        
+        if ($bFlag == TRUE)
+        {   
+            for ($i=1; $i <= $this->input->post("section1Count"); $i++) 
+            { 
+                $data = array("title" => $this->input->post("text".$i),
+                              "sectionid" => 1);
+
+                $this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("textId".$i)),  $data );
+
+                $data2 = array("rating" => $this->input->post("Option".$i),
+                               "userid" => $this->input->post("iUserId"),
+                               "taskid" => $this->input->post("iTaskId"),
+                               "evaluationid" => $this->input->post("textId".$i),
+                               "created" => date("Y-m-d")
+                               );
+
+                $this->taskmanagement_m->updateData('bm_tasks_rating', array("evaluationid" => $this->input->post("textId".$i), "taskid" => $this->input->post("iTaskId"), "userid" => $this->input->post("iUserId")),  $data2 );
+            }
+
+        }
+        else
+        {   
+            $bFlag2 =  $this->taskmanagement_m->check_task('id', 'bm_tasks_evaluation',  array('sectionid' => 1) );
+
+            for ($i=1; $i <= $this->input->post("section1Count"); $i++) 
+            {  
+
+                if($bFlag2 == FALSE)
+                {
+                    $data = array("title" => $this->input->post("text".$i),
+                                  "sectionid" => 1);
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_evaluation', $data );
+                    
+                
+                    $data2 = array("rating" => $this->input->post("Option".$i),
+                                   "userid" => $this->input->post("iUserId"),
+                                   "taskid" => $this->input->post("iTaskId"),
+                                   "evaluationid" => $taskid,
+                                   "created" => date("Y-m-d")
+                                   );
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data2 );
+                }
+                else
+                {   
+                    $data = array("title" => $this->input->post("text".$i),
+                                  "sectionid" => 1);
+
+                    $this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("textId".$i)),  $data );
+
+                    $data2 = array("rating" => $this->input->post("Option".$i),
+                                   "userid" => $this->input->post("iUserId"),
+                                   "taskid" => $this->input->post("iTaskId"),
+                                   "evaluationid" => $this->input->post("textId".$i),
+                                   "created" => date("Y-m-d")
+                                   );
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data2 );
+                }   
+
+            }
+        }
+
+        // check for section 2
+        $bFlag1 =  $this->taskmanagement_m->check_rating_exists($this->input->post('iTaskId'), $this->input->post('iUserId'), 1);
+
+
+        if ($bFlag1 == TRUE)
+        {   
+            
+            for ($i=1; $i <= $this->input->post("section2Count"); $i++) 
+            { 
+
+                $data = array("title" => $this->input->post("Sec2text".$i),
+                              "sectionid" => 2);
+
+                $this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("Sec2TextId".$i)),  $data );
+
+                $data2 = array("rating" => $this->input->post("Sec2Option".$i),
+                               "userid" => $this->input->post("iUserId"),
+                               "taskid" => $this->input->post("iTaskId"),
+                               "evaluationid" => $this->input->post("Sec2TextId".$i),
+                               "global" => 1,
+                               "created" => date("Y-m-d")
+                               );
+
+                $this->taskmanagement_m->updateData('bm_tasks_rating', array("evaluationid" => $this->input->post("Sec2TextId".$i), "userid" => $this->input->post("iUserId")),  $data2 );
+            }
+
+        }
+        else
+        {   
+            $bFlag3 =  $this->taskmanagement_m->check_task('id', 'bm_tasks_evaluation',  array('sectionid' => 2) );
+
+            for ($i=1; $i <= $this->input->post("section2Count"); $i++) 
+            { 
+                if($bFlag3 == FALSE)
+                {
+                    $data = array("title" => $this->input->post("Sec2text".$i),
+                                  "sectionid" => 2);
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_evaluation', $data );
+
+                    $data2 = array("rating" => $this->input->post("Sec2Option".$i),
+                                   "userid" => $this->input->post("iUserId"),
+                                   "taskid" => $this->input->post("iTaskId"),
+                                   "evaluationid" => $taskid,
+                                   "global" => 1,
+                                   "created" => date("Y-m-d")
+                                   );
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data2 );
+
+                }
+                else
+                {  
+                    $data = array("title" => $this->input->post("Sec2text".$i),
+                                  "sectionid" => 2);
+
+                    $this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("Sec2TextId".$i)),  $data );
+
+                    $data2 = array("rating" => $this->input->post("Sec2Option".$i),
+                                   "userid" => $this->input->post("iUserId"),
+                                   "taskid" => $this->input->post("iTaskId"),
+                                   "evaluationid" => $this->input->post("Sec2TextId".$i),
+                                   "global" => 1,
+                                   "created" => date("Y-m-d")
+                                   );
+
+                    $taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data2 );
+                }   
+
+            }
+        }
+
+        
+    }
