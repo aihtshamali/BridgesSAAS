@@ -180,7 +180,7 @@
 
              <div class="col-5 text-center m-0 p-0">
 
-                <img class="mt-2 logo <?php echo $profile;?>" src="<?php if(isset($user_details->upload_picture)) {echo $user_details->upload_picture;} else{ echo base_url()."assets/emp_profile/card/img/images.jpg" ;}?>" onerror="this.src= '<?= base_url()."/assets/emp_profile/card/img/placeHolder.png" ?>'">
+                <img class="mt-2 logo <?php echo $profile;?>" src="<?php if(isset($user_details->upload_picture)) {echo  base_url().$user_details->upload_picture;} else{ echo base_url()."assets/emp_profile/card/img/images.jpg" ;}?>" onerror="this.src= '<?= base_url()."/assets/emp_profile/card/img/placeHolder.png" ?>'">
 
             </div>
 
@@ -376,10 +376,10 @@
         alert('Something else');
   });*/
 
-  function issueCard(myButton){
+  function issueCard(form){
     openSnackBar('snackbar1', 2000);
 
-    setTimeout(function(){myButton.form.submit();}, 3000);
+    setTimeout(function(){form.submit();}, 3000);
     return false;
   }
 
@@ -401,7 +401,7 @@
     <input type="hidden" name="LastIssue" value=" <?php echo date('Y-m-d');?>" >
 
     <!-- onclick="this.form.submit()" -->
-    <button onclick="issueCard(this)" type="button" id="btn" class="btn btn-success" > Issue </button>  
+    <button onclick="issueCard(this.form)" type="button" id="btn" class="btn btn-success" > Issue </button>  
     <button onclick="window.print();" type="button" id="btn" class="btn btn-success" > Print </button>
   </form>
 </div>
