@@ -176,44 +176,9 @@ public function doupload($targetdir,$fieldName, $required){
 
 
 	function index($id=NULL){
-
- 
-
-		if ($this->input->post('id') != '' || $this->input->post('id') != NULL) {	
-
-			$id = $this->input->post('id');
-
-		}
-
-		$data['users'] = $this->user_m->newgetuser();
-
-		//print_r($data['users']);
-
-		// exit;
-
-		foreach ($data['users'] as $user) {
-
-			$data['deduction'][$user->userid] = $this->check_deduction($user->userid);
-
-
-
-		}
-
-		$date = date("Y-m-t", strtotime("-1 months"));
-
-		list($year, $month, $day)= explode('-',$date);
-
-		$data['month']=$month;
-
-		$data['year']=$year;
-
-		$data['salary'] = $this->Salaryslip_m->get_salary($year, $month);
-
-		// $this->load->helper('cms');	
-
-		$this->load->view('salaryslip', $data);
-
 		
+		list($year, $month, $day)= explode('-', date("Y-m-t", strtotime("-1 months")));
+		redirect("/Salaryslip/salaryByMonth/$year-$month");
 
 	}
 
@@ -1264,7 +1229,9 @@ function updateLeave(){
 		$lateCounter=null;
 
 		//get user data
-		$user = $this->user_m->newgetuserbyid($userid)[0];
+		$user = $this->user_m->newgetuserbyid($userid);
+		if(!$user)
+			return;
 
 		//data from attendance CSV
 		$attendanceData = $this->attendance_model->by_user($year, $month, $userid);

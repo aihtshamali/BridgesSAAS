@@ -73,7 +73,7 @@
         	$status = "Inactive";
         }
         echo '<a href="'.base_url().'employeeUpdate/inActiveUser/'.$emp->userid.'">'.$status.'</a>';?></td>
-        <td><a href="<?php base_url()?>employeeUpdate/getEmployee/<?php echo $emp->userid; ?>">Edit</a></td>
+        <td><a href="<?php base_url()?>Employee_reg/emp_module_1/<?php echo $emp->userid; ?>">Edit</a></td>
         <!-- <td><a href="<php base_url()?><php echo "employeeView/" .$emp->userid; ?>">View</a></td> -->
       <?php $sr++; }?>
       </tr>

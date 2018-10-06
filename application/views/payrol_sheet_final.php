@@ -143,6 +143,9 @@
 
 		<?php  $i=1;foreach ($attendance_sheet as $value) :
 
+		if($value->actual_salary=="")
+			continue;
+		
 		$after_monetized=0;
 
 		?>

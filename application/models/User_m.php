@@ -500,7 +500,7 @@ public function get($id = NULL, $single = FALSE){
 
 		$this->db->where('newbm_user_details.userid', $id);
 
-		$return = $this->db->get('newbm_user_details')->result();
+		$return = $this->db->get('newbm_user_details')->row();
 
 		// echo "<pre>";var_dump($return); exit;
 

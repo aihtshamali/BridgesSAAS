@@ -40,7 +40,7 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules($rules);
 		
 		//check if logged in at redirect to dashboard
-		$dashboard = 'taskmanagement/?id='.$id;
+		$dashboard = 'taskmanagement/Navigation';
 		if(!empty($this->session->userdata('id'))) {
 			//$this->load->view('dashboard/dashboard', $data);
 		}
