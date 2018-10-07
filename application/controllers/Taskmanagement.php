@@ -3,6 +3,8 @@ class Taskmanagement extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
+
+		$this->load->helper('fhk_authorization_helper');	//for authorization
 		$this->load->model('Taskmanagement_m','taskmanagement_m');
 		$this->load->model('user_m');
 		$this->load->library('session');
@@ -10,27 +12,41 @@ class Taskmanagement extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 	
+	function index() {
+		if(($id=fhkCheckAuthentication())!==null)
+			redirect('taskmanagement/Navigation');
+		else
+			redirect('user');
+	}
 	
-	function Navigation(){
+	function Navigation() {
+		fhkAuthPage(null, null);
 		$data['newsletter']=$this->taskmanagement_m->getLatestNewsLetter();
 		$this->load->view('Navigation.php',$data);
 	}
 
-	function index() 
-	{	
+	function taskManager() {	
+
+		fhkAuthPage(null, null);
 		$activityid = $this->input->get('id');
 		$data['getTools'] =  $this->taskmanagement_m->getAllData('*', 'bm_tools', array('clusterid' => $activityid));
-		if ($this->user_m->loggedin() == FALSE) 
-			  redirect('user/?id='.$activityid);
+
 // print_r($this->session->userdata('usertype'));
 		// if ($this->session->userdata('usertype') == "Director") {
 			$data['activities'] =  $this->taskmanagement_m->get_activities($activityid);
 				$x = 0;
 				foreach ($data['activities'] as $activity) {
-					$data['activities'][$x] = $this->taskmanagement_m->get_activity_tasks_new($activity['id'],$_SESSION['id']);
+					if(fhkCheckAuthPermission(["canViewAllTasks", "canDoEverything"]))
+						$data['activities'][$x] = $this->taskmanagement_m->get_activity_tasks($activity['id']);
+					else
+						$data['activities'][$x] = $this->taskmanagement_m->get_activity_tasks_new($activity['id'],$_SESSION['id']);
 					$y=0;
+
 					foreach ($data['activities'][$x] as $details) {
-						$n[$details['taskid']] = $this->taskmanagement_m->newget_assigned_tasks($details['taskid'],$_SESSION['id']);
+						if(fhkCheckAuthPermission(["canViewAllTasks", "canDoEverything"]))
+							$n[$details['taskid']] = $this->taskmanagement_m->get_assigned_tasks($details['taskid']);
+						else
+							$n[$details['taskid']] = $this->taskmanagement_m->newget_assigned_tasks($details['taskid'],$_SESSION['id']);
 						array_push($data['activities'][$x][$y], $n[$details['taskid']]);
 						$y++;
 			}
@@ -120,6 +136,7 @@ class Taskmanagement extends CI_Controller {
 	}
 
 	public function create_task() {
+		fhkAuthPage(null, ["canAddNewTask", "canDoEverything"]);
 		// echo "<pre>";
 		// var_dump($_REQUEST); exit;
 		$clusterid = $this->input->post('clusterid');
@@ -177,7 +194,7 @@ class Taskmanagement extends CI_Controller {
 			}*/
 	    //}	
 		//die("END");
-		redirect(base_url().'taskmanagement/?id='.$clusterid, 'refresh'); 
+		redirect(base_url().'taskmanagement/taskmanager/?id='.$clusterid, 'refresh'); 
 	}
 
 	public function view_task($id) {
@@ -235,8 +252,9 @@ class Taskmanagement extends CI_Controller {
 	}
 
 	public function create_cluster(){
+		fhkAuthPage(null, ["canCreateNewCluster", "canDoEverything"]);
 		$this->taskmanagement_m->newCluster($_POST["clustername"]);
-		redirect(base_url().'taskmanagement/?id=1', 'refresh');
+		redirect(base_url().'taskmanagement/manager/?id=1', 'refresh');
 	}
 
 	private function add_cluster($task, $cluster) {
@@ -253,7 +271,7 @@ class Taskmanagement extends CI_Controller {
 
 	public function update_task()
 	{	
-
+		fhkAuthPage(null, ["canUpdateTask", "canDoEverything"]);
 		$data   = array(
 					'taskname'        => $this->input->post('task_title'),
 					'taskdescription' => $this->input->post('task_description'),
@@ -893,6 +911,7 @@ class Taskmanagement extends CI_Controller {
 
 	function addActivity()
 	{
+		fhkAuthPage(null, ['canAddNewActivity', "canDoEverything"]);
 		$activityData = array("clusterid" => $this->input->post("clusterid"),
 							  "title" => $this->input->post("activityTitle"),
 							  "levelid" => 1
@@ -903,13 +922,14 @@ class Taskmanagement extends CI_Controller {
 		$bFlag        = $this->taskmanagement_m->insertData('bm_clusters_details', $activityData);
 
 		if($bFlag != FALSE)
-			redirect('taskmanagement/?id='.$this->input->post("clusterid"));
+			redirect('taskmanagement/taskManager/?id='.$this->input->post("clusterid"));
 
 	}
 
 	public function editTaskPopup()
 	{
 		//var_dump($this->input->post("taskId")); var_dump($this->input->post("clusterId")); exit;
+		fhkAuthPage(null, null);
 
 		$taskId    = $this->input->post("taskId");
 		$data['clusterId'] = $clusterId = $this->input->post("clusterId");
@@ -940,7 +960,8 @@ class Taskmanagement extends CI_Controller {
 
 	}
 
-	function addResource() {		
+	function addResource() {	
+		fhkAuthPage(null, ['canAddNewResource', "canDoEverything"]);
 		$resourceData = array("clusterid" => $this->input->post("clusterId"),
 							  "title"     => $this->input->post("resourceTitle"),
 							  "link"      => $this->input->post("resourceLink"),
@@ -950,10 +971,11 @@ class Taskmanagement extends CI_Controller {
 		// exit();
 		$bFlag        = $this->taskmanagement_m->insertData('bm_tools', $resourceData);
 		if($bFlag != FALSE)
-			redirect('taskmanagement/?id='.$this->input->post("clusterId"));
+			redirect('taskmanagement/taskManager/?id='.$this->input->post("clusterId"));
 	}
 
 	public function t_status() {
+		fhkAuthPage(null, ["canSetCompleteStatus", "canDoEverything"]);
 		//var_dump($_REQUEST['userid']); exit;
 		$taskid = $_REQUEST['userid'];
 		$status = array("taskstatus" => $_REQUEST['status']); 
@@ -968,17 +990,18 @@ class Taskmanagement extends CI_Controller {
 	}
 
 	function editBmTaskPopup() {
+		fhkAuthPage(null, ["canEditActivity", "canDoEverything"]);
 		$bFlag = $this->taskmanagement_m->updateData('bm_clusters_details', array("id" => $this->input->post("bmTaskId")), array("title" => $this->input->post("taskTitle")));		
-		print_r($bFlag);exit;
-		redirect('taskmanagement/?id='.$this->input->post("editTaskclusterId"));
+		//print_r($bFlag);exit;
+		redirect('taskmanagement/taskManager/?id='.$this->input->post("editTaskclusterId"));
 	}
 
 	function delete_task() {
+		fhkAuthPage(null, ["canDeleteTask", "canDoEverything"]);	
 		if($this->taskmanagement_m->delete_clusters($this->input->post('taskid')) == TRUE) {
 			$this->taskmanagement_m->detele_assigned_users($this->input->post('taskid'));
 			$this->taskmanagement_m->delete_task($this->input->post('taskid'));
 			echo "TRUE";
-			
 		}
 
 	}
@@ -1376,6 +1399,7 @@ function attendance_Data(){
 	}
 
 	function del_activity(){
+		fhkAuthPage(null, ["canDeleteActivity", "canDoEverything"]);
 		if ($this->taskmanagement_m->del_activity($this->input->post('activityid'))) {
 			echo trim(1);
 		}
@@ -1393,6 +1417,7 @@ function attendance_Data(){
 
 	public function editResources()
 	{
+		fhkAuthPage(null, ["canEditResource", "canDoEverything"]);
 		$id = $this->input->post('id');
 		$toolid = $this->input->post('toolid');
 		$data = array(
@@ -1400,7 +1425,7 @@ function attendance_Data(){
 			'link' => $this->input->post('link')
 			);
 		if($this->taskmanagement_m->editResources_m($toolid,$data)){
-			redirect('taskmanagement/?id='.$id );	
+			redirect('taskmanagement/taskManager/?id='.$id );	
 		}
 	}
 

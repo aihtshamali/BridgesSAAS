@@ -2,6 +2,8 @@
 class Admin extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+
+		$this->load->helper('fhk_authorization_helper');
 		$this->load->model('user_m');
 		$this->load->model('hr_m');
 		$this->load->model('attendance_model');
@@ -30,11 +32,13 @@ class Admin extends CI_Controller {
 		$this->load->view('roles',$data);
 	}
 	public function AssignedRoles(){
+		fhkAuthPage(null, ["canViewRolesSheet", "canDoEverything"]);
 		$data['AssignedRoles']=$this->admin_m->getAllAssignedRoles();
 		$data['users']=$this->attendance_model->newget_users();
 		$this->load->view('assigned_roles',$data);
 	}
 	public function AssignPermission(){
+		fhkAuthPage(null, ["canAssignRoles", "canDoEverything"]);
 		$data=array(
 			'user_id'=>$this->input->post('user_id'),
 			'role_id'=>$this->input->post('role_id')
@@ -44,6 +48,7 @@ class Admin extends CI_Controller {
 
 	}
 	public function UpdateAssignedPermission(){
+		fhkAuthPage(null, ["canEditRoles", "canDoEverything"]);
 		$data=array(
 			'user_id'=>$this->input->post('user_id'),
 			'role_id'=>$this->input->post('role_id')
@@ -59,6 +64,7 @@ class Admin extends CI_Controller {
 		$this->load->view('roles',$data);
 	}
 	public function DeleteAssignedRole($id){
+		fhkAuthPage(null, ["canDeleteRoles", "canDoEverything"]);
 		$this->admin_m->deleteAssignedPermission($id);
 		redirect($_SERVER['HTTP_REFERER']);
 	}

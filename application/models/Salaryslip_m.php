@@ -190,7 +190,7 @@ class Salaryslip_m extends CI_Model {
 	}
 
 	function remark($id,$userid) {
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 		$data = array('remark' => '1','remark_to' => $userid);
 		$this->db->update('task_comments',$data);
 	}

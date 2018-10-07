@@ -1483,7 +1483,7 @@ function AddTask()
 
   {
 
-  	window.location.replace('<?php echo base_url();?>index.php/taskmanagement/?id='+this.value);
+  	window.location.replace('<?php echo base_url();?>index.php/taskmanagement/taskmanager/?id='+this.value);
 
   }
 
@@ -1635,7 +1635,7 @@ function AddTask()
 
   				else{
 
-  					alert('Not deleted');
+  					//alert(data);
 
   				}
 
@@ -1677,7 +1677,8 @@ function AddTask()
 
   				else{
 
-  					alert('Please delete your tasks first');
+  					//'Please delete your tasks first'
+  					//alert(data);
 
   				}
 

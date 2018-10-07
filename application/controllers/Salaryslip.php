@@ -11,6 +11,8 @@ class Salaryslip extends CI_Controller
 
 		parent::__construct();
 
+		$this->load->helper('fhk_authorization_helper');
+
 		$this->load->model('Salaryslip_m');
 
 		$this->load->library('session');
@@ -186,6 +188,8 @@ public function doupload($targetdir,$fieldName, $required){
 
 	public function Payroll_Sheet_final(){
 
+		fhkAuthPage(null, ["canViewPayrollSheet", "canDoEverything"]);
+
 		$this->load->model('attendance_model','attendance');
 
 		$data['attendance_sheet'] =$this->attendance->get_Attendance_Sheet_data();
@@ -269,14 +273,9 @@ public function doupload($targetdir,$fieldName, $required){
 	}
 
 
+	public function salaryByMonth($month) {
 
-
-
-
-
-	public function salaryByMonth($month)
-
-	{
+		fhkAuthPage(null, ["canViewSalaryList", "canDoEverything"]);
 
 		$data['users'] = $this->user_m->newgetuser();
 
@@ -794,6 +793,7 @@ function updateLeave(){
 
 	function addSalary(){
 
+		fhkAuthPage(null, ["canPaySalary", "canDoEverything"]);
 		// print_r($this->input->post());exit;
 
 		$data = array(
@@ -1060,6 +1060,7 @@ function updateLeave(){
 
 
 	function remark(){
+		fhkAuthPage(null, ["canAddMessageToPayslip", "canDoEverything"]);
 
 		$comment_id = $this->input->post('comment_id');
 
@@ -3012,10 +3013,8 @@ function updateLeave(){
 
 
 
-	public function saveComment()
-
-	{
-
+	public function saveComment() {
+		fhkAuthPage(null, ["canAddCommentOnPayslip", "canDoEverything"]);
 		// $insertData['user_id'] = '4';
 
 		// $insertData['salary_month'] = '2017-08-01';

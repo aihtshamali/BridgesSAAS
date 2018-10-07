@@ -5,6 +5,8 @@ class EmployeeUpdate extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+
+        $this->load->helper('fhk_authorization_helper');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->model('hr_m');
@@ -26,6 +28,7 @@ class EmployeeUpdate extends CI_Controller
 
 	function index()
 	{
+        fhkAuthPage(null, ["canViewEmployeeUpdateSheet", "canDoEverything"]);
 		//$data['employee'] = $this->user_m->getuser();// oldtable
 		$data['employee'] = $this->user_m->newgetuser();//new table
 		// echo '<pre>';print_r($data);
@@ -172,6 +175,7 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 	}
 
 	function inActiveUser($userid){
+        fhkAuthPage(null, ["canChangeEmployeeActivation", "canDoEverything"]);
 		if($this->hr_m->newinActiveUser($userid)){
 			redirect('employeeUpdate');
 		}
@@ -180,8 +184,6 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		}
 	}
 	
-	
-
 	function activeUsers($status){
 		$data['employee'] = $this->hr_m->newactive($status);
 		$this->load->view('employeeView',$data);

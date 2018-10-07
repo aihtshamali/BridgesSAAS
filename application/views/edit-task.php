@@ -18,9 +18,7 @@
 
  -->					  <div class="col-md-12 padding-0" >
 
-
-
-					   
+					
 
 					     	<div class="relative">
 
@@ -134,8 +132,9 @@
 
 								<button class="btn btn-success btn-slim btn-success-custom" id="disable2" <?= (($task->taskstatus == "Completed" || $task->taskstatus == "Incomplete") ? "disabled" : "" ) ?> onclick="t_status_get(<?php echo $task->task_id; ?>, 'Incomplete')">Incomplete</button>
 
+								<!--
 								<button class="btn btn-success btn-slim btn-success-custom" onclick="removeClass()" id="#checkEvaluate">Evaluate</button>
-
+								-->
 
 
 							<div class="none" id="tooltip">Please Select a Team Member.</div>
@@ -914,7 +913,7 @@ $("#attachFile").on('change',function(evt){
 
 		var comment_id = $("#hiddenid").val();
 
-		$.post("../salaryslip/remark",
+		$.post("<?php echo base_url(). 'salaryslip/remark'; ?>",
 
 			{comment_id:comment_id,
 
@@ -922,7 +921,7 @@ $("#attachFile").on('change',function(evt){
 
 			function(data){
 
-				alert(data);
+				//alert(data);
 
 				$("#commentSender").modal('hide');
 

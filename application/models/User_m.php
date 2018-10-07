@@ -34,19 +34,46 @@ class User_m extends CI_Model {
 
 	}
 
+	function getUserRoles($userId){
+		$this->db->select("bm_roles.name AS Role");
+		$this->db->join('bm_assigned_roles','bm_assigned_roles.role_id= bm_roles.id','inner');
+		$this->db->where(array('user_id' => $userId));
+		$res=  $this->db->get('bm_roles')->result();
+
+		$pretty = array();
+		foreach ($res as $id => $obj)
+			$pretty[]= $obj->Role;
+
+		return $pretty;
+	}
+
+	function getUserPermissions($userId){
+		$this->db->select("bm_roles_permission.name AS Permission");
+
+		$this->db->join('bm_assigned_roles','bm_assigned_roles.role_id= bm_roles.id','inner');
+		$this->db->join('bm_roles_permission_map','bm_roles_permission_map.role_id= bm_roles.id','inner');
+		$this->db->join('bm_roles_permission','bm_roles_permission.id=bm_roles_permission_map.permission_id','inner');
+
+		$this->db->where(array('user_id' => $userId));
+		$res= $this->db->get('bm_roles')->result();
+
+		$pretty = array();
+		foreach ($res as $id => $obj)
+			$pretty[]= $obj->Permission;
+
+		return $pretty;
+	}
+
 	public function newlogin($user, $pass) {
 
-		$this->db->select('newba_users.email,newba_users.id,newba_users.password,bm_assigned_roles.role_id,bm_roles.name as role_name,bm_assigned_roles.user_id,newba_users.fname as firstname,newba_users.lname as lastname,newbm_user_details.job_title as usertype');
+		//bm_assigned_roles.role_id,bm_roles.name as role_name,bm_assigned_roles.user_id,
+		$this->db->select('newba_users.email,newba_users.id,newba_users.password,newba_users.fname as firstname,newba_users.lname as lastname,newbm_user_details.job_title as usertype');
 
 		$this->db->where(array('email' => $user));
 
 		$this->db->where(array('password' => $pass));
 
 		$this->db->join('newbm_user_details','newba_users.id=newbm_user_details.userid','left');
-
-		$this->db->join('bm_assigned_roles','bm_assigned_roles.user_id=newba_users.id','left');
-
-		$this->db->join('bm_roles','bm_roles.id=bm_assigned_roles.role_id','inner');
 
 		$user = $this->db->get('newba_users')->row();
 
@@ -55,20 +82,15 @@ class User_m extends CI_Model {
 		if (count($user)) {
 
 			$data = array(
-
 				'id' => $user->id,
-
 				'email' => $user->email,
-
 				'name' => $user->firstname,
+				'loggedin' => TRUE,
+                'usertype'=> "Director",
 
-				//'usertype' => $user->usertype,
-
-				'usertype'=> $user->role_name,
-
-				'loggedin' => TRUE
-
-				);
+				'Roles' => $this->getUserRoles($user->id),
+				'Permissions' => $this->getUserPermissions($user->id),
+			);
 
 		}
 

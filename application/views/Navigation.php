@@ -71,6 +71,10 @@
                 <input type="checkbox" id="checkBox" class="checkBox col-md-2 col-sm-2 col-xs-2"/> 
                 <a href="<?php echo base_url()?>Salaryslip" class="subMenuButton col-md-10 col-sm-10 col-xs-10" target="_blank">Salary Slip</a>
             </div>
+            <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12">
+                <input type="checkbox" id="checkBox" class="checkBox col-md-2 col-sm-2 col-xs-2"/> 
+                <a href="<?php echo base_url()?>taskmanagement/taskManager?id=1" class="subMenuButton col-md-10 col-sm-10 col-xs-10" target="_blank"> Manage task </a>
+            </div>
         </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
         	<button type="button" class="col-md-12 col-sm-12 col-xs-12 mainMenuButton">LMS</button>
