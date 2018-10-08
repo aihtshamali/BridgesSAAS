@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<title>Assigned</title>
 
+	<link rel="stylesheet" href="<?=base_url('assets/css/w3.css');?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/emp_profile/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/emp_profile/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">	
  	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
@@ -42,9 +44,17 @@
 						<?php echo $assigned->name?>
 						
 					</td>
-					<td>
+					<td style="width:5%">
+						<!--
 						<a href="<?php echo base_url() ?>/Admin/EditAssignedRole/<?= $assigned->id ?>" class="btn btn-success btn-sm">Edit</a>
 						<a class="btn btn-success btn-sm" href="<?php echo base_url()?>/Admin/DeleteAssignedRole/<?= $assigned->id ?>" >Delete</a>
+						-->
+
+						<input type="button" class="btn btn-success btn-sm" style="width:100%" onclick="window.location.href='<?php echo base_url() ?>/Admin/EditAssignedRole/<?= $assigned->id ?>'" value="Edit">
+						
+					</td>
+					<td style="width:5%">
+						<input type="button" class="btn btn-success btn-sm" style="width:100%" onclick="document.getElementById('deleteItem').style.display='block'" value="Delete">
 					</td>
 					
 				</tr>
@@ -52,5 +62,25 @@
 			</tbody>		
 		</table>
 	</div>
+	<div id="deleteItem" class="w3-modal">
+	    <div class="w3-modal-content w3-animate-opacity">
+	      <header class="w3-container w3-text-teal">
+	        <h2>Confirmation</h2>
+	      </header>
+
+			<div class="w3-container">
+			<form method="POST" action="">
+			  <label>Do you really want to delete this assignment? </label>
+			  <div style="float:right">
+				  <input class="btn btn-success btn-sm" type="button" value="Yes" onclick="window.location.href='<?php echo base_url()?>/Admin/DeleteAssignedRole/<?= $assigned->id ?>'">
+				  <input class="btn btn-success btn-sm" type="button" value="No" onclick="document.getElementById('deleteItem').style.display='none'">
+			  </div>
+			</form>
+			</div>
+	      	<footer class="w3-container w3-text-teal">
+        		<p> </p>
+      		</footer>
+	    </div>
+  	</div>
 </body>
 </html>

@@ -86,7 +86,7 @@ class User_m extends CI_Model {
 				'email' => $user->email,
 				'name' => $user->firstname,
 				'loggedin' => TRUE,
-                'usertype'=> "Director",
+                'usertype'=> "", //Director
 
 				'Roles' => $this->getUserRoles($user->id),
 				'Permissions' => $this->getUserPermissions($user->id),

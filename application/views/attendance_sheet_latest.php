@@ -275,8 +275,9 @@
       <?php $cou=1; 
       $prevTitle=null;
       foreach ($attendance_sheet as $value) :
-      
-      if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || $this->session->userdata('id')==$value->userid){
+
+      //$this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || $this->session->userdata('id')==$value->userid
+      if(fhkCheckAuthPermission(["canViewAllAttendances", "canDoEverything"])){
       ?>
 
       <?php
@@ -303,9 +304,10 @@
         <div class="task1-wrapper flexbox">
           <div  style=" width:9%;background:#f5f5f5">
              <?php if($cou%10==0 or $cou==1){ ?>
-            <div class="tdCustom">Days</div>
+            <div class="tdCustom" style="margin-left:3px;">Days</div>
             <?php } ?>
-            <div class="tdCustom" style="height:16px">Attendance</div>
+
+            <div class="tdCustom" style="margin-left:3px; height:16px">Count.</div>
           </div>
           <?php 
           $curDay=date('d');
@@ -764,7 +766,9 @@
           </label>
           </span>
         </div>
-      <?php   if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ 
+      <?php
+        //$this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"
+        if(fhkCheckAuthPermission(["canMonetizeLeave", "canDoEverything"])){ 
       ?>
       <div class="monetizeDiv" style="border:1px solid #ccc; padding: 7px">
         <label for="">Monetize My Leave</label>
@@ -797,7 +801,9 @@
       </div>
       <?php  
      $allowed="disabled";
-      if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ 
+     //$this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"
+      if(fhkCheckAuthPermission(["canWriteFeedBackOnApplications", "canDoEverything"])
+        ){ 
         $allowed="";
         }
         ?>
@@ -860,7 +866,9 @@
           </label>
           </span>
         </div>
-     <?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ 
+     <?php
+      //$this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"
+      if(fhkCheckAuthPermission(["canMonetizeLeave", "canDoEverything"])) { 
     ?>  
      <div class="monetizeDiv" style="border:1px solid #ccc; padding: 7px">
       <input type="hidden" name="leave_id" id="leave_id">
@@ -892,7 +900,8 @@
 
   <?php  
      $allowed="disabled";
-      if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ 
+     //$this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"
+      if(fhkCheckAuthPermission(["canWriteFeedBackOnApplications", "canDoEverything"])){ 
         $allowed="";
         }
   ?>
@@ -983,11 +992,10 @@
     $('.latespan').html(late);
     $('.leavespan').html(leave);
     $('.popupuserid').val(userid);
-      var usertype="<?= $this->session->userdata('usertype')?>";
-      var user_id="<?= $this->session->userdata('id')?>";
+    //var usertype="<?= $this->session->userdata('usertype')?>";
+    //var user_id="<?= $this->session->userdata('id')?>";
+    if(usertype =="Director" || usertype =="HR" || userid==user_id || true){
 
-
-    if(usertype =="Director" || usertype =="HR" || userid==user_id){
      
         if(purpose==1){
           

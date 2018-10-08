@@ -1,5 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+function fhkAuthTest() {
+	echo "FHK Authentication Test";
+}
+
 function fhkCheckAuthentication(){
 	if(!isset($_SESSION["id"]))
 		return null;

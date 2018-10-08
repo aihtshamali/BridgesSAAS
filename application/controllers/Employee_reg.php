@@ -4,6 +4,8 @@ class Employee_reg extends CI_Controller {
 
 	 function  __construct() {
         parent::__construct();
+
+        $this->load->helper('fhk_authorization_helper');
         $this->load->model('Employee_model');
 		$this->load->model('hr_m');
 		$this->load->model('user_m');
@@ -1239,6 +1241,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// }
 
 	function letterFormat($id=null){
+		fhkAuthPage(null, ["canSeeLetterFormat", "canDoEverything"]);
 		if($id != null)
 			{
 				$data['letter'] = $this->Employee_model->getLetterData($id);
@@ -1252,6 +1255,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 			}
 	}
 	function View_letterFormat(){
+		fhkAuthPage(null, ["canSeePreviousLetters", "canDoEverything"]);
 		$data['letter_formats']=$this->Employee_model->list_letter_format();
 		$this->load->view('View_letterFormat',$data);
 	}

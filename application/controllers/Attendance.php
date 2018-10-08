@@ -48,6 +48,7 @@ class Attendance extends CI_Controller {
 
 		$this->load->model('Attendance_model', 'attendance');
 
+		$this->load->helper('fhk_authorization');
 		$this->load->helper('form');
 
 		$this->load->model('user_m');

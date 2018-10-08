@@ -17,6 +17,7 @@ class Admin extends CI_Controller {
 			redirect('user?id=1');
 		}
 
+		/*
 		if ($this->session->userdata('usertype')  == "Director") {
 			return TRUE;
 		}
@@ -25,6 +26,7 @@ class Admin extends CI_Controller {
 			// exit;
 			return FALSE;
 		}
+		*/
 	}
 	public function AssignRole(){
 		$data['roles']=$this->admin_m->getAllRoles();

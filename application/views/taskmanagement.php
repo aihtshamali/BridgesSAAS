@@ -223,7 +223,7 @@
 
                 	<form method="POST" action="<?= base_url('taskmanagement/create_cluster'); ?>">
 						<input style="width:70%; display:block; float:left;" type="text" class="form-control" name="clustername" placeholder="Add new cluster" required>
-						<button style="width:20%; display:block; float:left; margin-left:3px" class="btn btn-info" type="submit">Add</button>
+						<button style="background:#a7e6a7; width:15%; display:block; float:left; margin-left:7px" class="btn btn-info" type="submit"><i class="fa fa-plus" aria-hidden="true" style="color:#fff; 008000;a"></i></button>
 					</form>
 				</div>
 					                </div>
