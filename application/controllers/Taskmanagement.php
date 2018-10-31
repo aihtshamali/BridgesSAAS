@@ -5,6 +5,8 @@ class Taskmanagement extends CI_Controller {
 		parent::__construct();
 
 		$this->load->helper('fhk_authorization_helper');	//for authorization
+		$this->load->model("SharedModel");
+
 		$this->load->model('Taskmanagement_m','taskmanagement_m');
 		$this->load->model('user_m');
 		$this->load->library('session');
@@ -13,21 +15,23 @@ class Taskmanagement extends CI_Controller {
 	}
 	
 	function index() {
-		if(($id=fhkCheckAuthentication())!==null)
+		if(($id=fhkCheckAuthentication())!==null) {
+			//$this->SharedModel->generateLog("Someone logged in!");
 			redirect('taskmanagement/Navigation');
-		else
+		}
+		else 
 			redirect('user');
 	}
 	
 	function Navigation() {
-		fhkAuthPage(null, null);
+		fhkAuthPageExtended(null, null, $this);
 		$data['newsletter']=$this->taskmanagement_m->getLatestNewsLetter();
 		$this->load->view('Navigation.php',$data);
 	}
 
 	function taskManager() {	
 
-		fhkAuthPage(null, null);
+		fhkAuthPageExtended(null, null, $this);
 		$activityid = $this->input->get('id');
 		$data['getTools'] =  $this->taskmanagement_m->getAllData('*', 'bm_tools', array('clusterid' => $activityid));
 
@@ -513,90 +517,189 @@ class Taskmanagement extends CI_Controller {
 	function getTaskEvaluation() 
 	{
         $data['iUserId']        = $this->input->post('userId');
-        $data['sRole']          = $this->input->post('role');
+        //$data['sRole']          = $this->input->post('role');
         $data['clustername']    = $this->input->post('clustername');
         $data['iTaskId']        = $this->input->post('taskid');
-        // $data['evaluationText'] = $this->taskmanagement_m->getAll('bm_tasks_evaluation');
-        $data['evaluationText'] = $this->taskmanagement_m->getByCluster('bm_tasks_evaluation',$data['clustername']);
+        
+        //$data['evaluationText'] = $this->taskmanagement_m->getAll('bm_tasks_evaluation');
+        $data['evaluationText'] = $this->taskmanagement_m->getSections($data['clustername']);
+
+        for($i=0; $i<count($data['evaluationText']); $i++) {
+        	//add item array per section
+        	$data['evaluationText'][$i]["eval"]= $this->taskmanagement_m->getItems($data['evaluationText'][$i]["section_id"], $data['iUserId']);
+
+        	//add rating per evaluationid
+        	for($j=0; $j<count($data['evaluationText'][$i]["eval"]); $j++) {
+        		$ratingObj= $this->taskmanagement_m->getRating($data['evaluationText'][$i]["eval"][$j]["id"], $data['iUserId'], $data['iTaskId']);
+        		
+        		$data['evaluationText'][$i]["eval"][$j]["rating"]= $ratingObj? $ratingObj->rating: 0;
+        	}
+        }
+
+        //var_dump($data['evaluationText'][0]["eval"]); die();
+        //var_dump($data['evaluationText']); die();
+
+        //$data['evaluationText'] = $this->taskmanagement_m->getPerformanceItemsAndSection($data['clustername']);
+
         // echo '<pre>';print_r($data['evaluationText']);exit;
+        /*
         $data['evaluation']     = $this->taskmanagement_m->getEvaluationData($data['iTaskId'], $data['iUserId']);
         $data['taskEvaluation'] = $this->taskmanagement_m->newget_task_assigned_user($data['iUserId'], $data['iTaskId']);
+        */
 
+        //	var_dump($data); die();
        // $data['designation']    = $this->taskmanagement_m->get_task_assigned_user($data['iUserId'], $data['iTaskId']);
 
 		$this->load->view('evaluation',$data);
 	
 	}
-	function DeleteEvalutionData($id){
 
+	function DeleteSectionData($id) {
+		return $this->taskmanagement_m->DeleteSectionData($id);
+	}
+
+	function DeleteEvalutionData($id){
 		return $this->taskmanagement_m->DeleteEvalutionData($id);
 	}
 
+	//create new section
+	function createEvaluationSection() {
 
-	function saveEvaluateTask()
-    {   
-     //       echo "<pre>";
-     //       var_dump($_POST); 
-		   // exit;
-		 $task_Date=  date('Y-m-d', strtotime($this->input->post("evalutaion_date")));
-		   //If new Comment added 
-           if ($this->input->post("sectionnewCount") > 0 && !empty($this->input->post("sectionnewCount")) ) 
-           {
-           		 for ($i=1; $i <= $this->input->post("section1Count"); $i++) 
-        		 {  
-        		 	
-        		 if($this->session->userdata('usertype') == "Director")
-				 {
+		if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"])) {
+			$clusterSpecific= $this->input->post('isClusterSpecific')=="true"? $this->input->post('clusterId'): NULL;
+			$position= $this->input->post('isLast')!="true"? $this->input->post('position'): $this->taskmanagement_m->getLastSectionPosition()->pos;
 
-        		 	if ( $this->taskmanagement_m->check_task('id', 'bm_tasks_evaluation', array('id' => $this->input->post("section1textId".$i), 'sectionid' => 1)) === FALSE) 
-        		 	{
-        		 		$data = array("title" => $this->input->post("section1text".$i),
-        		                      "sectionid" => 1,
-        		                  	   "cluster_id"=>$this->input->post('clusterId'));
+ 			$data = array(
+	 			"title" => $this->input->post("sectionTitle"),
+	 			"cluster_id"=> $clusterSpecific,
+	 			"weightagePoints" => $this->input->post('weightage'),
+	 			"position" => $position
+ 			);
 
-	        			$taskid = $this->taskmanagement_m->insertData('bm_tasks_evaluation', $data );
-        		 	}
-        		 	else
-        		 	{
-        		 		$data = array("title" => $this->input->post("section1text".$i),
-        		                       "sectionid" => 1,
-        		                  	   "cluster_id"=>$this->input->post('clusterId'));
-        				$this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("section1textId".$i)),  $data );
-        		 	}
-        		 }
-        		 	if ( $this->taskmanagement_m->check_task('id', ' bm_tasks_rating', array('evaluationid' => $this->input->post("section1textId".$i), 'global' => 1, 'taskid' => $this->input->post('iTaskId'), 'userid' => $this->input->post('iUserId') ,'created'=> $task_Date)) === TRUE)
-        		 	{
-        		 		// echo 'sdf';
-        		 		$data2 = array("rating" => $this->input->post("section1Option".$i),
-        		               "userid" => $this->input->post("iUserId"),
-        		               "taskid" => $this->input->post("iTaskId"),
-        		               "evaluationid" => $this->input->post("section1textId".$i),
-        		               "global" => 1,
-        		               "created" => $task_Date
-        		               );
+			$secId= $this->taskmanagement_m->insertData('bm_tasks_section', $data);
 
-        				$this->taskmanagement_m->updateData('bm_tasks_rating', array("evaluationid" => $this->input->post("section1textId".$i), "userid" => $this->input->post("iUserId")),  $data2);
-        		 	}
-        		 	else
-        		 	{
-        		 		$data2 = array("rating" => $this->input->post("section1Option".$i),
-	        		               "userid" => $this->input->post("iUserId"),
-	        		               "taskid" => $this->input->post("iTaskId"),
-	        		               "evaluationid" => ((!empty($this->input->post("section1textId".$i))) ? $this->input->post("section1textId".$i) : $taskid ),
-	        		               "global" => 1,
-	        		               "created" => $task_Date
-	        		               );
-	        			$taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data2 );
-        		 	}	
-        		}
-           }
+			return $this->output->set_content_type('application/json')->set_status_header(200)
+            	->set_output(json_encode(array(
+                    'newid' => $secId,
+            	)));
+		} else {
+			fhkGenerateError("Authorization Permissions", "You lack authorization permission to perform this action.", fhkAuthContactDetails());
+		}
+	}
 
-           
-		   
-		   
-		   
-		   
-		   
+	//create new section
+	function updateEvaluationSection() {
+
+		if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"])) {
+			$clusterSpecific= $this->input->post('isClusterSpecific')=="true"? $this->input->post('clusterId'): NULL;
+			$position= $this->input->post('isLast')!="true"? $this->input->post('position'): $this->taskmanagement_m->getLastSectionPosition()->pos;
+			
+ 			$data = array(
+	 			"title" => $this->input->post("sectionTitle"),
+	 			"cluster_id"=> $clusterSpecific,
+	 			"weightagePoints" => $this->input->post('weightage'),
+	 			"position" => $position
+ 			);
+
+			$this->taskmanagement_m->updateData('bm_tasks_section', array("section_id" => $this->input->post("sectionId")),  $data);
+		} else {
+			fhkGenerateError("Authorization Permissions", "You lack authorization permission to perform this action.", fhkAuthContactDetails());
+		}
+	}
+
+	//each task contains section for which there are many tasks, this function creates these items
+	function createEvaluationItem() {
+		if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"])) {
+
+			$userSpecific= $this->input->post('isUserSpecific')=="true"? $this->input->post('iUserId'): NULL;
+ 			$data = array(
+	 			"title" => $this->input->post("title"),
+	 			"sectionid" => $this->input->post('sessionId'),
+	 			"userid"=> $userSpecific
+ 			);
+
+			$itemId= $this->taskmanagement_m->insertData('bm_tasks_evaluation', $data);
+
+			return $this->output->set_content_type('application/json')->set_status_header(200)
+            	->set_output(json_encode(array(
+                    'newid' => $itemId,
+            	)));
+		} else {
+			fhkGenerateError("Authorization Permissions", "You lack authorization permission to perform this action.", fhkAuthContactDetails());
+		}
+	}
+
+	function saveEvaluationItemOnBlur() {
+		if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"])) {
+			$data = array("title" => $this->input->post("title"));
+			$this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $this->input->post("id")),  $data);
+		} else {
+			fhkGenerateError("Authorization Permissions", "You lack authorization permission to perform this action.", fhkAuthContactDetails());
+		}
+	}
+
+	function saveEvaluateTask() {
+
+		//var_dump($_POST); die();
+		//print_r("section".$sectionIndex."count". $i."<br/>");	       			
+
+		$task_Date=  date('Y-m-d', strtotime($this->input->post("evalutaion_date")));
+
+		$sectionCount= $this->input->post("maxSection");
+		for($sectionIndex=1; $sectionIndex<=$sectionCount; $sectionIndex++) {
+
+	        if ($this->input->post("section".$sectionIndex."Count") > 0 && !empty($this->input->post("section".$sectionIndex."Count"))) {
+
+	        	//item counter
+	       		for ($i=1; $i <= $this->input->post("section".$sectionIndex."Count"); $i++) {
+
+	        		if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"])) {
+
+	        			//update task evaluation
+	        			$itemId = $this->input->post("section".$sectionIndex."textId".$i);
+
+	        			//This if else block is deprecated and will be removed and replaced by createEvaluationItem and saveEvaluationItemOnBlur
+	        			/*
+        		 		if($itemId<0) {
+        		 			$userSpecific= $this->input->post("section".$sectionIndex."user".$i)=="true"? $this->input->post('iUserId'): NULL;
+        		 			$data = array(
+	        		 			"title" => $this->input->post("section".$sectionIndex."text".$i),
+	        		 			"sectionid" => $this->input->post('iSectionId'.$sectionIndex),
+	        		 			"userid"=> $userSpecific
+        		 			);
+
+        					$itemId= $this->taskmanagement_m->insertData('bm_tasks_evaluation', $data);
+        				} else {
+        					$data = array("title" => $this->input->post("section".$sectionIndex."text".$i));
+
+        					$this->taskmanagement_m->updateData('bm_tasks_evaluation', array("id" => $itemId),  $data);
+        				}
+						*/
+
+        				print_r("section".$sectionIndex."textId".$i . " ". $itemId ."<br>");
+        				//update tasks rating evaluation
+        				$data = array(
+        					"rating" => $this->input->post("section".$sectionIndex."Option".$i),
+							"userid" => $this->input->post("iUserId"),
+							"taskid" => $this->input->post("iTaskId"),
+							"evaluationid" => "$itemId",
+							"created" => $task_Date
+						);
+
+        				//if task is already marked then just change the data
+						if ($this->taskmanagement_m->check_task('id', 'bm_tasks_rating', array('evaluationid' => $this->input->post("section".$sectionIndex."textId".$i), 'taskid' => $this->input->post('iTaskId'), 'userid' => $this->input->post('iUserId'))) === TRUE) {
+
+	        				$this->taskmanagement_m->updateData('bm_tasks_rating', array("evaluationid" => $this->input->post("section".$sectionIndex."textId".$i), "userid" => $this->input->post("iUserId")),  $data);
+	        			} else {
+	        				$taskid = $this->taskmanagement_m->insertData('bm_tasks_rating', $data);
+	        			}
+	        		}
+	    		}
+			}
+		}
+
+		redirect('taskmanagement/taskManager/?id='.$this->input->post("clusterId"));
+		   /*
 		   if ($this->input->post("section1Count") > 0 && !empty($this->input->post("section1Count")) ) 
            {
            		 for ($i=1; $i <= $this->input->post("section1Count"); $i++) 
@@ -764,7 +867,6 @@ class Taskmanagement extends CI_Controller {
 
 
            //section4 rank
-           // TODO
            if ( $this->input->post("section4Count") > 0 && !empty($this->input->post("section4Count")) ) 
            {
            		 for ($i=1; $i <= $this->input->post("section4Count"); $i++) 
@@ -825,11 +927,7 @@ class Taskmanagement extends CI_Controller {
            }
 
            //section4
-
-
-            
-
-
+		*/
     }
 
 	function addTask() 

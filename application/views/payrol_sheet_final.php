@@ -85,7 +85,7 @@
 <div class="">
 	<div class="col-sm-12 text-center">
       <div class="heading" >
-       <img class="logo" class="pull-left" style="height:30px;width:30px" src="<?php echo base_url();?>assets/emp_profile/card/img/logo.png" >
+       <img class="logo" class="pull-left" style="height:30px;width:30px" src="<?= base_url($this->SharedModel->getProjectInfo()->logo);?>" >
        Bridges Employee Payroll Sheet
        <div style="margin-left:20px">
           <label>Date</label>: <strong class="text-success"><?php echo date('d-m-Y'); ?></strong>  

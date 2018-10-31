@@ -50,7 +50,7 @@
 
 										<div class="child-box bblr-8 relative">
 
-											<span class="sub-child-box sub-child-box-lg" style="background-color: <?php echo $this->taskmanagement_m->rating_percen($id) ?> "></span>
+											<span class="sub-child-box sub-child-box-lg" style="background-color: <?php //echo $this->taskmanagement_m->rating_percen($id) ?> "></span>
 
 										</div>
 
@@ -76,7 +76,7 @@
 
 <?php
 
-									$rating = $this->taskmanagement_m->get_assigned_tasks_percentage( $assign->taskid,  $assign->userid,  $assign->role);
+									//$rating = $this->taskmanagement_m->get_assigned_tasks_percentage( $assign->taskid,  $assign->userid,  $assign->role);
 
 									// print_r($rating);exit;
 
@@ -745,15 +745,24 @@ $("#attachFile").on('change',function(evt){
 
 
 
+	function TaskEvaluationExtended (userId, taskid, callback) {
+		var clusterName="<?=$clussternumber?>";
+		$.post("<?php echo base_url();?>"+"taskmanagement/getTaskEvaluation",{userId:userId,taskid:taskid,clustername:clusterName}, function( response ){
+			callback();
+			$(".showEvaluation").html(response);
 
+			//setTimeout(function(){}, 5000);
+		});
 
-	function TaskEvaluation(userId, role, taskid)
+	}
+
+	function TaskEvaluation(userId, taskid) //second argument role is now remove because of fhk authentication check
 
 	{	
 
 			var clusterName="<?=$clussternumber?>";
 
-		$.post("<?php echo base_url();?>"+"taskmanagement/getTaskEvaluation",{userId:userId,role:role,taskid:taskid,clustername:clusterName}, function( response ){
+		$.post("<?php echo base_url();?>"+"taskmanagement/getTaskEvaluation",{userId:userId,taskid:taskid,clustername:clusterName}, function( response ){
 
 
 

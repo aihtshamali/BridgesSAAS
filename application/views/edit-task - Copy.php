@@ -874,6 +874,9 @@ $("#TaskPopup").on("click", function()
 
 	//for evaluation 
 
+	function TaskEvaluationExtend(userId, taskid, callback) {
+		
+	}
 
 	function TaskEvaluation(userId, role, taskid)
 	{	

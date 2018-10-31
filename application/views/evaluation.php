@@ -6,42 +6,540 @@
       width: 86.5%; margin-left: 54px;
     }
   </style>        
-<?php //echo "<pre>"; var_dump($taskEvaluation);  exit; ?>
-<?php
-  
-  $options = array(0 => '0%',
-                    5 => '5%',
-                   10 => '10%',
-                   15 => '15%',
-                   20 => '20%',
-                   25 => '25%',
-                   30 => '30%',
-                   35 => '35%',
-                   40 => '40%',
-                   45 => '45%',
-                   50 => '50%',
-                   55 => '55%',
-                   60 => '60%',
-                   65 => '65%',
-                   70 => '70%',
-                   75 => '75%',
-                   80 => '80%',
-                   85 => '85%',
-                   90 => '90%',
-                   95 => '95%',
-                   100 => '100%'
-                  );
-?>
-<form  id="evaluatePostData" class="form-setting" method="post" action="<?= base_url('Taskmanagement/saveEvaluateTask'); ?>">
-      <div class="inner-div">
-        
-          <!-- Section 1 Starts Here Task-->
-          <input type="hidden" name="iUserId" value="<?= $iUserId ?>">
-          <input type="hidden" name="iTaskId" value="<?= $iTaskId ?>">
-          <input type="hidden" name="clusterId" value="<?= $clustername ?>">
-          <div class="section well padding-0">
-          <input type="hidden" name="iSectionId1" value="1">
 
+<?php
+  $options = array(0 => '0%', 5 => '5%', 10 => '10%', 15 => '15%', 20 => '20%', 25 => '25%', 30 => '30%', 35 => '35%', 40 => '40%', 45 => '45%', 50 => '50%', 55 => '55%', 60 => '60%', 65 => '65%', 70 => '70%', 75 => '75%', 80 => '80%', 85 => '85%', 90 => '90%', 95 => '95%', 100 => '100%');
+
+?>
+
+<!-- This form provides seperated implementation of dynamic object, intial objects are loaded with php while javascript adds them in the run time-->
+<form  id="evaluatePostData" class="form-setting" method="post" action="<?= base_url('Taskmanagement/saveEvaluateTask'); ?>">
+  <div id="sectionContainer" class="inner-div">
+    <input type="hidden" name="iUserId" value="<?= $iUserId ?>">
+    <input type="hidden" name="iTaskId" value="<?= $iTaskId ?>">
+    <input type="hidden" name="clusterId" value="<?= $clustername ?>">
+    <input type="hidden" name="maxSection" value="<?= count($evaluationText) ?>">
+
+    <input type="button" value="Add section" class="btn btn-slim btn-success" style="margin:10px 10px; width: 90px;" <?= fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"]) ? " ": "disabled='disabled'"; ?> onclick='sectionToggle(null)'></input>
+      <!-- sectionToggle(null) -->
+    <br/>
+
+    <!-- dynamic sections -->
+    <?php //echo "<pre>"; var_dump($evaluationText);  exit; ?>
+    <?php
+    $sectionCount= 0;
+    foreach ($evaluationText as $sectionId => $section) {
+      $sectionCount ++;
+      //var_dump($section["eval"]); print_r("<br/><br/>"); die();
+      ?>
+      <!-- Generic  Starts Here Task-->
+      <input type="hidden" name="iSectionId<?=$sectionCount;?>" value="<?=$section["section_id"];?>">
+      <input type="hidden" class="section1Count" name="section<?=$sectionCount;?>Count" value="<?= count($section["eval"]) ?>">
+
+      <div class="section well padding-0">
+        <div class="tagline box-padding-bottom" style="height:17px; background-color: #dbdbdb; color: #444;" >
+          <span id="sectionEditTitle<?=$sectionCount;?>"><?= $section['title'] ?> </span>
+          <span style="font-weight:bold; float:right; margin-right: 21px;">
+            <span style="color:teal;"> <i onclick='sectionToggle({
+              sectionIndex: <?= $sectionCount; ?>,
+              id: <?= $section["section_id"]; ?>,
+              title: "<?= $section['title'];?>",
+              position: <?= $section['position'];?>,
+              weightage: <?= $section['weightagePoints'];?>,
+              isClusterSpecific: <?= $section['cluster_id']!==null? "true": "false";?>,
+              clusterId: <?= $clustername?>,
+            })' class="fa fa-wrench"; aria-hidden="true"></i> </span>
+            <span id="sectionEditPercentage<?=$sectionCount;?>" style="color:blue;"> <?= "[" . $section['weightagePoints'] ."%]"?> </span>
+          </span>
+        </div>
+
+        <!-- items per section -->
+        <div class=" inner-section-parent row">
+          <div id='itemContainer<?=$section["section_id"];?>' class="col-md-12 padding-0 input_fields_wrap">
+          <?php
+            $itemCount= 0;
+            foreach ($section["eval"] as $itemId => $item) {
+              $itemCount++;
+              //var_dump($itemList); echo "someItem <br>";
+              ?>
+              <input type="hidden" name="section<?=$sectionCount;?>textId<?=$itemCount?>" value="<?=$item['id'];?>">
+              <input type="hidden" name="section<?=$sectionCount;?>user<?=$itemCount?>" value="<?=$item['userid']==null?'true':'false';?>">
+
+              <div class="inner-section form-group col-md-6 padding-0 m-0 flexbox">
+                <textarea onblur="changeItemOnBlur(this)" name="section<?php echo $sectionCount;?>text<?php echo $itemCount;?>" class="form-control" placeholder="Enter Text" rows="3" <?= fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"]) ? " ": "disabled='disabled'"; ?> > <?= (isset($item["title"])) ? $item["title"] : ""; ?>
+                </textarea>
+                <div class="secDiv">
+                  <div class="remove_field" style="color:red"><i onclick='openDeleteForm(false, <?=$item['id'];?>);' class="fa fa-times" aria-hidden="true"></i> </div>
+                  <div class="secDropDown">
+                    <?php 
+                      $value= $item["rating"]!==null? $item["rating"]: "";
+                      if(fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"]))
+                        echo  form_dropdown("section".$sectionCount."Option".$itemCount, $options, $value,"class='form-control'");
+                      else
+                        echo  form_dropdown("section".$sectionCount."Option".$itemCount, $options, $value,"class='form-control' disabled='disabled'");
+                    ?> 
+                  </div>
+                </div>
+              </div>
+              <?php
+            }
+          ?>
+          </div>
+
+          <!-- openAddItemForm looks for addToSection attribute to find index of last added item-->
+          <!-- NOTE: $itemCounter is used outside the loop as it still holds legit value for next candidate-->
+          <input 
+            addToSection='{"sectionId": <?=$section["section_id"];?>, "sectionIndex": <?=$sectionCount;?>, "itemCount": <?=$itemCount;?>}' 
+            type="button" onclick='openAddItemForm(this);'
+            value="Add item" class="btn btn-slim btn-success" style="width: 90px; margin:10px 68px 10px;"
+            <?= fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"]) ? " ": "disabled='disabled'"; ?>> </input>
+        </div>
+      </div>
+    <?php
+    }
+    ?>
+  </div>  
+
+  <button class="btn btn-slim btn-success" style="float:right; width: 90px; margin:10px 68px 10px;" <?= fhkCheckAuthPermission(['canMarkEvalution', "canDoEverything"]) ? " ": "disabled='disabled'"; ?> >Submit</button>
+  <span style="float:left"><label for="">Date:</label><input name="evalutaion_date" type="date" style="display:inline; width: unset; margin: 7px;" class="form-control" value="<?=date('Y-m-d')?>"></span>
+</form>
+
+<!-- delete modal -->
+<div id="deleteItem" class="w3-modal">
+  <div class="w3-modal-content w3-animate-opacity">
+    <header class="w3-container" style="color:white">
+      <h2>Confirmation</h2>
+    </header>
+
+  <div class="w3-container">
+  <form method="POST" action="">
+    <label style="margin:10px 10px"> Do you really want to delete this item? </label>
+    <div style="float:right; margin:10px 10px">
+      <input class="btn btn-success btn-sm" type="button" id="genericDeleteButton" value="Yes" onclick='alert("Controlled by openDeleteForm.")'>
+      <input class="btn btn-success btn-sm" type="button" value="No" onclick='modalVisible("deleteItem", false);'>
+    </div>
+  </form>
+  </div>
+      <footer class="w3-container w3-text-teal">
+        <p> </p>
+      </footer>
+  </div>
+</div>
+
+<!-- Add item -->
+<div id="addItem" class="w3-modal">
+  <div class="w3-modal-content w3-animate-opacity" style="width:30%">
+      <header class="w3-container" style="color:white">
+        <span onclick='modalVisible("addItem", false);' class="w3-button w3-display-topright">&times;</span>
+        <h2>Add item</h2>
+      </header>
+
+    <div class="w3-container">
+    <form method="POST" action="">
+      <input type="hidden" name="iUserId" value="<?= $iUserId ?>">
+      <div style="margin:10px 10px">
+        Title: <input name="title" type="text" placeholder="Add item description" required> <br/>
+        <input name="isUserSpecific" type="checkbox"> User specific <span style="color:green;"> (Yes means item will only be available for the selected user.) </span>
+      </div>
+      <div style="float:right; margin:10px 10px">
+        <input id="queueItemReference" class="btn btn-success btn-sm" type="button" value="Submit" onclick='alert("Controlled by openAddItemForm.")'>
+      </div>
+    </form>
+    </div>
+      <footer class="w3-container w3-text-teal">
+        <p> </p>
+      </footer>
+  </div>
+</div>
+
+<!-- Add section -->
+<div id="configureSection" class="w3-modal" style="z-index:2">
+  <div class="w3-modal-content w3-animate-opacity" style="width:30%">
+    <header class="w3-container" style="color:white">
+      <span onclick='modalVisible("configureSection", false);' class="w3-button w3-display-topright">&times;</span>
+      <h2 id="modalSection">Add section</h2>
+    </header>
+
+    <div class="w3-container">
+    <form method="POST" action="">
+      <input type="hidden" name="clusterId" value="<?= $clustername ?>">
+      <div style="margin:10px 10px">
+        Title: <input name="sectionTitle" type="text" placeholder="Add section title" required> <br/><br/>
+        Place Last: <input name="isLast" type="checkbox" checked> <br/><br/>
+        Position: <input name="position" type="text" placeholder="Position" required disabled> <br/><br/>
+        Weigtage: <input name="weightage" type="text" placeholder="Weigtage" required> <br/><br/>
+        <input name="isClusterSpecific" type="checkbox"> Cluster specific <span style="color:green;"> (No means section will show up on all clusters.) </span><br/>
+      </div>
+      <div style="float:right; margin:10px 10px">
+        <input type="button" value="Delete" id="sectionDeleteButton" onclick='alert("Controlled by sectionToggle.")' class="btn btn-success btn-sm"'>
+        <input type="button" value="Submit" id="sectionSubmitButton" class="btn btn-success btn-sm" onclick='alert("Controlled by sectionToggle.")'>
+      </div>
+    </form>
+    </div>
+      <footer class="w3-container w3-text-teal">
+        <p> </p>
+      </footer>
+  </div>
+</div>
+
+<!-- loader -->
+<div id="loaderArea" class="w3-modal" style="z-index:9999">
+  <div class="w3-modal-content" style="display: flex; align-items: center; margin:auto; position:relative; padding:0; outline:0; background: #fff0;">
+    <img src="<?=base_url('assets/images/loading.gif')?>" alt="Loading" style="margin: 50%; height:50%; width: 50%;">
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  //helper function to convert form data into json use it like formToJSON(myForm.elements)
+  const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+    data[element.name] = element.value;
+    return data;
+  }, {});
+
+  //helper function for json parse, removes any hidden charachters in the string
+  function cleanJsonParse(text) {
+    text = text.replace(/\\n/g, "\\n")  
+     .replace(/\\'/g, "\\'")
+     .replace(/\\"/g, '\\"')
+     .replace(/\\&/g, "\\&")
+     .replace(/\\r/g, "\\r")
+     .replace(/\\t/g, "\\t")
+     .replace(/\\b/g, "\\b")
+     .replace(/\\f/g, "\\f");
+    // remove non-printable and other non-valid JSON chars
+    text = text.replace(/[\u0000-\u0019]+/g,""); 
+    return JSON.parse(text);
+  }
+
+  //open and close any modal in your page
+  function modalVisible(name, bool) {
+    if(bool)
+      document.getElementById(name).style.display='block'
+    else
+      document.getElementById(name).style.display='none'
+  }
+
+  //places gif on true
+  function loader(isLoad) {
+    modalVisible("loaderArea", isLoad);
+  }
+  //================================Code below is for add item functionality
+  //this will update items on blur
+  //this will update dropdown value on change
+  function changeItemOnBlur(inputField){
+    thisInputId= document.getElementsByName(inputField.name.replace("text", "textId"))[0].value;
+    toPost= {"id": thisInputId, "title":inputField.value}
+
+    $.ajax({
+      url:'<?= base_url('Taskmanagement/saveEvaluationItemOnBlur'); ?>', type: 'POST',
+      data: toPost,
+      success: function (data) {
+        //do nothing
+      },
+    });
+  }
+
+  //this will open new item form with additional arguments
+  function openAddItemForm(buttonField){
+
+    //Now we will let create item modal know the exact section from which add item is called
+    addItemFormButton= document.getElementById("queueItemReference");
+    addItemFormButton.onclick= function() {
+      addItemInDatabase(addItemFormButton.form, buttonField);
+    };
+
+    modalVisible("addItem", true);
+  }
+
+  //modal is closed and data is submitted to server 
+  function addItemInDatabase(myForm, buttonField){
+    //NOTE: this is one of the most difficult function in this document. Be patient and read following instructions
+    //This function looks for "addSection" attribute attached to html tag from which the form was open
+    //Addsection will contain an object which should contain three fields.
+    //"sectionId" in conjuction of itemContainerX tag is used to fetch dom location where item will be placed
+    //"sectionIndex" and "itemCount" are only used to name form tags based on the sequence
+    section= cleanJsonParse(buttonField.getAttribute("addToSection"));
+    toPost= formToJSON(myForm.elements);
+    toPost.isUserSpecific= myForm.elements.namedItem("isUserSpecific").checked;
+    toPost.sessionId= section.sectionId;
+
+    $.ajax({
+      url:'<?= base_url('Taskmanagement/createEvaluationItem'); ?>', type: 'POST',
+      data: toPost,
+      success: function (data) {
+        if(data.newid) {
+          section.itemCount++;
+          buttonField.setAttribute("addToSection", JSON.stringify(section));
+          document.getElementsByName('section'+section.sectionIndex+'Count')[0].value= section.itemCount;
+          addItemInSection(section, data.newid, toPost.title, toPost.isUserSpecific);
+        }
+      },
+    });
+    
+    modalVisible("addItem", false);
+  }
+
+  function addItemInSection(section, newItemId, text, isUserSpecific){
+    //console.log(section.sectionId);
+    //console.log(section);
+    document.getElementById("itemContainer"+section.sectionId).insertAdjacentHTML('beforeend', '<input type="hidden" name="section'+section.sectionIndex+'textId'+section.itemCount+'" value="'+newItemId+'"><input type="hidden" name="section'+section.sectionIndex+'user'+section.itemCount+'" value="'+isUserSpecific+'"> <div class="inner-section form-group col-md-6 padding-0 m-0 flexbox"><textarea onblur="changeItemOnBlur(this)" class="form-control" placeholder="Enter Text" rows="3" name="section'+section.sectionIndex+'text'+section.itemCount+'">'+text+'</textarea><div class="secDiv"> <div class="remove_field" style="color:red"><i onclick=\'openDeleteForm(false, '+newItemId+');\' class="fa fa-times" aria-hidden="true"></i> </div><div class="secDropDown">' + jsDropDown(section) + '</div></div></div>');
+  }
+
+  //generates a new dropdown with name based on arguments
+  function jsDropDown(section) {
+    return '<select class="form-control" name="section'+section.sectionIndex+'Option'+section.itemCount+'">' 
+      + '<option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option><option value="35">35%</option><option value="40">40%</option><option value="45">45%</option><option value="50">50%</option><option value="55">55%</option><option value="60">60%</option><option value="65">65%</option><option value="70">70%</option><option value="75">75%</option><option value="80">80%</option><option value="85">85%</option><option value="90">90%</option><option value="95">95%</option><option value="100">100%</option>'
+      + '</select>'
+  }
+
+  //================================Code below is for add section functionality
+
+  //this function makes our section modal reusable for both edit and create functionalities
+  function sectionToggle(item){
+
+    sectionSubmitButton= document.getElementById("sectionSubmitButton");
+    sectionDeleteButton= document.getElementById("sectionDeleteButton");
+
+    sectionDeleteButton.style.visibility= item==null? "hidden": "";
+    sectionDeleteButton.onclick= function() {
+      openDeleteForm(true, item.id);
+    }
+
+    isLastCheckbox= document.getElementsByName("isLast")[0];
+    positionInput= document.getElementsByName("position")[0];
+    //toggle is last option based on edit or add options
+    isLastCheckbox.checked= positionInput.disabled= item==null? true: false;
+    isLastCheckbox.onclick= function() {
+      positionInput.disabled= isLastCheckbox.checked;
+    }
+    
+    //change top header and button message of the form
+    document.getElementById("modalSection").innerHTML = item==null? "Add section": "Edit section";
+    sectionSubmitButton.value= item==null? "Create": "Update";
+
+    //add any values associated with form fields for edit case
+    document.getElementsByName("sectionTitle")[0].value= item==null? "": item.title;
+    positionInput.value= item==null? 0: item.position;
+    document.getElementsByName("weightage")[0].value= item==null? "": item.weightage;
+    document.getElementsByName("isClusterSpecific")[0].checked= item==null? false: item.isClusterSpecific;
+
+    //form button will redirect according to update or edit
+    sectionSubmitButton.onclick= item==null? 
+      function() {
+        toPost= formToJSON(sectionSubmitButton.form.elements);
+        toPost.isClusterSpecific= sectionSubmitButton.form.elements.namedItem("isClusterSpecific").checked;
+        toPost.isLast= sectionSubmitButton.form.elements.namedItem("isLast").checked;
+        addNewSection(toPost);
+      } :
+      function() {
+        toPost= formToJSON(sectionSubmitButton.form.elements);
+        toPost.isClusterSpecific= sectionSubmitButton.form.elements.namedItem("isClusterSpecific").checked;
+        toPost.isLast= sectionSubmitButton.form.elements.namedItem("isLast").checked;
+        toPost.sectionId= item.id;
+        updateSection(toPost, item.sectionIndex);
+      };
+
+    //open section entry form
+    modalVisible("configureSection", true);
+  }
+
+  function openDeleteForm(isSection, id){
+    
+    //var hitUrl= isSection? ": ;
+    document.getElementById("genericDeleteButton").onclick= isSection?
+    function(){
+      deleteSomething("Taskmanagement/DeleteSectionData/"+id);
+    }:
+    function(){
+      deleteSomething("Taskmanagement/DeleteEvalutionData/"+id);
+    };
+
+    modalVisible("deleteItem", true);
+  }
+
+  function deleteSomething(hitUrl){
+    $.ajax({
+      url:'<?= base_url(''); ?>' + hitUrl, type: 'GET',
+      success: function (data) {
+        loader(true);
+        TaskEvaluationExtended(<?= $iUserId ?>, <?= $iTaskId ?>, function(){
+          loader(false);
+        });
+      },
+    });
+  }
+
+  function updateSection(toPost, sectionIndex) {
+    $.ajax({
+      url:'<?= base_url('Taskmanagement/updateEvaluationSection'); ?>', type: 'POST',
+      data: toPost,
+      success: function (data) {
+        document.getElementById("sectionEditTitle"+sectionIndex).innerHTML= toPost.sectionTitle;
+        document.getElementById("sectionEditPercentage"+sectionIndex).innerHTML= "["+toPost.weightage+"%]";
+        loader(true);
+        TaskEvaluationExtended(<?= $iUserId ?>, <?= $iTaskId ?>, function(){
+          loader(false);
+        });
+      },
+    });
+
+    modalVisible("configureSection", false);
+  }
+
+  function addNewSection(toPost) {
+
+    // supply title, cluster_id, weightagePoints, position, isLastPlacement from form
+    // in php define function which gets maximum position based on cluster
+    sectionCount= document.getElementsByName("maxSection")[0];
+
+    $.ajax({
+      url:'<?= base_url('Taskmanagement/createEvaluationSection'); ?>', type: 'POST',
+      data: toPost,
+      success: function (data) {
+        console.log(data);
+        if(data.newid) {
+          sectionCount.value++;
+          document.getElementById("sectionContainer").insertAdjacentHTML('beforeend', sectionHtmlData(data.newid, sectionCount.value, toPost));
+          loader(true);
+          TaskEvaluationExtended(<?= $iUserId ?>, <?= $iTaskId ?>, function(){
+            loader(false);
+          });a
+        }
+      },
+    });
+
+    modalVisible("configureSection", false);
+  }
+
+  function sectionHtmlData(sectionId, sectionIndex, newObj){
+    return ' \
+      <input type="hidden" name="iSectionId'+sectionIndex+'" value="'+sectionId+'"> \
+      <input type="hidden" class="section1Count" name="section'+sectionIndex+'Count" value="0"> \
+       \
+      <div class="section well padding-0"> \
+        <div class="tagline box-padding-bottom" style="height:17px; background-color: #dbdbdb; color: #444;"> \
+        <span id="sectionEditTitle"'+sectionIndex+'> '+newObj.sectionTitle+'</span> \
+          <span style="font-weight:bold; float:right; margin-right: 21px;"> \
+            <span style="color:teal;">  \
+              <i onclick=\'sectionToggle({ \
+                sectionIndex: '+sectionIndex+', \
+                id: '+sectionId+', \
+                title: "'+newObj.sectionTitle+'", \
+                position: '+newObj.position+', \
+                weightage: '+newObj.weightage+', \
+                isClusterSpecific: '+newObj.isClusterSpecific+', \
+                clusterId: '+newObj.clusterId+', \
+              })\' class="fa fa-wrench"; aria-hidden="true"></i> </span> \
+            <span id="sectionEditPercentage"'+sectionIndex+' style="color:blue;">['+newObj.weightage+'%]</span> \
+          </span> \
+        </div> \
+         \
+        <!-- items per section -->  \
+        <div class=" inner-section-parent row"> \
+          <div id="itemContainer'+sectionId+'" class="col-md-12 padding-0 input_fields_wrap"> \
+          </div> \
+         \
+          <input  \
+            addToSection=\'{"sectionId": '+sectionId+', "sectionIndex": '+sectionIndex+' , "itemCount":0}\'  \
+            type="button" onclick="openAddItemForm(this);" \
+            value="Add item" class="btn btn-slim btn-success" style="width: 90px; margin:10px 68px 10px;" \
+            <?= fhkCheckAuthPermission(["canMarkEvalution", "canDoEverything"]) ? " ": "disabled=\'disabled\'"; ?>> </input> \
+        </div> \
+      </div> \
+    '
+    ;
+  }
+</script>
+
+<?php die(); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php  
+        $evaluationData = $evaluationText;
+        //$evaluationData = ((count($evaluation) > 0) ? $evaluation : $evaluationText );
+        //var_dump($evaluationData); exit;
+        $x = 1;
+?>
+        <div class=" inner-section-parent row">
+          <div class="col-md-12 padding-0 input_fields_wrap">
+<?php
+        foreach ($evaluationData as  $section1Eva) 
+        {
+          // print_r($x);
+          //var_dump($section1Eva); exit;
+          if($section1Eva["sectionid"] == 1)
+          {  
+            $value =  ((isset($section1Eva["id"])) ? $section1Eva["id"] : "");
+?>    
+              <div class="inner-section form-group col-md-6 padding-0 m-0 flexbox">
+                <textarea class="form-control" id="inputField<?= $x ?>" placeholder="Enter Text" rows="2" name="section1text<?php echo $x; ?>" <?= (($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Principle" || $sRole == "Monitor" ) ? " ": "disabled='disabled'" ) ?> ><?= (( isset($section1Eva["title"])) ? $section1Eva["title"] : "") ?></textarea>
+                
+                <input type="hidden" name="section1textId<?= $x ?>" value="<?= $value ?>">
+                <div class="secDiv">
+                  <div class="remove_field" id="dataid_<?=$section1Eva['id'];?>"><i class="fa fa-times" aria-hidden="true"></i></div>
+                  <div class="secDropDown">
+                   <?php 
+                  $iRating =  $this->taskmanagement_m->get_db_value('rating', 'bm_tasks_rating', array('evaluationid' =>  $section1Eva["id"], 'global' => 1, 'userid' => $iUserId, 'taskid' => $iTaskId));
+                  $value1 =  (($iRating != "") ? $iRating : "");
+
+                   echo  form_dropdown("section1Option$x", $options, $value1,"class='form-control'"); ?> 
+                   </div>
+                </div>
+              </div>
+<?php     $x++;
+          }
+
+          
+        }
+?>
+          </div>
+         </div>
+
+          <div class="wrapp" style="margin:10px 15px 0;">
+              <button class="add_field_button btn btn-slim btn-success" date-count1="<?= $this->taskmanagement_m->get_db_value('count(1)', ' bm_tasks_rating', array('global' => 1, 'userid' => $iUserId, 'taskid' => $iTaskId))?>">Add New Item</button>
+            </div>
+
+            <div class="box-padding-left">  
+              <br>
+          </div>
+          </div>
+          <!-- Generic section ends Here -->
+
+          <!-- Section 1 Starts Here Task-->
+          <div class="section well padding-0">
+
+          
+          <!--
+          <input type="hidden" name="iSectionId1" value="1">
 
           <input type="hidden" class="section1Count" name="section1Count" value="<?= $this->taskmanagement_m->get_db_value('count(1)', 'bm_tasks_evaluation', array('sectionid' => 1,'cluster_id'=>$clustername))?>">
 
@@ -63,7 +561,7 @@
         foreach ($evaluationData as  $section1Eva) 
         {
           // print_r($x);
-            // var_dump($section1Eva); exit;
+          //var_dump($section1Eva); exit;
           if($section1Eva["sectionid"] == 1)
           {  
             $value =  ((isset($section1Eva["id"])) ? $section1Eva["id"] : "");
@@ -314,19 +812,15 @@
 ?>
 
           <!-- Section 4 Ends Here -->
-
-
-          
-
-
-
-
+          -->
           </div>
           <button class="btn btn-slim btn-success" id="ajaxFormSubmit" style="width: 90px; margin:10px 68px 10px;" <?= (($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Cordinator" || $sRole == "Monitor" ) ? " ": "disabled='disabled'" ) ?> >Submit</button>
           <span><label for="">Date:</label><input type="date" name="evalutaion_date" id="evaluation_date"  style="display:inline; width: unset;height: 22px;" class="form-control" ></span>       
 
          </form> 
+
       </div>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>

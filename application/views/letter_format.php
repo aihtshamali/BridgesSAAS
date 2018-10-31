@@ -120,7 +120,8 @@
 
 <center>
 
-<img src="<?php echo base_url(); ?>/assets/images/red-logo.png" style="max-height:75px;">  
+<!-- <img src="<?php //echo base_url(); ?>/assets/images/red-logo.png" style="max-height:75px;">  -->
+<img src="<?= base_url($this->SharedModel->getProjectInfo()->logo);?>" style="max-height:75px; margin-top:10px">
 
 <!-- <br><br>  -->
 

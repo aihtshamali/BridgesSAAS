@@ -229,15 +229,17 @@
     <div class="" style="margin:0px 30px;">
       <div class="col-sm-12 text-center">
         <div class="heading" >
-          <div>
-           <img class="logo" class="pull-left" style="height:30px;width:30px" src="<?php echo base_url();?>assets/emp_profile/card/img/logo.png" >
+          <div style="margin-top:10px;">
+           <img class="logo" class="pull-left" style="height:30px;width:30px" src="<?= base_url($this->SharedModel->getProjectInfo()->logo);?>" >
+
            Bridges Employee Attendance Sheet,
            <span style="margin-left:20px">
               <label>Date</label>: <strong class="text-success"><?php echo $currentdate; ?></strong> 
               <!--<button type="button" class="btn btn-default btn-md text-success"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>--> 
               <input  class="myButton" data-date-format="yyyy-mm-dd" id="datepicker">            
            </span>
-           <span class="pull-right" style="margin-top:3px">
+           <br/>
+           <span class="" style="margin-top:3px">
               <h4> <b> Director Signature: <b> __________ </h4>
            </span>
 

@@ -1,7 +1,61 @@
 <?php
 class Employee_model extends CI_Model {
 
-	
+	//get a user from user table and associated details.
+	public function getUserData($id) {
+		$this->db->select('newba_users.*, newbm_user_details.*');
+		$this->db->join('newbm_user_details','newbm_user_details.userid=newba_users.id','left');
+		$this->db->where('newba_users.id',$id);
+		return $this->db->get('newba_users')->row();	
+	}
+
+	public function getUserCurrentCv($id) {
+		$this->db->select('newbm_user_details.upload_cv');
+		$this->db->from("newbm_user_details");
+		$this->db->where('newbm_user_details.userid',$id);
+		return $this->db->get()->row();	
+	}
+
+	public function getUserCurrentOffer($id) {
+		$this->db->select('newbm_user_details.upload_cv');
+		$this->db->from("newbm_user_details");
+		$this->db->where('newbm_user_details.userid',$id);
+		return $this->db->get()->row();	
+	}
+
+	public function getArchieveCvData($id) {
+		$this->db->select('*');
+		$this->db->from("fhk_cv_archive");
+		$this->db->where('user_id',$id);
+		$this->db->order_by('dated', 'DESC');
+		return $this->db->get()->result();	
+	}
+
+	public function getArchieveOfferData($id) {
+		$this->db->select('*');
+		$this->db->from("fhk_cv_archive");
+		$this->db->where('user_id',$id);
+		$this->db->order_by('dated', 'DESC');
+		return $this->db->get()->result();	
+	}
+
+	public function setArchieveCv($user, $url) {
+		$data=array(
+			'user_id' => $user,
+			'link' => $url,
+		);
+		$this->db->insert('fhk_cv_archive', $data);
+	}
+
+	public function setArchieveOffer($user, $url) {
+		$data=array(
+			'user_id' => $user,
+			'link' => $url,
+		);
+		$this->db->insert('fhk_offer_archive', $data);
+	}
+
+
 	public function add_emp($data)
 	{
 		// echo "dd"; die;

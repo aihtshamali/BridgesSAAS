@@ -57,8 +57,17 @@ p {
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+
+		<h1><?php echo $heading; ?></h1> 
+
+		<p>
+			<?php echo $message; ?><br>
+			<span style="color:green"><?php echo $additional; ?><span><br>
+			<a href="<?php echo $redirection; ?>"> Go to home </a>
+		</p>
+
 	</div>
 </body>
 </html>
+
+<?php exit?>

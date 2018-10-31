@@ -41,6 +41,7 @@
 	            <a href="http://bridges/bridgessms/Bridges_School_Software/organogram/manage-ledger.php" class="subMenuButton col-md-10 col-sm-10 col-xs-10" target="_blank">Expenses</a>
             </div>
         </div>
+
         <div class="col-md-3 col-sm-12 col-xs-12 left">
         	<button type="button" class="col-md-12 col-sm-12 col-xs-12 mainMenuButton">Admin - HR</button>
             <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12">
@@ -124,7 +125,13 @@
                 <a href="http://bridges/bridgessms/Bridges_School_Software/website/addNews.php" class="subMenuButton col-md-10 col-sm-10 col-xs-10" target="_blank"> New News</a>
             </div>
         </div>
-       
+        <div class="col-md-3 col-sm-12 col-xs-12 left">
+            <button type="button" class="col-md-12 col-sm-12 col-xs-12 mainMenuButton">Admin - Recent</button>
+             <div class="col-lg-12  col-md-12 col-sm-12 col-xs-12">
+                <input type="checkbox" id="checkBox" class="checkBox col-md-2 col-sm-2 col-xs-2"/> 
+                <a href="<?php echo base_url("Employee_reg/emp_module_20181029")?>" class="subMenuButton col-md-10 col-sm-10 col-xs-10" target="_blank">Dashboard New</a>
+            </div>
+        </div>
     </div>
     </div></div>
     <div class="col-md-3 hidden-xs" style="margin-top:20px;"></div>

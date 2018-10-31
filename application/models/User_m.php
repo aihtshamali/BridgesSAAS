@@ -486,25 +486,38 @@ public function get($id = NULL, $single = FALSE){
 
 		return $return;
 
-		
-
-		
-
-		
-
-		
-
-		
-
+	}
+	public function saveOfferHistory($data){
+		$this->db->insert('fhk_offer_history', $data);
+		$id = $this->db->insert_id();
+		return $id;
 	}
 
+	public function getDetailedUserWithProject($id){
+		$this->db->select('*');
 
+		$this->db->from('newbm_user_details');
+		$this->db->join('bm_projects', 'bm_projects.id = newbm_user_details.hired_for_project', 'left');
+		$this->db->join('newba_users', 'newba_users.id = newbm_user_details.userid', 'left');
+
+		$this->db->join('bm_ranks', 'bm_ranks.id = newbm_user_details.rankid', 'left');
+		$this->db->join('bm_cluster', 'bm_cluster.id = newbm_user_details.clusterid', 'left');
+		$this->db->join('bm_designation', 'bm_designation.id = newbm_user_details.designationid', 'left');
+
+		//$this->db->where('newbm_user_details.status', 1);
+		$this->db->where('newbm_user_details.userid', $id);
+
+		$return = $this->db->get()->row();
+		unset($return->password);
+
+		return $return;
+	}
 
 	public function newgetuserbyid($id){
 
 		
 
-		$this->db->select('newbm_user_details.hired_on, bm_ranks.name as rankn , bm_cluster.name as clustern ,bm_designation.name as desn, bm_projects.*, newba_users.*');
+		$this->db->select('newbm_user_details.*,newbm_user_details.hired_on, bm_ranks.name as rankn , bm_cluster.name as clustern ,bm_designation.name as desn, bm_projects.*, newba_users.*');
 
 		$this->db->join('bm_projects', 'bm_projects.id = newbm_user_details.hired_for_project', 'left');
 

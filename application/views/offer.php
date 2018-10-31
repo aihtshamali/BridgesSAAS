@@ -194,7 +194,6 @@ div{
 <?php if(file_exists('uploads/offerletters/'.$id.'.html')) header('Location: '.base_url().'uploads/offerletters/'.$id.'.html'); ?>
 
 <div class="container content" style="position: relative; margin-left: 96px; margin-right: 96px;margin-top:25px">
-    <?php foreach($employee as $emp){ ?>
   
   <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -203,7 +202,7 @@ div{
               <!-- <div style="margin-left: 280" > -->
               <div class="row">
               
-  <div class="col-md-4 col-xs-5" style="margin-left: 6px"></div><div class="col-md-5 col-xs-5" style="margin-left: -8px" ><?php if($emp->hired_for_project==2){ ?><img src="<?php echo base_url(); ?>Logoz/red-logo.png"  style=" width: 130px;"><?php } else { ?><img src="<?php echo base_url(); ?>Logoz/logo.png"  style=" width: 130px;border: 2px solid gray;"><?php } ?></div>
+  <div class="col-md-4 col-xs-5" style="margin-left: 6px"></div><div class="col-md-5 col-xs-5" style="margin-left: -8px" ><img src="<?php echo base_url($emp->logo); ?>"  style=" width: 130px;"></div>
                   </div>
                   <br/>
                   
@@ -301,8 +300,6 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
 </div>
         
         
-
-  <?php }  ?>
 <div style="margin-top:50px;text-align: center; border-top: 1px solid black;width: 100%" class="footer">
 <div class="fonts"  style="text-align: center">
 <p style="font-size:18px;"> <a href="https://www.thebridgesschool.pk"><u>www.thebridgesschool.pk</u></a> - info@thebridgesschool.org<br><span contenteditable="true" onblur="savefooter(this)" id="footerlocation"> <?php if($emp->project_location) {?><?php echo $emp->project_location; } else{?>152-Abu Bakar Block-New Garden Town-Lahore-Pakistan-Phone#+92-42-35844869 <?php } ?> 

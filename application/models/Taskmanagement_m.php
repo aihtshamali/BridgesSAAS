@@ -67,6 +67,18 @@ class Taskmanagement_m extends CI_Model {
 
 	}
 
+	public function getLastSectionPosition() {
+		$this->db->select("MAX(position)+1 AS pos");
+		$this->db->from("bm_tasks_section");
+		return $this->db->get()->row();
+	}
+
+	public function DeleteSectionData($id) {
+		$this->db->where('section_id',$id);
+		$this->db->from('bm_tasks_section');
+		return $this->db->delete();		
+	}
+
 	public function DeleteEvalutionData($id){
 
 		$this->db->where('id',$id);
@@ -728,11 +740,38 @@ class Taskmanagement_m extends CI_Model {
 
     }
 
+    //get sections for cluster or if there is no cluster associated with a section
+    function getSections($clusterID) {
+		$this->db->select("*");    	
+		$this->db->from("bm_tasks_section");
+		$this->db->where("(cluster_id=".$clusterID." OR cluster_id IS NULL)");
+		$this->db->order_by("position", "asc");
+		$query = $this->db->get();
+    	return $query->result_array();
+    }
+    function getItems($sectionId, $userId) {
+    	$this->db->select("bm_tasks_evaluation.*");
+    	$this->db->from("bm_tasks_evaluation");
+    	$this->db->where("sectionid", $sectionId);
+    	//$this->db->join("bm_tasks_rating", "bm_tasks_rating.evaluationid= bm_tasks_evaluation.id", "left");
+    	//$this->db->where("bm_tasks_rating.userid", $userId);
+    	//$this->db->where("bm_tasks_rating.taskid", $taskId);
+    	$this->db->where("(bm_tasks_evaluation.userid=".$userId." OR bm_tasks_evaluation.userid IS NULL)");
+    	$query = $this->db->get();
+    	return $query->result_array();
+    }
 
+    function getRating($evaluationId, $userId, $taskId) {
+    	$this->db->select("bm_tasks_rating.rating");
+    	$this->db->from("bm_tasks_rating");
+    	$this->db->where("evaluationid", $evaluationId);
+    	$this->db->where("userid", $userId);
+    	$this->db->where("taskid", $taskId);
+    	$query = $this->db->get();
+    	return $query->row();
+    }
 
-    function get_db_value($feild_name, $table_name, $condtion)
-
-    {
+    function get_db_value($feild_name, $table_name, $condtion) {
 
     	$this->db->select($feild_name);
 
@@ -1003,35 +1042,37 @@ class Taskmanagement_m extends CI_Model {
 
 
 
-    public function get_task_rating($evaluationid)
-
-    {
-
+    public function get_task_rating($evaluationid) {
     	$this->db->where(array('evaluationid' => $evaluationid));
-
     	return $this->db->get('bm_tasks_rating')->result_array();
-
     }
 
+    public function get_assigned_tasks_percentage_extended($taskid, $userid) {
+    	//for each section get percentage and total rating of that particular section
+    	//limit search to 3 section
 
+    	//sum all rating related to one taskid and user divide by count group by section_id
+    	$this->db->select('SUM(rating) AS rating_count, COUNT(rating) AS tot');
+    	$this->db->where(array('taskid' => $taskid, 'bm_tasks_rating.userid' => $userid));
+    	$this->db->from('bm_tasks_rating');
+    	$this->db->join("bm_tasks_evaluation", "bm_tasks_evaluation.id=bm_tasks_rating.evaluationid");
+    	$this->db->group_by("sectionid");
+    	$query = $this->db->get()->result_array();
 
-    public function get_assigned_tasks_percentage($taskid, $userid, $role) 
+    	//var_dump($query); //die ("EOL");
+    }
 
-    {	
+    public function get_assigned_tasks_percentage($taskid, $userid, $role) {	
 
 		//echo $userid;
-
     	$percentage = array();
 
     	for ($i=0; $i <2 ; $i++) 
 
     	{ 
-
     		if($i==0) {
 
-    			$this->db->where( array('taskid' => $taskid,
-
-    				'global' => 1,
+    			$this->db->where( array('taskid' => $taskid, 'global' => 1,
 
     				'userid' => $userid));
 
@@ -1062,8 +1103,6 @@ class Taskmanagement_m extends CI_Model {
     		}
 
     	}
-
-
 
     	if (trim($role) == 'Monitor') {
 
@@ -1185,18 +1224,9 @@ class Taskmanagement_m extends CI_Model {
 
     		}
 
-
-
     	}
 
-
-
-
-
     	return $colors;
-
-
-
     }
 
     public function getUserPerformanceSpecific($iUserId, $month, $year){
@@ -1370,7 +1400,7 @@ class Taskmanagement_m extends CI_Model {
 
     public function rating_percen($taskid_new){
 
-    	$global = 1;
+    	//$global = 1;
 
     	$taskid = $taskid_new;
 
@@ -1382,7 +1412,8 @@ class Taskmanagement_m extends CI_Model {
 
     	$this->db->where('taskid', $taskid);
 
-    	$this->db->where('global', $global);
+
+    	//$this->db->where('global', $global);
 
     	$row = $this->db->get('bm_tasks_rating')->result_array();
 

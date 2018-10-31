@@ -298,16 +298,25 @@ if($imgRes !== false && imagepng($imgRes, $filename) === true)
     echo "<img src='{$fullUrl}' alt='Signature'/>";
 
 	}	
-	
+	 function saveOfferHistory(){
+		// print_r($this->input->post()); return;
+		$this->load->model('user_m');
+		$dataoffer= array (
+				'user_id' => $this->input->post('user_id'), 
+				'description' => $this->input->post('description'),
+				'status' => $this->input->post('status'),
+			);
+		return $this->user_m->saveOfferHistory($dataoffer);
+	}
 	function saveOffer($user_id=null){
-				if($user_id != null){
+		if($user_id != null) {
 			$content= $this->input->post('fileContent');
 			file_put_contents("uploads/offerletters/".$user_id.".html", $content);
 			echo base_url()."uploads/offerletters/".$user_id.".html";
-		}else
+		} else
 			echo "Ooops!<br> An error occurred <br> Please try again later!!!!!";
-
 	}
+
 	function savePromotion($user_id=null){
 				if($user_id != null){
 			$content= $this->input->post('fileContent');
@@ -327,21 +336,22 @@ if($imgRes !== false && imagepng($imgRes, $filename) === true)
 
 	}
 	
+// TODO 
+	function offer($id) {
+		if(file_exists('uploads/offerletters/'.$id.'.html'))
+			$this->load->view("../../uploads/offerletters/$id.html");
 
-	function offer($id) 
-	{
-
-		if(file_exists('uploads/offerletters/'.$id.'.html')){
-				$this->load->view("../../uploads/offerletters/$id.html");
-		}
 		$this->load->model('user_m');
 		$this->load->model('Employee_model');
+
 		$data["project"]= $this->Employee_model->get_projects();
 		$data["user_project_title"]= $this->Employee_model->get_user_project($id);
-		$data['employee']=$this->user_m->newgetuserbyid($id);
+		$data['emp']=$this->user_m->getDetailedUserWithProject($id);
+
+		//var_dump($data["emp"]); die();
+
 		$data['id']=$id;
 		
-
 		$this->load->view('offer',$data);
 	}
 	function Experience_letter($id) 

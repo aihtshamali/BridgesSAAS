@@ -6,7 +6,10 @@
 
 </style>
 
-<?php  if( $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Cordinator" || $this->session->userdata('id') == $assignedUsers->userid || $SessionUserRole == "Monitor" ) {//var_dump($assignedUsers); exit; ?>
+<?php  // $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Cordinator" || $this->session->userdata('id') == $assignedUsers->userid || $SessionUserRole == "Monitor"
+
+  //This is member detail under edit-task section
+  if(fhkCheckAuthPermission(['canViewTaskMemberDetails', "canDoEverything"])) {?>
 
   <div class="width-90 m-auto well padding-0" style="padding-top: 5px;">
 
@@ -55,8 +58,10 @@
 
 
 <?php
+    //$this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Cordinator" || $this->session->userdata('id') == $assignedUsers->userid || $SessionUserRole == "Monitor"
 
-    if( $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "Cordinator" || $this->session->userdata('id') == $assignedUsers->userid || $SessionUserRole == "Monitor" )
+    //This is advance member detail under member detail section i.e. evaluation, performance and attendance
+    if(fhkCheckAuthPermission(['canViewTaskMemberDetails', "canDoEverything"]))
 
     {
 
@@ -70,7 +75,7 @@
 
       </br>
 
-      <button class="btn db btn-success btn-slim btn-success-custom" onclick="TaskEvaluation(<?php echo $assignedUsers->userid; ?>, '<?php echo $SessionUserRole; ?>', <?php echo $assignedUsers->taskid; ?> )" >Evaluation</button>
+      <button class="btn db btn-success btn-slim btn-success-custom" onclick="TaskEvaluation(<?php echo $assignedUsers->userid; ?>, <?php echo $assignedUsers->taskid; //Second argument 'Director' is removed?> )" >Evaluation</button>
 
 
 

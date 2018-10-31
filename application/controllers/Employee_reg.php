@@ -6,6 +6,8 @@ class Employee_reg extends CI_Controller {
         parent::__construct();
 
         $this->load->helper('fhk_authorization_helper');
+        $this->load->model("SharedModel");
+        
         $this->load->model('Employee_model');
 		$this->load->model('hr_m');
 		$this->load->model('user_m');
@@ -419,11 +421,32 @@ function view_employee1()
 		print_r( json_encode($this->Employee_model->getLatestMessage($post_id)));
 	}
 	
+	public function emp_module_20181029($id=null) {
+
+		//no id is provided and user is not logged in
+		if($id===null) {
+			if(($id=fhkCheckAuthentication()) === null)
+				return;
+		}
+
+		//if requested id is other than logged in user then check role permissions
+		if($id!==fhkCheckAuthentication())
+			fhkAuthPageExtended(null, ["canViewProfiles", "canDoEverything"], $this);
+
+		$data['id']=$id;
+		$data["emp"]= $this->Employee_model->getUserData($id);
+		$data["oldCv"]= $this->Employee_model->getArchieveCvData($id);
+
+		//var_dump($data["oldCv"]); die();
+		$this->load->view('emp_module_20181029', $data);
+	}
+
 	function emp_module_1($id = null)
 	{	
+		fhkAuthPageExtended(null, ["canViewProfiles", "canDoEverything"], $this);
+		//print_r($this->session->userdata("email"));exit;
+		//if($this->session->userdata('id')==$id || $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR"){
 
-		// print_r($this->session->userdata(''));exit;
-		if($this->session->userdata('id')==$id || $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR"){
 		$this->load->model('the_bridg_employee');
 		$data['equipments']=$this->the_bridg_employee->getEquipments($id);
 		// print_r($data['equipments']);exit;
@@ -454,9 +477,10 @@ function view_employee1()
 		$data["employee_history_onboard"]=$this->Employee_model->getOnboardById($id);
 		// print_r($data["employee_history_onboard"]);exit;
 		$this->load->view('emp_module_1_view_final',$data); 
-		}
-		else 
-			$this->load->view('unauthorized');
+
+		//}
+		//else 
+			//$this->load->view('unauthorized');
 			// echo 'YOU ARE NOT AUTHORIZED FOR THIS PAGE';
 
 		//$this->load->view('emp_module_1_view_jobs',$employee);//for blue caaan(jobs)
@@ -738,17 +762,21 @@ function view_employee1()
 
 
 public function doupload($targetdir,$fieldName,$required,$id){
-   		$target_file=null;
+
+	$returnFile;
+
+	$target_file=null;
     // $target_dir =   "".base_url() . "companyJobsImages/";
+
     $target_dir =   "".base_url() . $targetdir;
 	$fn =$_FILES[$fieldName]["name"];
 	$fn = preg_replace("/[^a-zA-Z0-9._]+/","",$fn);
 	if($fn){
-	$fn=$id.'_'.$fn;
-	$target_file = $target_dir . basename($fn);
+		$fn=$id.'_'.$fn;
+		$target_file = $target_dir . basename($fn);
 	}
 	else{
-	$target_file = null;
+		$target_file = null;
 	}
 	//print_r($target_file);
 	// echo $fn;
@@ -815,7 +843,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	            // unset($fieldName);
 	            // unset($required);
 	            // unset($id);
-	            return $target_file;
+	            return $fn;
 	        } else {
 	            echo 'Please choose a file';
 	            // print_r('Please choose a file');
@@ -823,19 +851,28 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	        }
     }
 
+    //everything same as SaveCV except last cv is pushed to cv_archieve
+    function ArchiveCV() {
+    	//get previous
+    	$id = $this->input->post('id');
+    	$oldCv = $this->Employee_model->getUserCurrentCv($id)->upload_cv;
+    	$this->Employee_model->setArchieveCv($id, $oldCv);
+    	$this->SaveCv();
+    	//make entry in archive
+    	//call SaveCv
+    	
 
+		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
+	}
 
 	function SaveCV()
 	{
+		//var_dump('uploads/'.$_FILES["userfileCV"]["name"]); die();
 		$id = $this->input->post('id');
 		$uploadedCV=$this->doupload('uploads/','userfileCV',true,$id);
-		echo $uploadedCV;
-		// print_r($uploadedCV);
-		// exit();
-		// echo $uploadedCV;
-		$response = $this->Employee_model->Save_Emp_CV($id , $uploadedCV);
-		// echo $response;
-		// echo $response;
+		//echo $uploadedCV; exit();
+		$response = $this->Employee_model->Save_Emp_CV($id , 'uploads/'.$uploadedCV);
+		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
 	}
 
 	function SaveCVImg()

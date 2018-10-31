@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 
 		<title>Simple jQuery</title>
-
+		<link rel="stylesheet" href="<?=base_url('assets/css/w3.css');?>">
 	</head>
 
 	<style type="text/css">
@@ -675,7 +675,7 @@
 
 
 
-			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
+			//$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
 
 		} 
 
@@ -690,20 +690,19 @@
 <div class="height-18 center cluster-3 bg-full-gry flexbox">
 
 	<div class="child-box bblr-8 relative">
-
-		<span class="sub-child-box" style="background-color: <?php echo $this->taskmanagement_m->rating_percen($details['task_id']) ?>;"></span>
-
+		<span class="sub-child-box" style="background-color: red;"></span>
+		
+		<span class="sub-child-box" style="background-color: <?=$this->taskmanagement_m->rating_percen($details['task_id']);?>"></span>
 	</div>
 
 	<?php 						
 
-	for ($i=0; $i < 8; $i++) { 
-
-		if(is_array($na[$i])){
-
+	for ($i=0; $i < 8; $i++) {
+		if(is_array($na[$i])) {
 
 
-			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
+
+			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage_extended($na[$i]['taskid'], $na[$i]['userid']);
 
 
 
@@ -911,7 +910,7 @@
 
 
 
-			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
+			//$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
 
 		} 
 
@@ -934,8 +933,8 @@
 <div class="height-18 center cluster-3 bg-full-gry flexbox">
 
 	<div class="child-box bblr-8 relative">
-
-		<span class="sub-child-box" style="background-color: <?php echo $this->taskmanagement_m->rating_percen($details['task_id']) ?>;"></span>
+		
+		<span class="sub-child-box" style="background-color: <?=$this->taskmanagement_m->rating_percen($details['task_id']);?>"></span>
 
 	</div>
 
@@ -943,11 +942,9 @@
 
 	for ($i=0; $i < 8; $i++) { 
 
-		if(is_array($na[$i])){
+		if(is_array($na[$i])){ 
 
-
-
-			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage($na[$i]['taskid'], $na[$i]['userid'], $na[$i]['role']);
+			$rating = $this->taskmanagement_m->get_assigned_tasks_percentage_extended($na[$i]['taskid'], $na[$i]['userid']);
 
 
 

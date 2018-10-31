@@ -176,7 +176,7 @@
 	</div>
 	<section id="section1">
 
-		<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+		<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 		
 		<h2 style="background:red;"><font color="white">3.1 Onboarding & Records</font></h2>
 		<div class="wrapper">
@@ -2245,7 +2245,7 @@
 			
 				<div class="container">
 					<!-- Level 2 Section -->
-			<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+			<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 					<section class="page">
 						<div class="level_2_row ">
 							<h3 class="level_2_heading"><i class="fa fa-user" aria-hidden="true"></i> Onboarding by Demographic 3.1.d.1</h3>
@@ -2454,7 +2454,7 @@
 										<div class="sep"></div>
 										<div class="form-group">
 											<!--<input type="submit" class="btn btn-primary pull-right" id="employement_profile_emergency_submit" value="Submit" name="" />-->
-										<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+										<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 											<input id="submit-15" type="submit" onclick="submitform('form-15')" value="Submit" class="btn btn-primary submitdivExperience pull-right" style="margin-bottom: 5px;padding: 0px 6px !important; margin-left: 2px;">
 										
 											<button  onclick="editform('form-15')" type="button" class="btn btn-primary print-hide pull-right" style="padding-left: 5px !important;
@@ -2478,7 +2478,7 @@
 						<h3 class="level_2_heading"><i class="fa fa-user" aria-hidden="true"></i> Onboarding by Current Position 3.1.d.3</h3>
 						<div class="row" id="form-16">
 							<div class="col-sm-5 col-sm-push-1 profile_inputs">
-								<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+								<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])) { ?>
 								<form action="" id="form_16_form" method="post"  enctype="multipart/form-data">
 									<div class="form-group">
 										<input type="hidden" name="id" value="<?php echo $id;?>">
@@ -2540,7 +2540,7 @@
 									<p id="emp_job_description" class="" style="color: #555;background-color: #fff;" placeholder="Project Location."><?php if(isset($user_project_title))print_r( "<br><br>".$user_project_title->known_issues."<br><br>".$user_project_title->potential_issue."<br><br>".$user_project_title->skills_set."<br><br>".$user_project_title->relief."<br><br>".$user_project_title->overall_goals	."<br><br>".$user_project_title->particular_level); ?></p>
 								</div>
 								 <!-- Session User Type Bracket-->
-								<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+								<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 								<div class="form-group">
 									<label for="">Additional Responsibilities by Employee</label>
 									<textarea class="form-control edit" name="add_responsibility" id="" cols="30" rows="10"><?php if (isset($user_details->add_responsibilities)) echo $user_details->add_responsibilities; ?></textarea>
@@ -3179,7 +3179,7 @@
 	<!--  /ReonBoardingClosing-->
 
 	<!-- Document Submitted Div -->
-<?php if ($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR" ) : ?>	
+<?php if ($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])) : ?>	
 	<div class="level_2_row">
 		<h3 class="level_2_heading"><i class="fa fa-user" aria-hidden="true"></i> Degree Submitted 3.1.d.6</h3>
 		<div class="row">
@@ -3285,7 +3285,7 @@
 </div>
 
 <?php //print_r($user_project_title->job_title);?>
-<?php if ($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR" ) :?>
+<?php if ($this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])) :?>
 	<div class="level_2_row">
 		<h3 class="level_2_heading"><i class="fa fa-user" aria-hidden="true"></i> Covenant for Essential Staff 3.1.d.8</h3>
 		<div class="row">
@@ -3380,7 +3380,7 @@
 </div>
 					<!-- todo -->
 <!-- Level 2 Section -->
-<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 <div class="level_2_row">
 	<div class="level_1_heading">
 		<div class="container">
@@ -3815,7 +3815,7 @@
 	<!-- /Level 2 Section -->				
 	<?php } ?>
 	<!-- Level 2 Section -->
-	<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR"){ ?>
+	<?php if($this->session->userdata('usertype')=="Director" || $this->session->userdata('usertype')=="HR" || fhkCheckAuthPermission(["canViewProfiles", "canDoEverything"])){ ?>
 	
 	<div class="level_2_row">
 

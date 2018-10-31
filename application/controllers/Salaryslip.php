@@ -7,11 +7,10 @@ class Salaryslip extends CI_Controller
 
 	{
 		// print_r(phpinfo());exit;
-		
-
 		parent::__construct();
 
 		$this->load->helper('fhk_authorization_helper');
+		$this->load->model("SharedModel");
 
 		$this->load->model('Salaryslip_m');
 
@@ -836,6 +835,8 @@ function updateLeave(){
 		$date=explode('-', date('Y-m',strtotime("-1 months")));
 		$month= $this->input->post('month') !==null? $this->input->post('month'): $date[1];
 		$year= $this->input->post('year') !== null? $this->input->post('year'): $date[0];
+
+		$this->SharedModel->generateLog("Person paid a salary.");
 		redirect("Salaryslip/salaryByMonth/$year-$month");
 
 	}
