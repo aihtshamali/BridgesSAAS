@@ -9,6 +9,17 @@ class Employee_model extends CI_Model {
 		return $this->db->get('newba_users')->row();	
 	}
 
+	public function setUserPrimaryData($id, $fName, $midName, $lname, $email, $contact, $phone, $emailOther, $notes){
+		$dataoffer= array ('fname' => $fName, 'mid_name' => $midName, 'lname' => $lname, 'email' => $email, 'notes' => $notes, 'contact' => $contact, 'phone' => $phone, 'emailOther' => $emailOther);
+		if($id==null) {
+			$this->db->insert('newba_users', $dataoffer);
+			return $this->db->insert_id();
+		} else {
+			$this->db->where('id', $id);
+			return $this->db->update('newba_users', $dataoffer);
+		}
+	}
+
 	public function getUserCurrentCv($id) {
 		$this->db->select('newbm_user_details.upload_cv');
 		$this->db->from("newbm_user_details");
@@ -16,22 +27,7 @@ class Employee_model extends CI_Model {
 		return $this->db->get()->row();	
 	}
 
-	public function getUserCurrentOffer($id) {
-		$this->db->select('newbm_user_details.upload_cv');
-		$this->db->from("newbm_user_details");
-		$this->db->where('newbm_user_details.userid',$id);
-		return $this->db->get()->row();	
-	}
-
 	public function getArchieveCvData($id) {
-		$this->db->select('*');
-		$this->db->from("fhk_cv_archive");
-		$this->db->where('user_id',$id);
-		$this->db->order_by('dated', 'DESC');
-		return $this->db->get()->result();	
-	}
-
-	public function getArchieveOfferData($id) {
 		$this->db->select('*');
 		$this->db->from("fhk_cv_archive");
 		$this->db->where('user_id',$id);
@@ -47,14 +43,34 @@ class Employee_model extends CI_Model {
 		$this->db->insert('fhk_cv_archive', $data);
 	}
 
-	public function setArchieveOffer($user, $url) {
-		$data=array(
-			'user_id' => $user,
-			'link' => $url,
-		);
-		$this->db->insert('fhk_offer_archive', $data);
+	public function getArchieveOfferData($id) {
+		$this->db->from("fhk_offer_history");
+		$this->db->where('user_id',$id);
+		$this->db->order_by('updated_at', 'DESC');
+		return $this->db->get()->result();	
 	}
 
+	//edit and save with same function
+	public function setArchieveOffer($id, $user_id, $description, $status, $additional, $notes){
+		$dataoffer= array (
+			'user_id' => $user_id, 
+			'description' => $description,
+			'status' => $status,
+			'notes' => $notes,
+			'additional' => $additional,
+			'updated_at' => date('Y-m-d G:i:s')
+		);
+
+		if($id==null) {
+			$this->db->insert('fhk_offer_history', $dataoffer);
+			return $this->db->insert_id();
+		} else {
+			$this->db->where('id', $id);
+			//$this->db->set('user_id', 3);
+			return $this->db->update('fhk_offer_history', $dataoffer);
+			//return $this->db->update('fhk_offer_history');
+		}
+	}
 
 	public function add_emp($data)
 	{

@@ -298,19 +298,11 @@ if($imgRes !== false && imagepng($imgRes, $filename) === true)
     echo "<img src='{$fullUrl}' alt='Signature'/>";
 
 	}	
-	 function saveOfferHistory(){
-		// print_r($this->input->post()); return;
-		$this->load->model('user_m');
-		$dataoffer= array (
-				'user_id' => $this->input->post('user_id'), 
-				'description' => $this->input->post('description'),
-				'status' => $this->input->post('status'),
-			);
-		return $this->user_m->saveOfferHistory($dataoffer);
-	}
+	 
 	function saveOffer($user_id=null){
 		if($user_id != null) {
 			$content= $this->input->post('fileContent');
+			print_r($content);
 			file_put_contents("uploads/offerletters/".$user_id.".html", $content);
 			echo base_url()."uploads/offerletters/".$user_id.".html";
 		} else

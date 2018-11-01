@@ -487,11 +487,6 @@ public function get($id = NULL, $single = FALSE){
 		return $return;
 
 	}
-	public function saveOfferHistory($data){
-		$this->db->insert('fhk_offer_history', $data);
-		$id = $this->db->insert_id();
-		return $id;
-	}
 
 	public function getDetailedUserWithProject($id){
 		$this->db->select('*');

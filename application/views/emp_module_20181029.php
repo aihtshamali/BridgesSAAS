@@ -17,6 +17,7 @@
       }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="<?=base_url('assets/css/w3.css');?>">
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -110,8 +111,11 @@
 		}
 	.bg_pink{background:#f6e7e7;}
   .rightbtnform{margin: 0% 0.5% !important;float: right;}
+  /*input {outline: none !important;}*/
+
     </style>
   }
+
   </head>
   <body>
     <div class="container pad1per ">
@@ -156,10 +160,10 @@
                   </tr>
                 </table>
               </td>
-              <td><span class="lt_gr">Last:</span> <?= $emp->lname;?> </td>
-              <td><span class="lt_gr">Mid:</span> TBD </td>
-              <td><span class="lt_gr">First:</span><?= $emp->fname;?></td>
-              <td><textarea style="width: 100%;">...notes</textarea> </td>
+              <td><span class="lt_gr">Last:</span> <textarea id="lnameEntry" name="lname" onblur="writeUserData(this);"><?= $emp->lname;?></textarea> </td>
+              <td><span class="lt_gr">Mid:</span> <textarea name="mid_name" onblur="writeUserData(this);"><?= $emp->mid_name;?></textarea> </td>
+              <td><span class="lt_gr">First:</span> <textarea name="fname" onblur="writeUserData(this);"><?= $emp->fname;?></textarea> </td></td>
+              <td><textarea style="width: 100%;" name="notes" onblur="writeUserData(this);"><?=$emp->notes? $emp->notes:"...notes";?></textarea> </td>
             </tr>
             <tr>
               <td>
@@ -171,8 +175,8 @@
                   </tr>
                 </table>
               </td>
-              <td><span class="lt_gr">pref:</span> <?= $emp->contact_no;?> </td>
-              <td><span class="lt_gr">other:</span> <?= $emp->home_phone;?> </td>
+              <td><span class="lt_gr">pref:</span> <textarea id="userContact" name="userContact" onblur="writeUserData(getElementById('lnameEntry'));"><?= $emp->contact;?></textarea> </td>
+              <td><span class="lt_gr">other:</span> <textarea id="userPhone" name="userPhone" onblur="writeUserData(getElementById('lnameEntry'))"><?= $emp->phone;?></textarea> </td>
             </tr>
             <tr>
               <td>
@@ -184,8 +188,8 @@
                   </tr>
                 </table>
               </td>
-              <td><?= $emp->email;?></td>
-              <td>TBD</td>
+              <td> <textarea id="emailEntry" name="emailEntry" onblur="writeUserData(getElementById('lnameEntry'));"><?= $emp->email;?></textarea> </td>
+              <td> <textarea id="userEmailOther" name="userEmailOther" onblur="writeUserData(getElementById('lnameEntry'));"><?= $emp->emailOther;?></textarea> </td>
             </tr>
 			<tr class="">
               <td>
@@ -236,7 +240,7 @@
                     <input type="file"/>
                 </label>
                 -->
-                <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/SaveCV");?>" enctype="multipart/form-data">
+                <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/SaveCV");?>" style="margin-right:0 !important" enctype="multipart/form-data">
                   <label class="fileContainer marginTop">
                     <input type="hidden" name="id" value="<?=$id;?>">
                     <button type="button" class="upload" name="button"><label for="userfileCV">Edit Current</label></button>
@@ -244,7 +248,7 @@
                   </label>
                 </form>
 
-                <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/ArchiveCV");?>" enctype="multipart/form-data">
+                <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/ArchiveCV");?>" style="margin-right:0 !important" enctype="multipart/form-data">
                   <label class="fileContainer marginTop">
                     <input type="hidden" name="id" value="<?=$id;?>">
                     <button type="button" class="upload" name="button"><label for="userfileArchive">Add Latest</label></button>
@@ -276,7 +280,7 @@
             <?php foreach ($oldCv as $key => $value) { ?>
             <tr>
               <td class="redclr"></td>
-              <td class="triplenine">Brief Description</td>
+              <td class="triplenine">Previous CV</td>
               <td class="triplenine"><a style="color:black" href="<?=base_url().$value->link;?>" download> Download </a></td>
               <td class="triplenine padleftwo"><?=date("M j, Y", strtotime(date($value->dated)));?></td>
               <td><textarea style="width: 100%;">...notes</textarea></td>
@@ -324,51 +328,27 @@
             <tr class="nodisplay showonetwoA">
               <td colspan="5" class="border">there</td>
             </tr>
-            <tr>
-              <td>
-                <table>
-                  <tr class="redclr">
-                    <td width="30%"> </td>
-                    <td width="30%">1.2.a.1</td>
-                    <td width="40%"><a class="redclr" href="<?=base_url();?>Caan/offer/<?=$id;?>">offer 1</a></td>
-                  </tr>
-                </table>
-              </td>
-              <td><textarea style="width: 100%;" name="offer_description">Brief Description</textarea></td>
-              <td><textarea style="width: 100%;" name="offer_status">Status</textarea></td>
-              <td></td>
-              <td><textarea style="width: 100%;" name="notes">...notes</textarea> </td>
-            </tr>
-            <tr>
-              <td>
-                <table>
-                  <tr class="redclr">
-                    <td width="30%"> </td>
-                    <td width="30%">1.2.a.2</td>
-                    <td width="40%">offer 2</td>
-                  </tr>
-                </table>
-              </td>
-              <td><textarea style="width: 100%;" name="offer_description">Brief Description</textarea></td>
-              <td><textarea style="width: 100%;" name="offer_status">Status</textarea></td>
-              <td></td>
-              <td><textarea style="width: 100%;" name="notes">...notes</textarea> </td>
-            </tr>
-            <tr>
-              <td>
-                <table>
-                  <tr class="redclr">
-                    <td width="30%"> </td>
-                    <td width="30%">1.2.a.3</td>
-                    <td width="40%">offer 3</td>
-                  </tr>
-                </table>
-              </td>
-              <td><textarea style="width: 100%;" name="offer_description">Brief Description</textarea></td>
-              <td><textarea style="width: 100%;" name="offer_status">Status</textarea></td>
-              <td></td>
-              <td><textarea style="width: 100%;" name="notes">...notes</textarea> </td>
-            </tr>
+
+            <!-- Dynamic offer from here-->
+            <?php for($i=1; $i<=3; $i++) { ?>
+              <tr>
+                <td>
+                  <table>
+                    <tr class="redclr">
+                      <td width="30%"> </td>
+                      <td width="30%">1.2.a.<?=$i;?></td>
+                      <td width="40%">offer <?=$i;?></td>
+                    </tr>
+                  </table>
+                </td>
+
+                <td style="display:none"><input id="offerEntry" type="hidden" name="offer_id" value="<?=$oldOffer[$i-1]->id;?>" /></td>
+                <td><textarea style="width: 100%;" name="offer_description" onblur="writeOfferData(this)"><?=$oldOffer[$i-1]->description?></textarea></td>
+                <td><textarea style="width: 100%;" name="offer_status" onblur="writeOfferData(this)"><?=$oldOffer[$i-1]->status?></textarea></td>
+                <td> <button type="button" class="upload" onclick="loadGenericModal(this, '<?=$oldOffer[$i-1]->additional;?>');"> Additional </button> </td>
+                <td><textarea style="width: 100%;" name="notes" onblur="writeOfferData(this)"><?=$oldOffer[$i-1]->notes?$oldOffer[$i-1]->notes:"...notes" ?></textarea> </td>
+              </tr>
+            <?php } ?>
             <!--tr>
               <th class="redclr"></th>
               <td class="triplenine">Brief Description</td>
@@ -419,40 +399,99 @@
       </div>
       
     </div>
+
+    <!-- additional modal -->
+    <div id="genericModal" class="w3-modal">
+      <div class="w3-modal-content w3-animate-opacity">
+        <header class="w3-container" style="padding:5px; color:white; background: grey;">
+          <h2>Information</h2>
+        </header>
+
+      <div class="w3-container">
+      <form method="POST" action="">
+        <label style="margin:10px 10px; width:100% !important;"> <b>Enter additional information</b> </label>
+        <textarea id="additionalEntry"></textarea>
+        <div style="float:right; margin:10px 10px">
+          <input class="btn btn-success btn-sm" type="button" value="Update" id="modelAdditional" onclick="alert('conrollerd by js');">
+          <input class="btn btn-success btn-sm" type="button" value="Cancel" onclick='modalVisible("genericModal", false);'>
+        </div>
+      </form>
+      </div>
+          <footer class="w3-container w3-text-teal">
+            <p> </p>
+          </footer>
+      </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script type="text/javascript">
       $(".onhovshowonetwoA").click(function(){
         $(".showonetwoA").toggle('slow');
       });
-      // del_img_form
-  $('textarea[name="offer_description"]').on('blur', function(e)
-  {
-    // var form_data= new FormData();
-    // form_data.append('description',$(this).val());
-    // form_data.append('status',$(this).parent().siblings('td').find('textarea[name="offer_status"]').val());
-    // form_data.append('user_id','1');
-    // form_data.append('status',$(this).val());
-    $.ajax( 
-    {
-      url:"<?php echo base_url(); ?>Caan/saveOfferHistory",
-      type: "POST",
-      data: {
-        user_id:"<?=$id?>",
-        description: $(this).val(),
-        status: $(this).parent().siblings('td').find('textarea[name="offer_status"]').val(),
-      },
-      success: function(data)
-      {
-        console.log(data);
-        // toastr.success("Insertion Successfully!");
-        // id = $('#del_cv_img_id').val();
-        // $("."+removeclass).remove();
-      }
-    });
-    
-  });
 
+      function modalVisible(name, bool) {
+        if(bool)
+          document.getElementById(name).style.display='block'
+        else
+          document.getElementById(name).style.display='none'
+      }
+
+      function addition(btn) {
+        btn.onclick=loadGenericModal(this, $("#additionalEntry").val());
+        writeOfferData(btn);
+        modalVisible('genericModal', false);
+      }
+
+      function loadGenericModal(btn, data) {
+        $("#additionalEntry").val(data);
+        document.getElementById("modelAdditional").onclick= function() {addition(btn)};
+        //console.log($("#modelAdditional").onclick);
+        modalVisible('genericModal', true);
+      }
+
+      function writeOfferData(someItem){
+        form= $(someItem).parent().parent().children("td");
+
+        toPost= {
+          id: form.find('input[name="offer_id"]').val(),
+          user_id:"<?=$id?>",
+          description: form.find('textarea[name="offer_description"]').val(),
+          status: form.find('textarea[name="offer_status"]').val(),
+          notes: form.find('textarea[name="notes"]').val(),
+          additional: $("#additionalEntry").val(),
+        };
+        console.log(toPost);
+        $.ajax({
+          url:"<?php echo base_url(); ?>Employee_reg/saveOfferHistory",
+          type: "POST",
+          data: toPost,
+          success: function(data) {//console.log(data);
+          }
+        });  
+      }
+
+      function writeUserData(someItem){
+        //form= $(someItem).parent().siblings('td');
+        form= $(someItem).parent().parent().children("td");
+        toPost= {
+          id:"<?=$id?>",
+          lname: form.find('textarea[name="lname"]').val(),
+          mid_name: form.find('textarea[name="mid_name"]').val(),
+          fname: form.find('textarea[name="fname"]').val(),
+          notes: form.find('textarea[name="notes"]').val(),
+          contact: $("#userContact").val(),
+          phone: $("#userPhone").val(),
+          emailOther: $("#userEmailOther").val(),
+          email: $("#emailEntry").val(),
+        };
+        console.log(toPost);
+        $.ajax({
+          url:"<?php echo base_url(); ?>Employee_reg/saveUserPrimaryData",
+          type: "POST",
+          data: toPost,
+          success: function(data) {console.log(data);}
+        });  
+      }
     </script>
   </body>
 </html>

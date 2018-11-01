@@ -436,9 +436,18 @@ function view_employee1()
 		$data['id']=$id;
 		$data["emp"]= $this->Employee_model->getUserData($id);
 		$data["oldCv"]= $this->Employee_model->getArchieveCvData($id);
+		$data["oldOffer"]= $this->Employee_model->getArchieveOfferData($id);
 
-		//var_dump($data["oldCv"]); die();
+		//var_dump($data["oldOffer"]); die();
 		$this->load->view('emp_module_20181029', $data);
+	}
+
+	function saveOfferHistory(){
+		return $this->Employee_model->setArchieveOffer($this->input->post('id'), $this->input->post('user_id'), $this->input->post('description'), $this->input->post('status'), $this->input->post('additional'), $this->input->post('notes'));
+	}
+
+	function saveUserPrimaryData() {
+		return $this->Employee_model->setUserPrimaryData($this->input->post('id'), $this->input->post('fname'), $this->input->post('mid_name'),$this->input->post('lname'), $this->input->post('email'), $this->input->post('contact'), $this->input->post('phone'), $this->input->post('emailOther'), $this->input->post('notes'));
 	}
 
 	function emp_module_1($id = null)

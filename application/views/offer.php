@@ -396,6 +396,7 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
           $(this).attr('role', ' ');
           $(this).attr('contenteditable', 'false');
       });
+              console.log(document.documentElement.outerHTML); //document.documentElement.outerHTML
 
       jQuery.ajax({
             url: "<?php echo base_url();?>caan/saveOffer/<?=$emp->id;?>",
@@ -404,7 +405,8 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
               fileContent : document.documentElement.outerHTML //document.documentElement.outerHTML
             },
             success: function (response) {
-                window.location.href= response;
+              console.log(response);
+                // window.location.href= response;
                },
             dataType: "html"
             });
