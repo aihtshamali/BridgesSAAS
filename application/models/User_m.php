@@ -491,16 +491,16 @@ public function get($id = NULL, $single = FALSE){
 	public function getDetailedUserWithProject($id){
 		$this->db->select('*');
 
-		$this->db->from('newbm_user_details');
+		$this->db->from('newba_users');
+		$this->db->join('newbm_user_details', 'newba_users.id = newbm_user_details.userid', 'left');
 		$this->db->join('bm_projects', 'bm_projects.id = newbm_user_details.hired_for_project', 'left');
-		$this->db->join('newba_users', 'newba_users.id = newbm_user_details.userid', 'left');
 
 		$this->db->join('bm_ranks', 'bm_ranks.id = newbm_user_details.rankid', 'left');
 		$this->db->join('bm_cluster', 'bm_cluster.id = newbm_user_details.clusterid', 'left');
 		$this->db->join('bm_designation', 'bm_designation.id = newbm_user_details.designationid', 'left');
 
 		//$this->db->where('newbm_user_details.status', 1);
-		$this->db->where('newbm_user_details.userid', $id);
+		$this->db->where('newba_users.id', $id);
 
 		$return = $this->db->get()->row();
 		unset($return->password);

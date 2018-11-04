@@ -324,8 +324,8 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
 */
 
   <?php for($i=1; $i<3; $i++){ ?>
-    <?php if(file_exists('uploads/offerempSign/'.$emp->id.'-'.$i.'.png')){ ?>
-        $('#signBody<?=$i;?>').html("<img src='<?php echo base_url(); ?>uploads/offerempSign/<?=$emp->id;?>-<?=$i;?>.png' id='emp' style='border-bottom:1px solid black' />");
+    <?php if(file_exists('uploads/offerempSign/'.$emp->userid.'-'.$i.'.png')){ ?>
+        $('#signBody<?=$i;?>').html("<img src='<?php echo base_url(); ?>uploads/offerempSign/<?=$emp->userid;?>-<?=$i;?>.png' id='emp' style='border-bottom:1px solid black' />");
     <?php } }?>
 
 
@@ -349,7 +349,7 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
 
       $(id).data("jqScribble").save(function(imageData)
       {
-        $.post('<?php echo base_url();?>caan/saveofferSign/', {imagedata: imageData,userid: '<?=$emp->id?>',emp_num: empnum}, function(response)
+        $.post('<?php echo base_url();?>caan/saveofferSign/', {imagedata: imageData,userid: '<?=$emp->userid?>',emp_num: empnum}, function(response)
           {
             $(si).html(response);
           }); 
@@ -364,7 +364,7 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
   var text=$('#'+object.id).html();
   $.ajax({
     type:'POST',
-    url:'<?php echo base_url(); ?>caan/updatefooter/<?=$emp->id?>',
+    url:'<?php echo base_url(); ?>caan/updatefooter/<?=$emp->userid?>',
     data: {
       data:text
     },
@@ -396,17 +396,20 @@ The Bridges <strong><?php if($emp->hired_for_project==2){ ?> School <?php } else
           $(this).attr('role', ' ');
           $(this).attr('contenteditable', 'false');
       });
-              console.log(document.documentElement.outerHTML); //document.documentElement.outerHTML
 
+      $("#test1").remove();
+      $("#test2").remove();
+
+      //alert("<?=$id;?>");
       jQuery.ajax({
-            url: "<?php echo base_url();?>caan/saveOffer/<?=$emp->id;?>",
+            url: "<?php echo base_url();?>caan/saveOffer/<?=$id;?>",
             type: "POST",
             data: {
               fileContent : document.documentElement.outerHTML //document.documentElement.outerHTML
             },
             success: function (response) {
-              console.log(response);
-                // window.location.href= response;
+              // console.log(response);
+                window.location.href= response;
                },
             dataType: "html"
             });

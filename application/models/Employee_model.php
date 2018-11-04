@@ -10,13 +10,19 @@ class Employee_model extends CI_Model {
 	}
 
 	public function setUserPrimaryData($id, $fName, $midName, $lname, $email, $contact, $phone, $emailOther, $notes){
+
 		$dataoffer= array ('fname' => $fName, 'mid_name' => $midName, 'lname' => $lname, 'email' => $email, 'notes' => $notes, 'contact' => $contact, 'phone' => $phone, 'emailOther' => $emailOther);
+
+		//var_dump($id); die();
 		if($id==null) {
+			//var_dump("Created"); die();
 			$this->db->insert('newba_users', $dataoffer);
 			return $this->db->insert_id();
 		} else {
+			//var_dump("Upadted"); die();
 			$this->db->where('id', $id);
-			return $this->db->update('newba_users', $dataoffer);
+			$this->db->update('newba_users', $dataoffer);
+			return null;
 		}
 	}
 
@@ -35,18 +41,28 @@ class Employee_model extends CI_Model {
 		return $this->db->get()->result();	
 	}
 
-	public function setArchieveCv($user, $url) {
+	public function setArchieveCv($id, $user, $url) {
 		$data=array(
 			'user_id' => $user,
 			'link' => $url,
 		);
-		$this->db->insert('fhk_cv_archive', $data);
+		if($id==null) {
+			$this->db->insert('fhk_cv_archive', $data);
+		} else {
+			$this->db->where('id', $id);
+			$this->db->update('fhk_cv_archive', $data);
+		}
+	}
+
+	public function clrArchieveCv($id) {
+		$this->db->where('id', $id);
+		return $this->db->delete('fhk_cv_archive');
 	}
 
 	public function getArchieveOfferData($id) {
 		$this->db->from("fhk_offer_history");
 		$this->db->where('user_id',$id);
-		$this->db->order_by('updated_at', 'DESC');
+		$this->db->order_by('created_at', 'ASC');
 		return $this->db->get()->result();	
 	}
 
@@ -61,7 +77,7 @@ class Employee_model extends CI_Model {
 			'updated_at' => date('Y-m-d G:i:s')
 		);
 
-		if($id==null) {
+		if($id==null || $id<0) {
 			$this->db->insert('fhk_offer_history', $dataoffer);
 			return $this->db->insert_id();
 		} else {

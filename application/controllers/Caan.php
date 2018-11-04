@@ -288,6 +288,8 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 	}
 	function saveofferSign(){
 		$data = $this->input->post('imagedata');
+		if(!file_exists("uploads/offerempSign")) 
+			mkdir("uploads/offerempSign");
 $filename = 'uploads/offerempSign/'.$this->input->post('userid').'-'.$this->input->post('emp_num').'.png';
 //Need to remove the stuff at the beginning of the string
 $data = substr($data, strpos($data, ",")+1);
@@ -302,7 +304,7 @@ if($imgRes !== false && imagepng($imgRes, $filename) === true)
 	function saveOffer($user_id=null){
 		if($user_id != null) {
 			$content= $this->input->post('fileContent');
-			print_r($content);
+			// print_r($content);
 			file_put_contents("uploads/offerletters/".$user_id.".html", $content);
 			echo base_url()."uploads/offerletters/".$user_id.".html";
 		} else

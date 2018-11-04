@@ -424,30 +424,61 @@ function view_employee1()
 	public function emp_module_20181029($id=null) {
 
 		//no id is provided and user is not logged in
+		/*
 		if($id===null) {
-			if(($id=fhkCheckAuthentication()) === null)
-				return;
-		}
+			if(($id=fhkCheckAuthentication()) === null) return;
+		}*/
 
 		//if requested id is other than logged in user then check role permissions
 		if($id!==fhkCheckAuthentication())
 			fhkAuthPageExtended(null, ["canViewProfiles", "canDoEverything"], $this);
 
 		$data['id']=$id;
+
 		$data["emp"]= $this->Employee_model->getUserData($id);
 		$data["oldCv"]= $this->Employee_model->getArchieveCvData($id);
 		$data["oldOffer"]= $this->Employee_model->getArchieveOfferData($id);
 
+		//var_dump($data["oldCv"]); echo "<br/><br/>";
 		//var_dump($data["oldOffer"]); die();
 		$this->load->view('emp_module_20181029', $data);
 	}
 
 	function saveOfferHistory(){
+		//var_dump($_POST); die();
 		return $this->Employee_model->setArchieveOffer($this->input->post('id'), $this->input->post('user_id'), $this->input->post('description'), $this->input->post('status'), $this->input->post('additional'), $this->input->post('notes'));
 	}
 
 	function saveUserPrimaryData() {
-		return $this->Employee_model->setUserPrimaryData($this->input->post('id'), $this->input->post('fname'), $this->input->post('mid_name'),$this->input->post('lname'), $this->input->post('email'), $this->input->post('contact'), $this->input->post('phone'), $this->input->post('emailOther'), $this->input->post('notes'));
+		$id = $this->input->post('id');
+		$id = ($id==""? null: $id);
+		
+		$newGuy= $this->Employee_model->setUserPrimaryData($id, $this->input->post('fname'), $this->input->post('mid_name'),$this->input->post('lname'), $this->input->post('email'), $this->input->post('contact'), $this->input->post('phone'), $this->input->post('emailOther'), $this->input->post('notes'));
+
+		if($newGuy!=null)
+			$this->sendJson('{"flag": "created", "redirect":"'. base_url('Employee_reg/emp_module_20181029/'.$newGuy).'"}');
+		else
+			$this->sendJson('{"flag": updated}');
+	}
+
+    function ArchiveCV() {
+    	//get previous
+    	//$id = $this->input->post('id');
+    	//$oldCv = $this->Employee_model->getUserCurrentCv($id);
+    	//if($oldCv!=null) $this->Employee_model->setArchieveCv($id, $oldCv->upload_cv);    	
+    	//$this->SaveCv();
+		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
+	}
+
+	function deleteCV($id, $red){
+		$this->Employee_model->clrArchieveCv($id);
+		redirect (base_url("Employee_reg/emp_module_20181029/".$red));
+	}
+	function sendJson($json) {
+		return $this->output
+        ->set_content_type('application/json')
+        ->set_status_header(200)
+        ->set_output($json);
 	}
 
 	function emp_module_1($id = null)
@@ -861,27 +892,20 @@ public function doupload($targetdir,$fieldName,$required,$id){
     }
 
     //everything same as SaveCV except last cv is pushed to cv_archieve
-    function ArchiveCV() {
-    	//get previous
-    	$id = $this->input->post('id');
-    	$oldCv = $this->Employee_model->getUserCurrentCv($id)->upload_cv;
-    	$this->Employee_model->setArchieveCv($id, $oldCv);
-    	$this->SaveCv();
-    	//make entry in archive
-    	//call SaveCv
-    	
-
-		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
-	}
 
 	function SaveCV()
 	{
 		//var_dump('uploads/'.$_FILES["userfileCV"]["name"]); die();
-		$id = $this->input->post('id');
-		$uploadedCV=$this->doupload('uploads/','userfileCV',true,$id);
+		$id = $this->input->post('id');	//
+		$userid = $this->input->post('user');
+
+		//var_dump($_POST); die();
+		$uploadedCV=$this->doupload('uploads/','userfileCV',true,$userid);
 		//echo $uploadedCV; exit();
-		$response = $this->Employee_model->Save_Emp_CV($id , 'uploads/'.$uploadedCV);
-		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
+		//will be stored to both primary and archive
+		$this->Employee_model->setArchieveCv($id, $userid, 'uploads/'.$uploadedCV);
+		$response = $this->Employee_model->Save_Emp_CV($userid , 'uploads/'.$uploadedCV);
+		redirect (base_url("Employee_reg/emp_module_20181029/".$userid));
 	}
 
 	function SaveCVImg()
