@@ -7,7 +7,7 @@ class Employee_reg extends CI_Controller {
 
         $this->load->helper('fhk_authorization_helper');
         $this->load->model("SharedModel");
-        
+
         $this->load->model('Employee_model');
 		$this->load->model('hr_m');
 		$this->load->model('user_m');
@@ -28,7 +28,7 @@ class Employee_reg extends CI_Controller {
         $_FILES['userfile']['type']    = $value['type'][$s];
         $_FILES['userfile']['tmp_name'] = $value['tmp_name'][$s];
         $_FILES['userfile']['error']       = $value['error'][$s];
-        $_FILES['userfile']['size']    = $value['size'][$s];   
+        $_FILES['userfile']['size']    = $value['size'][$s];
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size']    = '100';
@@ -45,42 +45,42 @@ class Employee_reg extends CI_Controller {
             $db_data = array(
                              'name'=> $names);
         $this->db->insert('img',$db_data);
-        
-           
+
+
             exit;
 	}
 	public function index()
 	{
-		
+
 		$this->load->view('insert_employee');
 	}
 	public function checklist()
 	{
-		
+
 		$this->load->view('checklist');
 	}
 	public function emp_module_2_view()
 	{
-		 
+
 		$this->load->view('emp_module_2_view_final');
 	}
 	public function emp_module_3_view()
 	{
-		
+
 		$this->load->view('emp_module_3_view_final');
 	}
 	public function emp_module_4_view()
 	{
-		
+
 		$this->load->view('emp_module_4_view_final');
 	}
 	public function emp_module_5_view()
 	{
-		
+
 		$this->load->view('emp_module_5_view_final');
 	}
 
-	
+
 
 	public function update_employee()
 	{
@@ -91,10 +91,10 @@ class Employee_reg extends CI_Controller {
 		$last_name=$this->input->post('last_name');
 		$biomet_id=$this->input->post('biomet_id');
 		$date_of_birth=$this->input->post('date_of_birth');
-		$picture=$_FILES['picture']['name']; 
-		$picture1=$_FILES['picture1']['name']; 
-		$picture2=$_FILES['picture2']['name']; 
-		$picture3=$_FILES['picture3']['name']; 
+		$picture=$_FILES['picture']['name'];
+		$picture1=$_FILES['picture1']['name'];
+		$picture2=$_FILES['picture2']['name'];
+		$picture3=$_FILES['picture3']['name'];
 		//Check whether user upload picture
 		if(!empty($_FILES['picture']['name']))
 		{
@@ -114,7 +114,7 @@ class Employee_reg extends CI_Controller {
 				echo "picture name not found";
 			}
 		}
-		
+
 		if(!empty($_FILES['picture2']['name']))
 		{
 			$config['upload_path'] = 'uploads/';
@@ -137,7 +137,7 @@ class Employee_reg extends CI_Controller {
 		{
 			echo "picture is not picture2";
 		}
-		
+
 		if(!empty($_FILES['picture1']['name']))
 		{
 			$config['upload_path'] = 'uploads/';
@@ -160,7 +160,7 @@ class Employee_reg extends CI_Controller {
 		{
 			echo "picture is not picture2";
 		}
-		
+
 		if(!empty($_FILES['picture3']['name']))
 		{
 			$config['upload_path'] = 'uploads/';
@@ -183,8 +183,8 @@ class Employee_reg extends CI_Controller {
 		{
 			echo "picture is not found999";
 		}
-		
-		$this->db->where('emp_id', $emp_id); 
+
+		$this->db->where('emp_id', $emp_id);
 		$dbdata = array(
 		  "name" => $name,
 		  "last_name" => $last_name,
@@ -196,11 +196,11 @@ class Employee_reg extends CI_Controller {
 		  'emp_cnic_scan' => $picture3,
 		  'previous_employee_payslip' => $picture2,
 		  'original_document_copy' => $picture1
-		); 
+		);
 		// echo "<pre>"; print_r($dbdata); die;
 		$this->db->update('insert_employee', $dbdata);
-	} 
-	
+	}
+
 	public function update_employee_emergency()
 	{
 		$emp_id=$this->input->post('current_user_id');
@@ -208,17 +208,17 @@ class Employee_reg extends CI_Controller {
 		$emergency_relation=$this->input->post('emergency_relation');
 		$emergency_address=$this->input->post('emergency_address');
 		$emergency_phone=$this->input->post('emergency_phone');
-		
-		$this->db->where('emp_id', $emp_id); 
+
+		$this->db->where('emp_id', $emp_id);
 		$dbdata = array(
 		  "emergency_name" => $emergency_name,
 		  "emergency_relation" => $emergency_relation,
 		  "emergency_address" => $emergency_address,
 		  "emergency_phone" => $emergency_phone
-		); 
+		);
 		$this->db->update('insert_employee', $dbdata);
 	}
-	
+
 	public function update_employee_on_boarding_position()
 	{
 		$emp_id=$this->input->post('current_user_id');
@@ -237,8 +237,8 @@ class Employee_reg extends CI_Controller {
 		$boarding_position_pass=$this->input->post('boarding_position_pass');
 		$boarding_position_softco=$this->input->post('boarding_position_softco');
 		// $boarding_position_docs=$this->input->post('boarding_position_docs');
-		
-		$this->db->where('emp_id', $emp_id); 
+
+		$this->db->where('emp_id', $emp_id);
 		$dbdata = array(
 		  "project" => $boarding_position_project,
 		  "title" => $on_boarding_title_by_project,
@@ -255,11 +255,11 @@ class Employee_reg extends CI_Controller {
 		  "passwords_list" => $boarding_position_pass,
 		  "softcopies" => $boarding_position_softco,
 		  // "documents" => $boarding_position_docs
-		); 
+		);
 		// echo "<pre>"; print_r($dbdata); die;
 		$this->db->update('insert_employee', $dbdata);
 	}
-	
+
 	public function insert_emp_data()
 	{
 		// echo 's'; die;
@@ -268,11 +268,11 @@ class Employee_reg extends CI_Controller {
 		$name=$this->input->post('emp_name');
 		$Lastname=$this->input->post('emp_last');
 		$designation=$this->input->post('emp_des');
-		$picture=$_FILES['picture']['name']; 
+		$picture=$_FILES['picture']['name'];
 		//print_r($_FILES);die;
-        
+
 			// echo "one"; die;
-            
+
             //Check whether user upload picture
             if(!empty($_FILES['picture']['name']))
 			{
@@ -284,7 +284,7 @@ class Employee_reg extends CI_Controller {
                 //Load upload library and initialize configuration
                 $this->load->library('upload',$config);
                 // $this->upload->initialize($config);
-                
+
                 if($this->upload->do_upload('picture')){
 					// echo "two"; die;
                     $uploadData = $this->upload->data();
@@ -302,8 +302,8 @@ class Employee_reg extends CI_Controller {
                 //$picture = '';
 				echo "picture is not found999";
             }
-		
-		
+
+
 		// $image=$this->input->post('emp_image');
 		$data=array(
 		'name' => $name,
@@ -312,15 +312,15 @@ class Employee_reg extends CI_Controller {
 		'emp_image' => $picture
 		);
 		// echo "<pre>"; print_r($data); die;
-		$inserted = $this->employee_model->add_emp($data);	
-		
+		$inserted = $this->employee_model->add_emp($data);
+
 }
 function view_employee1()
 	{
 		// echo "ss"; die;
 		$this->db->select('emp_id, name, emp_image,designation');
 	$this->db->from('insert_employee');
-	
+
 	$query = $this->db->get();
 
 	 $pic['data'] = $query->result_array();
@@ -334,7 +334,7 @@ function view_employee1()
 		// echo "ss"; die;
 		$this->db->select('userid, initials, upload_picture,job_title');
 	$this->db->from('newbm_user_details');
-	
+
 	$query = $this->db->get();
 
 	 $pic['data'] = $query->result_array();
@@ -373,7 +373,7 @@ function view_employee1()
 		$data=array(
 				'name'=>$this->input->post('name'),
 				'created_for'=>$this->input->post('created_for')
-		);		
+		);
 		$this->Employee_model->newPost($data);
 		redirect($_SERVER['HTTP_REFERER']);
 	}
@@ -388,7 +388,7 @@ function view_employee1()
 		else{
 			$this->session->set_userdata('page_url', current_url());
 		 	redirect('user/?id='.$id);
-		}	
+		}
 	}
 	function newMessage(){
 		$post_id=$this->input->post('post_id');
@@ -397,12 +397,12 @@ function view_employee1()
 		$forUser=$this->input->post('Foruser');
 		if(empty($this->Employee_model->getblogData($forUser)))
 		{
-			
+
 			$data1=array(
 				'name'=>'Post Created for'.$forUser,
 				'created_for'=>$forUser
-				);		
-				$post_id=$this->Employee_model->newPost($data1);	
+				);
+				$post_id=$this->Employee_model->newPost($data1);
 				print_r(json_encode(array('post_id' => $post_id)));
 		}
 		$data=array(
@@ -420,7 +420,7 @@ function view_employee1()
 		// echo $post_id;
 		print_r( json_encode($this->Employee_model->getLatestMessage($post_id)));
 	}
-	
+
 	public function emp_module_20181029($id=null) {
 
 		//no id is provided and user is not logged in
@@ -445,14 +445,15 @@ function view_employee1()
 	}
 
 	function saveOfferHistory(){
-		//var_dump($_POST); die();
-		return $this->Employee_model->setArchieveOffer($this->input->post('id'), $this->input->post('user_id'), $this->input->post('description'), $this->input->post('status'), $this->input->post('additional'), $this->input->post('notes'));
+		$post= json_decode(file_get_contents("php://input"));
+		//die(json_encode($post));
+		return $this->Employee_model->setArchieveOffer($post->id, $post->user_id, $post->description, $post->status, $post->additional, $post->notes);
 	}
 
 	function saveUserPrimaryData() {
 		$id = $this->input->post('id');
 		$id = ($id==""? null: $id);
-		
+
 		$newGuy= $this->Employee_model->setUserPrimaryData($id, $this->input->post('fname'), $this->input->post('mid_name'),$this->input->post('lname'), $this->input->post('email'), $this->input->post('contact'), $this->input->post('phone'), $this->input->post('emailOther'), $this->input->post('notes'));
 
 		if($newGuy!=null)
@@ -465,7 +466,7 @@ function view_employee1()
     	//get previous
     	//$id = $this->input->post('id');
     	//$oldCv = $this->Employee_model->getUserCurrentCv($id);
-    	//if($oldCv!=null) $this->Employee_model->setArchieveCv($id, $oldCv->upload_cv);    	
+    	//if($oldCv!=null) $this->Employee_model->setArchieveCv($id, $oldCv->upload_cv);
     	//$this->SaveCv();
 		redirect (base_url("Employee_reg/emp_module_20181029/".$id));
 	}
@@ -482,7 +483,7 @@ function view_employee1()
 	}
 
 	function emp_module_1($id = null)
-	{	
+	{
 		fhkAuthPageExtended(null, ["canViewProfiles", "canDoEverything"], $this);
 		//print_r($this->session->userdata("email"));exit;
 		//if($this->session->userdata('id')==$id || $this->session->userdata('usertype') == "Director" || $this->session->userdata('usertype') == "HR"){
@@ -516,17 +517,17 @@ function view_employee1()
 		$data["employee_history"]=$this->Employee_model->getEmployee_history($id);
 		$data["employee_history_onboard"]=$this->Employee_model->getOnboardById($id);
 		// print_r($data["employee_history_onboard"]);exit;
-		$this->load->view('emp_module_1_view_final',$data); 
+		$this->load->view('emp_module_1_view_final',$data);
 
 		//}
-		//else 
+		//else
 			//$this->load->view('unauthorized');
 			// echo 'YOU ARE NOT AUTHORIZED FOR THIS PAGE';
 
 		//$this->load->view('emp_module_1_view_jobs',$employee);//for blue caaan(jobs)
 	}
 
- 
+
 	public function bio_id($id)
 	{
 		// $this->load->model('the_bridg_employee');
@@ -605,19 +606,19 @@ function view_employee1()
 		$this->Employee_model->save_temp_card($id,$data);
 		return redirect('Employee_reg/bio_id/'.$id);
 	}
-	
+
 	// public function save_file()
 	// {
-	// 	echo $id = $this->input->post('id'); 
+	// 	echo $id = $this->input->post('id');
 	// 	// echo "<br><br>";
-	// 	echo  $field_name = $this->input->post('field_name'); 
-	// 	echo  $name = $this->input->post('name'); 
+	// 	echo  $field_name = $this->input->post('field_name');
+	// 	echo  $name = $this->input->post('name');
 		// echo "<br><br>";
-		// $file = $this->input->post('file'); 
+		// $file = $this->input->post('file');
 
 		// echo $field_name_data=$this->doupload('uploads/',$name,false,$id);
 		// exit();
-		// $data = array( 
+		// $data = array(
 		// 	'userid' => $id,
 		// 	$field_name => $field_name_data );
 		// $this->Employee_model->save_form($id, $data);
@@ -627,7 +628,7 @@ function view_employee1()
 
 	function saveEmployeeImages(){
 		// print_r($_POST);
-		// $id = $this->input->post('id'); 
+		// $id = $this->input->post('id');
 		// $name=$this->input->post('file_name');
 		// print_r($this->input->post($name));
 		$uploaded=$this->doupload('uploads/',$this->input->post('name'),false,$this->input->post('userid'));
@@ -641,11 +642,11 @@ function view_employee1()
 
 	}
 	function form_14(){
-		
-		// print_r($this->input->post('upload_picture'));
-		
 
-		$id = $this->input->post('id'); 
+		// print_r($this->input->post('upload_picture'));
+
+
+		$id = $this->input->post('id');
 		 // $upload_picture=$this->doupload('uploads/','upload_picture',false,$id);
 
 		 // $upload_degree=$this->doupload('uploads/','upload_degree',false,$id);
@@ -657,10 +658,10 @@ function view_employee1()
 		 // $upload_reference_letter= $this->doupload('uploads/','upload_reference_letter',false,$id);
 
 		 // $upload_cnic_back= $this->doupload('uploads/','upload_cnic_back',false,$id);
-		 
+
 		// exit()
 		// $target_dir = "<php echo base_url(); >uploads/";
-		// if ($upload_picture== null || $upload_degree == null || $upload_cnic == null || $upload_payslip_prev== null 
+		// if ($upload_picture== null || $upload_degree == null || $upload_cnic == null || $upload_payslip_prev== null
 		// 	|| $upload_reference_letter == null || $upload_cnic_back=null
 		// 	|| $upload_picture== $target_dir || $upload_degree == $target_dir || $upload_cnic == $target_dir || $upload_payslip_prev== $target_dir || $upload_reference_letter == $target_dir || $upload_cnic_back == $target_dir)
 		//  {
@@ -684,7 +685,7 @@ function view_employee1()
 		// 		$upload_cnic_back = $user_details->upload_cnic_back;
 		// 	}
 		// }
-		
+
 		$fname = $this->input->post('fname');
 		$lname = $this->input->post('lname');
 		$email = $this->input->post('email');
@@ -717,7 +718,7 @@ function view_employee1()
 			'payslip_remarks' => $payslip_remarks,
 			'date_of_birth' => $date_of_birth ,
 			// 'upload_cnic_back' => $upload_cnic_back ,
-			'address_g_map' => $address_g_map 
+			'address_g_map' => $address_g_map
 
 			 );
 		$this->Employee_model->save_form($id, $data);
@@ -726,16 +727,16 @@ function view_employee1()
 	}
 
 	function form_15(){
-		
-		$id = $this->input->post('id'); 
-		
+
+		$id = $this->input->post('id');
+
 		$emergency_person_name = $this->input->post('emergency_person_name');
 		$relationship_to_person = $this->input->post('relationship_to_person');
 		$emergency_contact_1 = $this->input->post('emergency_contact_1');
 		// $emergency_contact_2 = $this->input->post('emergency_contact_2');
 		$emergency_person_address_1 = $this->input->post('emergency_person_address_1');
 		// $emergency_person_address_2 = $this->input->post('emergency_person_address_2');
-		
+
 		$data = array(
 			'userid' => $id,
 			'emergency_person_name' => $emergency_person_name,
@@ -753,7 +754,7 @@ function view_employee1()
 	function form_16(){
 
 		// print_r($this->input->post());exit;
-		$id = $this->input->post('id'); 
+		$id = $this->input->post('id');
 		$project_location = $this->input->post('project_location');
 		$job_description = $this->input->post('job_description');
 		$suggested_salary = $this->input->post('suggested_salary');
@@ -768,8 +769,8 @@ function view_employee1()
 		$paperwork_share = $this->input->post('paperwork_share');
 		$remarks = $this->input->post('remarks');
 		$hired_for_project = $this->input->post('hired_for_project');
-		
-		
+
+
 		$data = array(
 			'userid' => $id,
 			'project_location' => $project_location,
@@ -866,11 +867,11 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	                    } else {
 	                    //     // $table = 'filename';
 
-	                                         
+
 	                        // 'image' => $_FILES['dp']['name']
-	                      
+
 	                        // );
-	                        // $this->db->where('userid', $id);                        
+	                        // $this->db->where('userid', $id);
 	                    }
 	                }
 	            }
@@ -922,18 +923,18 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	}
 
 	function SaveletterImg()
-	{	
+	{
 		$id = $this->input->post('id');
 		$uploadedletterimg=$this->doupload('uploads/','userletterimg',true,$id);
 		echo $uploadedletterimg;
-		$response = $this->Employee_model->Save_Emp_Letter_Img($id , $uploadedletterimg);		
+		$response = $this->Employee_model->Save_Emp_Letter_Img($id , $uploadedletterimg);
 	}
 	function SaveletterResponseImg()
 	{
 		$id = $this->input->post('id');
 		$uploadedletterimg=$this->doupload('uploads/responseLetter/','userletterResponseimg',true,$id);
 		echo $uploadedletterimg;
-		$response = $this->Employee_model->Save_Emp_Letter_Response_Img($id , $uploadedletterimg);		
+		$response = $this->Employee_model->Save_Emp_Letter_Response_Img($id , $uploadedletterimg);
 	}
 
 
@@ -941,37 +942,37 @@ public function doupload($targetdir,$fieldName,$required,$id){
 
 	public function DeleteCVImg()
 	{
-		$id = $this->input->post('id');	
+		$id = $this->input->post('id');
 		$this->Employee_model->delete_cv_img($id);
-		
+
 	}
 
 	public function DeleteletterImg()
 	{
-		$id = $this->input->post('id');	
+		$id = $this->input->post('id');
 		$this->Employee_model->delete_letter_img($id);
-		
+
 	}
 
 	public function DeleteImg()
 	{
-		$id = $this->input->post('id');	
-		$field_name = $this->input->post('field_name');	
+		$id = $this->input->post('id');
+		$field_name = $this->input->post('field_name');
 		$data = array(
 			'userid' => $id,
 			$field_name => ''
 			 );
-		$this->Employee_model->save_form($id, $data);		
+		$this->Employee_model->save_form($id, $data);
 	}
 
 
 	function SaveHrPolicy()
 	{
 		$id = $this->input->post('userid');
-		echo $id;	
+		echo $id;
 		// $uploadedCV=$this->doupload('uploads/CovenantEStaff/','uploadCovenantEStaff',true,$id);
 		$uploadedCV=$this->doupload('uploads/hrPolices/','uploadHr',true,$id);
-		
+
 		echo $uploadedCV;
 		$response = $this->Employee_model->Save_Emp_HrPolicy($id , $uploadedCV);
 	}
@@ -979,7 +980,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function SaveCovenantEStaff()
 	{
 		$id = $this->input->post('userid');
-		echo $id;	
+		echo $id;
 		$uploadedCV=$this->doupload('uploads/CovenantEStaff/','uploadCovenantEStaff',true,$id);
 
 		echo $uploadedCV;
@@ -989,7 +990,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function Savedegree_collection_letter()
 	{
 		$id = $this->input->post('userid');
-		echo $id;	
+		echo $id;
 		$Savedegree_collection_letter=$this->doupload('uploads/degree_collection_letter/','degree_collection_letter',true,$id);
 		echo $Savedegree_collection_letter;
 		$response = $this->Employee_model->Savedegree_collection_letter($id , $Savedegree_collection_letter);
@@ -999,7 +1000,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function uploadOffer()
 	{
 		$id = $this->input->post('userid');
-		echo $id;	
+		echo $id;
 		$uploadedOffer=$this->doupload('uploads/offerletter_img/','upload_offer',true,$id);
 		echo $uploadedOffer;
 		$response = $this->Employee_model->Save_OfferLetter($id , $uploadedOffer);
@@ -1007,15 +1008,15 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function Resignationletter()
 	{
 		$id = $this->input->post('userid');
-		// echo $id;	
+		// echo $id;
 		$resignation_letter=$this->doupload('uploads/resignation_letter/','resignation_letter',true,$id);
 		echo $resignation_letter;
 		$response = $this->Employee_model->Save_ResignationLetter($id,$resignation_letter);
 	}
-	function saveSettlement() 
+	function saveSettlement()
 	{
 		$id = $this->input->post('userid');
-		echo $id;	
+		echo $id;
 		$settlement_letter=$this->doupload('uploads/','SettlementUpload',true,$id);
 		echo $settlement_letter;
 		$response = $this->Employee_model->save_settlement($id , $settlement_letter);
@@ -1037,7 +1038,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function saveSettlementLetter($id=null){
 			$data=array(
 				$this->input->post('field_name')=>$this->input->post('content'),
-				
+
 			);
 		if($id==null){
 			echo $this->Employee_model->saveSettlementLetter($data);
@@ -1049,7 +1050,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	function saveSettlementLetterUrdu($id=null){
 		$data=array(
 				$this->input->post('field_name')=>$this->input->post('content'),
-				
+
 			);
 		if($id==null){
 			echo $this->Employee_model->saveSettlementLetterUrdu($data);
@@ -1058,28 +1059,28 @@ public function doupload($targetdir,$fieldName,$required,$id){
 			echo $this->Employee_model->UpdateSettlementLetterUrdu($data,$id);
 		}
 	}
-	
+
 	function delete_employee($id, $data)
 	{
 		$this->db->where('id', $id);
 		$this->db->delete('insert_employee');
 		redirect('welcome/view_employee');
 	}
-	function offer($id) 
+	function offer($id)
 	{
 		$this->load->model('user_m');
 		$data['employee']=$this->user_m->newgetuserbyid($id);
 		$this->load->view('offer',$data);
 	}
-	
-	function offer_letter($id) 
+
+	function offer_letter($id)
 	{
 		// $this->load->model('user_m');
 		// $data['employee']=$this->user_m->newgetuserbyid($id);
 		$this->load->view('offer_letter');
 		// $this->load->view('offer',$data);
 	}
-	
+
 	function saveOffer($user_id=null)
 	{
 		if($user_id != null)
@@ -1091,7 +1092,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 		else
 		echo "Ooops!<br> An error occurred <br> Please try again later!!!!!";
 	}
-	
+
 	function saveofferSign()
 	{
 		$data = $this->input->post('imagedata');
@@ -1104,14 +1105,14 @@ public function doupload($targetdir,$fieldName,$required,$id){
 		if($imgRes !== false && imagepng($imgRes, $filename) === true)
 		echo "<img src='{$fullUrl}' alt='Signature'/>";
 	}
-	
+
 	public function offermade($id)
 	{
 		$this->load->model('user_m');
 		$data['employee']=$this->user_m->newgetuserbyid($id);
 		$this->load->view('offermade',$data);
 	}
-	
+
 	function reoffer_letter($id)
 	{
 		// $this->load->model('user_m');
@@ -1119,7 +1120,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 		$this->load->view('reoffer_letter');
 		// $this->load->view('offer',$data);
 	}
-	
+
 	// public function hrPolices($userId = null)
 	// {
 		/////// $this->load->model('hr_m');
@@ -1134,7 +1135,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// {
 		// $this->load->view('hrPolices');
 	// }
-	
+
 /*	public function hrPolices($userId = null)
 	{
 		if($userId != null)
@@ -1145,8 +1146,8 @@ public function doupload($targetdir,$fieldName,$required,$id){
 		else
 			echo "Ooops!<br> An error occurred <br> Please try again latter!!!!!";
 	}
-	
-	
+
+
 	public function hrPolicySignSave($userId = null, $signNum = null)
 	{
 		$data = array('user_id' => $userId, 'signNum' => $signNum);
@@ -1171,23 +1172,23 @@ public function doupload($targetdir,$fieldName,$required,$id){
 			echo "Ooops!<br> An error occurred <br> Please try again latter!!!!!";
 
 	}
-*/	
+*/
 	// function insert_module_1()
 	// {
 	// 	// echo 's'; die;
 	// 	$cv='';
 	// 	$offer_leter='';
-	// 	   $cv=$_FILES['cv']['name']; 		
+	// 	   $cv=$_FILES['cv']['name'];
 	// 	   $salary=$this->input->post('salary');
-	// 	   $leaves=$this->input->post('leaves'); 
-	// 	   $offer_leter=$_FILES['offer_leter']['name']; 
+	// 	   $leaves=$this->input->post('leaves');
+	// 	   $offer_leter=$_FILES['offer_leter']['name'];
 	// 	   $ename=$this->input->post('name_e');
 	// 	   $fname=$this->input->post('fname');
 	// 	   $email=$this->input->post('email');
 	// 	   $cel=$this->input->post('cel');
 	// 	   $experience=$this->input->post('experience');
 	// 	   $bio_id=$this->input->post('bio_id');
-		   
+
 	// 	   if(!empty($_FILES['cv']['name'] && $_FILES['offer_leter']['name']))
 	// 		{
 	// 			// echo "one"; die;
@@ -1199,7 +1200,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
  //                //Load upload library and initialize configuration
  //                $this->load->library('upload',$config);
  //                // $this->upload->initialize($config);
-                
+
  //                if($this->upload->do_upload('cv') && $this->upload->do_upload('offer_leter')){
 	// 				// echo "two"; die;
  //                    $uploadData = $this->upload->data();
@@ -1227,14 +1228,14 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// 	   'e_email'=>$email,
 	// 	   'e_cell'=>$cel,
 	// 	   'experience'=>$experience,
-	// 	   'bio_id'=>$bio_id,		   		  		   
+	// 	   'bio_id'=>$bio_id,
 	// 	   );
 	// 	   // echo "<pre>"; print_r($data); die;
-	// 	   $inserted = $this->employee_model->add_module_1($data);	
+	// 	   $inserted = $this->employee_model->add_module_1($data);
 	// 	$this->session->set_flashdata('msg', 'Data Inserted Successfully');
 	// 	redirect('welcome/emp_module_1');
 	// }
-	
+
 	// public function update_employee_on_boarding_position_pro()
 	// {
 	// 	$emp_id=$this->input->post('current_user_id');
@@ -1253,8 +1254,8 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// 	$boarding_position_level=$this->input->post('boarding_position_level');
 	// 	$boarding_position_title=$this->input->post('boarding_position_title');
 	// 	// $boarding_position_docs=$this->input->post('boarding_position_docs');
-		
-	// 	// $this->db->where('emp_id', $emp_id); 
+
+	// 	// $this->db->where('emp_id', $emp_id);
 	// 	$dbdata = array(
 	// 	  // "projects" => $boarding_position_project,
 	// 	  // "jd_by_level" => $boarding_position_jd_level,
@@ -1272,42 +1273,42 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// 	  "selected_level" => $boarding_position_level,
 	// 	  "title" => $boarding_position_title,
 	// 	  // "documents" => $boarding_position_docs
-	// 	); 
+	// 	);
 	// 	// echo "<pre>"; print_r($dbdata); die;
 	// 	$this->db->insert('employment_history', $dbdata);
 	// 	redirect('welcome/emp_module_1');
 	// }
 	// function view_employee_history()
 	// {
-	
+
 		// $emp_id = $this->uri->segment(3);
 		// $this->db->select('*');
 		// $this->db->where('emp_id', $emp_id);
 		// $this->db->from('employment_history');
 		// $query = $this->db->get();
 		// $employee['data1'] = $query->result_array();
-		// $this->load->view('emp_module_1_view',$employee); 
-	 
+		// $this->load->view('emp_module_1_view',$employee);
+
 	// }
 	// function bio_employee_id($id)
 	// {
 	// // echo "dddd"; die;
-	
+
 	// 	// $emp_id = $this->uri->segment(3);
 	// 	$emp_id =$id;
 
-		
+
 	// 	// $this->db->select('newba_users.*','newbm_user_details.*');
 	// 	$this->db->join('newbm_user_details', 'newbm_user_details.userid = newba_users.id', 'left');
-		
+
 	// 	$this->db->where('userid', $emp_id);
-		
+
 	// 	$query=$this->db->get('newba_users')->row();
 	// 	$employee['data'] = $query;
 	// 	//print_r($employee);
 
-	// 	$this->load->view('bio_met_id',$employee); 
-	 
+	// 	$this->load->view('bio_met_id',$employee);
+
 	// }
 
 	function letterFormat($id=null){
@@ -1317,7 +1318,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 				$data['letter'] = $this->Employee_model->getLetterData($id);
 			// print_r('sadfasdf');exit;
 				$this->load->view('letter_format', $data);
-			
+
 			}
 		else
 			{
@@ -1385,7 +1386,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// 	$exit_paperwork_collected1=$this->input->post('exit_paperwork_collected1');
 	// 	$exit_biometrics_collected1=$this->input->post('exit_biometrics_collected1');
 	// 	$password_exit_collected1=$this->input->post('password_exit_collected1');
-	// 	$this->db->where('emp_id', $emp_id); 
+	// 	$this->db->where('emp_id', $emp_id);
 	// 	$dbdata = array(
 	// 	  "id_card_collected" => $exit_id_card_collected1,
 	// 	  "uniform_collected" => $exit_uniform_collected1,
@@ -1396,7 +1397,7 @@ public function doupload($targetdir,$fieldName,$required,$id){
 	// 	  "paperwork_collected" => $exit_paperwork_collected1,
 	// 	  "biometrics_collected" => $exit_biometrics_collected1,
 	// 	  "password_exit" => $password_exit_collected1
-	// 	); 
+	// 	);
 	// 	// print_r($dbdata); die;
 	// 	$this->db->update('insert_employee', $dbdata);
 	// }
