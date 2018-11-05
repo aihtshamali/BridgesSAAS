@@ -127,7 +127,8 @@ class Employee_model extends CI_Model {
 		} else {
 			$this->db->where('id', $id);
 			//$this->db->set('user_id', 3);
-			return $this->db->update('fhk_offer_history', $dataoffer);
+			$this->db->update('fhk_offer_history', $dataoffer);
+			return null;
 			//return $this->db->update('fhk_offer_history');
 		}
 	}

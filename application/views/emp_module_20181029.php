@@ -159,10 +159,10 @@
                 </tr>
               </table>
             </td>
-            <td><span class="lt_gr">Last:</span> <textarea id="lnameEntry" name="lname" onblur="writeUserData(this);"><?= isset($emp->lname)?$emp->lname: "NA";?></textarea> </td>
-            <td><span class="lt_gr">Mid:</span> <textarea name="mid_name" onblur="writeUserData(this);"><?= isset($emp->mid_name)?$emp->mid_name: "NA";?></textarea> </td>
-            <td><span class="lt_gr">First:</span> <textarea name="fname" onblur="writeUserData(this);"><?= isset($emp->fname)?$emp->fname: "NA"; ?></textarea> </td></td>
-            <td><textarea style="width: 100%;" name="notes" onblur="writeUserData(this);"><?= isset($emp->notes)?$emp->notes: "NA";?></textarea> </td>
+            <td><span class="lt_gr">Last:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.lname" ng-blur="basicSection.saveBasic()"></textarea> </td>
+            <td><span class="lt_gr">Mid:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.mid_name" ng-blur="basicSection.saveBasic()"></textarea> </td>
+            <td><span class="lt_gr">First:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.fname" ng-blur="basicSection.saveBasic()"></textarea> </td></td>
+            <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.notes" ng-blur="basicSection.saveBasic()"></textarea></td>
           </tr>
           <tr>
             <td>
@@ -174,8 +174,8 @@
                 </tr>
               </table>
             </td>
-            <td><span class="lt_gr">pref:</span> <textarea id="userContact" name="userContact" onblur="writeUserData(getElementById('lnameEntry'));"><?= isset($emp->contact)?$emp->contact: "NA";?></textarea> </td>
-            <td><span class="lt_gr">other:</span> <textarea id="userPhone" name="userPhone" onblur="writeUserData(getElementById('lnameEntry'))"><?= isset($emp->phone)?$emp->phone: "NA";?></textarea> </td>
+            <td><span class="lt_gr">pref:</span><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.contact" ng-blur="basicSection.saveBasic()"></textarea></td>
+            <td><span class="lt_gr">other:</span><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.phone" ng-blur="basicSection.saveBasic()"></textarea></td>
           </tr>
           <tr>
             <td>
@@ -187,8 +187,8 @@
                 </tr>
               </table>
             </td>
-            <td> <textarea id="emailEntry" name="emailEntry" onblur="writeUserData(getElementById('lnameEntry'));"><?= isset($emp->email)?$emp->email: "NA";?></textarea> </td>
-            <td> <textarea id="userEmailOther" name="userEmailOther" onblur="writeUserData(getElementById('lnameEntry'));"><?= isset($emp->emailOther)?$emp->emailOther: "NA";?></textarea> </td>
+            <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.email" ng-blur="basicSection.saveBasic()"></textarea></td>
+            <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.emailOther" ng-blur="basicSection.saveBasic()"></textarea></td>
           </tr>
           <tr class="">
             <td>
@@ -389,7 +389,7 @@
             </tr>
           </table>
         </td>
-        <td>{{basicSection.model.fname}}</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.fname" ng-blur="basicSection.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -400,7 +400,7 @@
             </tr>
           </table>
         </td>
-        <td>{{basicSection.model.lname}}</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.lname" ng-blur="basicSection.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -494,7 +494,7 @@
             </tr>
           </table>
         </td>
-        <td>{{basicSection.model.email}}</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.email" ng-blur="basicSection.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -505,7 +505,7 @@
             </tr>
           </table>
         </td>
-        <td>{{basicSection.model.contact}}</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.contact" ng-blur="basicSection.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -1109,23 +1109,24 @@
 <td><textarea style="width: 100%;" name="notes" onblur="writeOfferData(this)"><?= $o==null? "...notes": $o->notes ?></textarea> </td>
 </tr>
 <?php } ?>
+(header, value) in offerSection.offerData
+ng-repeat="x in offerSection.traverseRange(3) track by $index"
 -->
-  <tr class="nodisplay showonetwoA" ng-repeat="x in [].constructor(3) track by $index">
-    <td>
-      <table>
-        <tr class="redclr">
-          <td width="30%"> </td>
-          <td width="30%">1.2.a.{{$index+1}}</td>
-          <td width="40%">offer {{$index+1}}</td>
-        </tr>
-      </table>
-    </td>
-
-    <td style="display:none"><input id="offerEntry" type="hidden" name="offer_id" value="{{offerSection.get($index).id?offerSection.get($index).id:-1;}}" /></td>
-    <td><textarea style="width: 100%;" name="offer_description" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).description"></textarea></td>
-    <td><textarea style="width: 100%;" name="offer_status" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).status"></textarea></td>
-    <td> <button type="button" class="upload" ng-click="offerSection.openGenericModal($index)"> Additional </button> </td>
-    <td><textarea style="width: 100%;" name="notes" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).notes"></textarea> </td>
+  <tr class="nodisplay showonetwoA" ng-repeat="(header, value) in offerSection.offerData">
+      <td ng-hide="offerSection.maxLength<=$index">
+        <table>
+          <tr class="redclr">
+            <td width="30%"> </td>
+            <td width="30%">1.2.a.{{$index+1}}</td>
+            <td width="40%">offer {{$index+1}}</td>
+          </tr>
+        </table>
+      </td>
+      <td ng-hide="offerSection.maxLength<=$index" style="display:none"><input id="offerEntry" type="hidden" name="offer_id" ng-model="offerSection.offerData[$index].id" /></td>
+      <td ng-hide="offerSection.maxLength<=$index"><textarea style="width: 100%;" placeholder="Details" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).description"></textarea></td>
+      <td ng-hide="offerSection.maxLength<=$index"><textarea style="width: 100%;" placeholder="status" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).status"></textarea></td>
+      <td ng-hide="offerSection.maxLength<=$index"> <button type="button" class="upload" ng-click="offerSection.openGenericModal($index)"> Additional </button> </td>
+      <td ng-hide="offerSection.maxLength<=$index"><textarea style="width: 100%;" placeholder="...notes" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).notes"></textarea> </td>
   </tr>
 
 <!--tr>
@@ -1191,7 +1192,7 @@
     <div class="w3-container">
       <form method="POST" action="">
         <label style="margin:10px 10px; width:100% !important;"> <b>Enter additional information</b> </label>
-        <textarea row="3" ng-blur="offerSection.writeOfferData(offerSection.currentEdit.idx)" ng-model="offerSection.currentEdit.content"></textarea>
+        <textarea row="3" placeholder="Additional" ng-blur="offerSection.writeOfferData(offerSection.currentEdit.idx)" ng-model="offerSection.currentEdit.content"></textarea>
         <div style="float:right; margin:10px 10px">
           <input class="btn btn-sm" type="button" value="Apply" ng-click='offerSection.changeAdditionalInformation()'>
           <input class="btn btn-sm" type="button" value="Cancel" onclick='modalVisible("genericModal", false);'>

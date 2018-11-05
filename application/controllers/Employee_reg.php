@@ -478,10 +478,37 @@ function view_employee1()
 		}
 	}
 
+	public function basicDetailCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "newba_users";
+		$opt = array('id' => "id");
+		$id= $data->id;
+		unset($data->id);
+
+		if($operation=="list")
+			sendJson($this->Employee_model->genericRead($table));
+		else if($operation=="show")
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		else if($operation=="delete")
+			$this->Employee_model->genericDelete($table, $id, $opt);
+		else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				//$this->sendJson('{"flag": "updated", "err": '. json_encode($msg));
+			}
+			else
+				$this->Employee_model->genericCreate($table, $data);
+		}
+	}
+
 	function saveOfferHistory(){
 		$post= json_decode(file_get_contents("php://input"));
 		//die(json_encode($post));
-		return $this->Employee_model->setArchieveOffer($post->id, $post->user_id, $post->description, $post->status, $post->additional, $post->notes);
+		$ret= $this->Employee_model->setArchieveOffer($post->id, $post->user_id, $post->description, $post->status, $post->additional, $post->notes);
+		$this->sendJson('{"id":'. json_encode($ret). '}');
 	}
 
 	function saveUserPrimaryData() {

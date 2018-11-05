@@ -5,8 +5,9 @@ var app = angular.module('profileApp', []);
 app.controller('cluster1', function($scope, $http) {
 
   function loader () {
+    $scope.basicSection.loadDataAll()
+    $scope.personalSeciton.loadDataAll();
     $scope.offerSection.loadDataAll();
-    $scope.personalSeciton.loadDataAll()
   };
 
   $scope.conf = {
@@ -14,9 +15,6 @@ app.controller('cluster1', function($scope, $http) {
     user_id: <?=$id;?>,
     base_url: function(url=""){
       return this.base + url;
-    },
-    range: function(num) {
-      return new Array(num);
     },
   };
 
@@ -29,6 +27,11 @@ app.controller('cluster1', function($scope, $http) {
     },
     loadDataAll: function() {
       this.model= <?=json_encode($emp);?> ;  //use api or direct bind with php
+    },
+    saveBasic: function() {
+      $scope.resource("Employee_reg/basicDetailCRUD", "add", this.model, function(res){
+        console.log(res.data);
+      });
     },
   }
   //cluster 1
@@ -72,11 +75,14 @@ app.controller('cluster1', function($scope, $http) {
   }
   $scope.offerSection= {
     offerData: [],
+    maxLength: 0,
     loadDataAll: function(){
       this.offerData= <?=json_encode($oldOffer);?>; //or api
+      this.maxLength= this.offerData.length + 1;
       if(this.offerData.length <3) {
-        for(i=0; i<(3-this.offerData.length); i++)
-          this.offerData.push({"id":-1, "user_id":$scope.conf.user_id, "description":"NA", "status": "Pending", "additional":"NA", "notes":"...notes"});
+        len= this.offerData.length;
+        for(i=0; i<(3-len); i++)
+          this.offerData.push({"id":((i+1)*-1), "user_id":$scope.conf.user_id, "description":"", "status": "", "additional":"", "notes":""});
       }
     },
     currentEdit:{
@@ -87,8 +93,15 @@ app.controller('cluster1', function($scope, $http) {
       return this.offerData[idx];
     },
     writeOfferData: function(idx){
+      //console.log(idx + " " +this.maxLength);
       $scope.api("Employee_reg/saveOfferHistory", this.offerData[idx], function(res){
-        console.log(res.data);
+        //console.log(res.data);
+        if(res.data.id!=null){
+          $scope.offerSection.offerData[idx].id = res.data.id;
+          $scope.offerSection.maxLength++;
+          //$scope.$apply();
+          console.log($scope.offerSection.maxLength);
+        }
       });
     },
     openGenericModal: function(idx) {
@@ -100,7 +113,7 @@ app.controller('cluster1', function($scope, $http) {
       this.offerData[this.currentEdit.idx].additional= this.currentEdit.content;
       this.writeOfferData(this.currentEdit.idx);
       $scope.loadModel('genericModal', false);
-    }
+    },
   }
 
   //general
