@@ -4,16 +4,14 @@ var app = angular.module('profileApp', []);
 
 app.controller('cluster1', function($scope, $http) {
 
-  //initializer
-  angular.element(document).ready(function () {
-  });
-
-  $scope.$watch('$viewContentLoaded', function() {
-    $scope.offerSection.chkOfferData();
-  });
+  function loader () {
+    $scope.offerSection.loadDataAll();
+    $scope.personalSeciton.loadDataAll()
+  };
 
   $scope.conf = {
     base: "<?=base_url();?>",
+    user_id: <?=$id;?>,
     base_url: function(url=""){
       return this.base + url;
     },
@@ -22,6 +20,17 @@ app.controller('cluster1', function($scope, $http) {
     },
   };
 
+  $scope.basicSection= {
+    model: {
+        fname: "NA", lname: "NA", mid_name: "NA",
+        contact: "NA", phone: "NA",
+        email: "NA", emailOther: "NA",
+        notes: "NA",
+    },
+    loadDataAll: function() {
+      this.model= <?=json_encode($emp);?> ;  //use api or direct bind with php
+    },
+  }
   //cluster 1
   $scope.cvSection= {
     cvData: <?=json_encode($oldCv);?>,
@@ -40,17 +49,39 @@ app.controller('cluster1', function($scope, $http) {
     },
   };
 
+  $scope.personalSeciton= {
+      model: {
+        basic: {
+          initials: "NA", cnic_no: "NA", gender: "NA", marital_status: "NA", dependance: "NA",
+          address: "NA", homeAddress: "NA", citizenship: "NA",
+          nativeLanguage: "NA", otherLanguage: "NA",
+          hobies: "NA",
+          socialCapital: "NA",
+          uniqueAboutCandidate: "NA", uniqueDescription: "NA",
+        },
+        //education, awards, project, skills, workExperience, references
+      },
+      loadDataAll: function() {
+        this.model.basic= <?=json_encode($details);?> ;  //use api or direct bind with php
+      },
+      saveBasic: function() {
+        $scope.resource("Employee_reg/detailsCRUD", "add", this.model.basic, function(res){
+          console.log(res.data);
+        });
+      },
+  }
   $scope.offerSection= {
-    offerData: <?=json_encode($oldOffer);?>,
-    chkOfferData: function(){
+    offerData: [],
+    loadDataAll: function(){
+      this.offerData= <?=json_encode($oldOffer);?>; //or api
       if(this.offerData.length <3) {
         for(i=0; i<(3-this.offerData.length); i++)
-          this.offerData.push({"id":-1, "user_id":<?=$id;?>, "description":"NA", "status": "Pending", "additional":"NA", "notes":"...notes"});
+          this.offerData.push({"id":-1, "user_id":$scope.conf.user_id, "description":"NA", "status": "Pending", "additional":"NA", "notes":"...notes"});
       }
     },
     currentEdit:{
-      content: "NA",
-      id: null,
+      content: null,
+      idx: null,
     },
     get: function(idx) {
       return this.offerData[idx];
@@ -60,26 +91,49 @@ app.controller('cluster1', function($scope, $http) {
         console.log(res.data);
       });
     },
+    openGenericModal: function(idx) {
+      this.currentEdit.content= this.offerData[idx].additional;
+      this.currentEdit.idx= idx;
+      $scope.loadModel('genericModal', true);
+    },
+    changeAdditionalInformation: function() {
+      this.offerData[this.currentEdit.idx].additional= this.currentEdit.content;
+      this.writeOfferData(this.currentEdit.idx);
+      $scope.loadModel('genericModal', false);
+    }
   }
 
+  //general
   $scope.test= function() {
     console.log("ALIVE");
     alert("ALIVE");
   }
-
-  //list of all cvs
-  //display primary sign on permenant cv
-  //click any cv to make it active
-
-  //add latest cv which will replace primary cv
-  //edit cv will replace active cv
-  //delete, download and print will work on active cv
 
   $scope.getFormData= function (object) {
     const formData = new FormData();
     Object.keys(object).forEach(key => formData.append(key, object[key]));
     return formData;
   }
+
+  $scope.loadModel= function (name, bool) {
+      if(bool)
+        document.getElementById(name).style.display='block';
+      else
+        document.getElementById(name).style.display='none';
+  }
+
+  $scope.printContent= function(divName){
+    var printContents = document.getElementById(divName).innerHTML;
+    var popupWin = window.open('', '_blank', 'width=700,height=700');
+    popupWin.document.open();
+    popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+    popupWin.document.close();
+  }
+  //api
+  $scope.resource= function(url, operation, data, callback) {
+    $scope.api(url, {"operation":operation, "data":data}, callback);
+  }
+
   $scope.api= function (url, data, callback) {
     console.log(data);
     var request = $http({
@@ -98,6 +152,7 @@ app.controller('cluster1', function($scope, $http) {
       $scope.flash(response.data.notification);
       if(response.data.alert)
       alert(response.data.alert);
+      //use response.flag to get information about operation performed
       callback(response);
     });
   }
@@ -106,12 +161,6 @@ app.controller('cluster1', function($scope, $http) {
     console.log(msg);
   }
 
-  $scope.printContent= function(el){
-    var restorepage = $('body').html();
-    var printcontent = $('#' + el).clone();
-    $('body').empty().html(printcontent);
-    window.print();
-    $('body').html(restorepage);
-  }
+  loader();
 });
 </script>

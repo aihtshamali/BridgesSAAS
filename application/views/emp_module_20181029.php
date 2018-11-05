@@ -108,8 +108,9 @@
     .rightbtnform{margin: 0% 0.5% !important;float: right;}
     /*input {outline: none !important;}*/
 
-    </style>
+
   }
+</style>
 
 </head>
 <body ng-app="profileApp">
@@ -215,8 +216,8 @@
               </table>
             </td>
 
-            <td colspan="3" style="padding:2% 2% !important;" id="currentCv">
-              <img ng-src="{{cvSection.getCvData()}}" style="width:312px; height:450px;">
+            <td colspan="3">
+              <img id="currentCv" ng-src="{{cvSection.getCvData()}}" style="padding:2% 2% !important; height:450px;">
             </td>
             <td  style="vertical-align:bottom !important;">
             </td>
@@ -295,7 +296,7 @@
 
 <tr ng-repeat="(header, value) in cvSection.cvData">
   <td class="redclr"> <a style="color:black" href="<?= base_url()."Employee_reg/deleteCV/".$value->id."/".$id;?>" ><i class="fa fa-times" style="color:#ab2727; float:right; margin-right:10px;"></i></a> </td>
-  <td class="triplenine" ng-click="cvSection.swapImage($index)">Previous CV</td>
+  <td class="" ng-style="{color: {true:'red',false:'grey'}[$index == cvSection.displayImage]}" ng-click="cvSection.swapImage($index)">Previous CV</td>
   <td class="triplenine"><a style="color:black" ng-href="{{value.link}}" download> Download </a></td>
   <td class="triplenine padleftwo"><?=date("M j, Y", strtotime(date($value->dated)));?></td>
   <td><textarea style="width: 100%;">...notes</textarea></td>
@@ -349,7 +350,7 @@
     <!-- <b class="pointer">1.3</b> -->
     <p class="border dropdown redclr p_bg pointer">1.3<span><i class="fas fa-caret-down"></i></span></p>
   </div>
-  <div class="col-md-11 div2p2 nodisplay">
+  <div class="col-md-11 div2p2 "> <!-- nodisplay-->
     <table>
       <tr>
         <td class="redclr"><b>Professional Profile</b></td>
@@ -388,7 +389,7 @@
             </tr>
           </table>
         </td>
-        <td>ayesha</td>
+        <td>{{basicSection.model.fname}}</td>
       </tr>
       <tr>
         <td>
@@ -399,7 +400,7 @@
             </tr>
           </table>
         </td>
-        <td>Amir</td>
+        <td>{{basicSection.model.lname}}</td>
       </tr>
       <tr>
         <td>
@@ -410,7 +411,7 @@
             </tr>
           </table>
         </td>
-        <td>AA</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.initials" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -421,7 +422,7 @@
             </tr>
           </table>
         </td>
-        <td>35102-7462550-1</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.cnic_no" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -432,7 +433,7 @@
             </tr>
           </table>
         </td>
-        <td>female</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.gender" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -443,7 +444,8 @@
             </tr>
           </table>
         </td>
-        <td>Single</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.marital_status" ng-blur="personalSeciton.saveBasic()"></textarea></td>
+
       </tr>
       <tr>
         <td>
@@ -454,12 +456,12 @@
             </tr>
           </table>
         </td>
-        <td>0</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.dependance" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -492,7 +494,7 @@
             </tr>
           </table>
         </td>
-        <td>abc123@gmail.com</td>
+        <td>{{basicSection.model.email}}</td>
       </tr>
       <tr>
         <td>
@@ -503,7 +505,7 @@
             </tr>
           </table>
         </td>
-        <td>+92-321-8796589</td>
+        <td>{{basicSection.model.contact}}</td>
       </tr>
       <tr>
         <td>
@@ -514,7 +516,7 @@
             </tr>
           </table>
         </td>
-        <td>152 abu bakar block new garden town lahore.</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.address" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -525,7 +527,7 @@
             </tr>
           </table>
         </td>
-        <td>168 ahmed block new garden town lahore</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.homeAddress" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -536,12 +538,12 @@
             </tr>
           </table>
         </td>
-        <td>lahore</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.citizenship" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -574,7 +576,7 @@
             </tr>
           </table>
         </td>
-        <td>English</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.nativeLanguage" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
@@ -585,12 +587,12 @@
             </tr>
           </table>
         </td>
-        <td>urdu</td>
+        <td><textarea style="width: 100%;" placeholder="NA" ng-model="personalSeciton.model.basic.otherLanguage" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"><!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -628,7 +630,7 @@
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2 "> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -688,7 +690,7 @@
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2 "> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -748,7 +750,7 @@
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -797,7 +799,7 @@
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2 "> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -820,11 +822,12 @@
             </tr>
           </table>
         </td>
+        <td><textarea placeholder="NA" ng-model="personalSeciton.model.basic.hobies" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2 "> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -847,11 +850,12 @@
             </tr>
           </table>
         </td>
+        <td> <textarea placeholder="NA" ng-model="personalSeciton.model.basic.socialCapital" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -870,26 +874,27 @@
             <tr class="redclr">
               <td class="width3p8"></td>
               <td class="width3">1.3.a.10</td>
-              <td colspan="2">unique about my candidacy</td>
+              <td colspan="2">unique about candidacy</td>
             </tr>
           </table>
         </td>
+        <td> <textarea placeholder="NA" ng-model="personalSeciton.model.basic.uniqueAboutCandidate" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
       <tr>
         <td>
           <table>
             <tr class="redclr">
               <td class="padright rightxt width12">1</td>
-              <td colspan="2">desription of unique selling point</td>
+              <td colspan="2">desription</td>
             </tr>
           </table>
         </td>
-        <td></td>
+        <td> <textarea placeholder="NA" ng-model="personalSeciton.model.basic.uniqueDescription" ng-blur="personalSeciton.saveBasic()"></textarea></td>
       </tr>
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2"> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -971,7 +976,7 @@
     </table>
   </div>
 </div>
-<div class="row mar_outerdiv div2p2 nodisplay">
+<div class="row mar_outerdiv div2p2 "> <!-- nodisplay-->
   <div class="col-md-1 ">
     <b></b>
   </div>
@@ -1056,7 +1061,7 @@
 <!--hey there -->
 <div class="row mar_outerdiv">
   <div class="col-md-1 ">
-    <b>1.2</b>
+    <b>1.4</b>
   </div>
   <div class="col-md-11">
     <table>
@@ -1119,9 +1124,8 @@
     <td style="display:none"><input id="offerEntry" type="hidden" name="offer_id" value="{{offerSection.get($index).id?offerSection.get($index).id:-1;}}" /></td>
     <td><textarea style="width: 100%;" name="offer_description" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).description"></textarea></td>
     <td><textarea style="width: 100%;" name="offer_status" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).status"></textarea></td>
-    <td> <button type="button" class="upload" ng-click=""> Additional </button> </td>
-    <td><textarea style="width: 100%;" name="notes"
-      ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).notes"></textarea> </td>
+    <td> <button type="button" class="upload" ng-click="offerSection.openGenericModal($index)"> Additional </button> </td>
+    <td><textarea style="width: 100%;" name="notes" ng-blur="offerSection.writeOfferData($index)" ng-model="offerSection.get($index).notes"></textarea> </td>
   </tr>
 
 <!--tr>
@@ -1143,7 +1147,7 @@
 </div>
 <div class="row mar_outerdiv">
   <div class="col-md-1 ">
-    <b>1.3</b>
+    <b>1.5</b>
   </div>
   <div class="col-md-11">
     <table>
@@ -1176,7 +1180,6 @@
   </table>
 </div>
 </div>
-</div>
 
 <!-- additional modal -->
 <div id="genericModal" class="w3-modal">
@@ -1188,9 +1191,9 @@
     <div class="w3-container">
       <form method="POST" action="">
         <label style="margin:10px 10px; width:100% !important;"> <b>Enter additional information</b> </label>
-        <textarea id="additionalEntry"></textarea>
+        <textarea row="3" ng-blur="offerSection.writeOfferData(offerSection.currentEdit.idx)" ng-model="offerSection.currentEdit.content"></textarea>
         <div style="float:right; margin:10px 10px">
-          <input class="btn btn-sm" type="button" value="Update" id="modelAdditional" onclick="alert('conrollerd by js');">
+          <input class="btn btn-sm" type="button" value="Apply" ng-click='offerSection.changeAdditionalInformation()'>
           <input class="btn btn-sm" type="button" value="Cancel" onclick='modalVisible("genericModal", false);'>
         </div>
       </form>
@@ -1200,7 +1203,7 @@
     </footer>
   </div>
 </div>
-
+</div> <!-- EO cluster 1 -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

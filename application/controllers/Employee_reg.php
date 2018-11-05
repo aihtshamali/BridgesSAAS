@@ -421,6 +421,12 @@ function view_employee1()
 		print_r( json_encode($this->Employee_model->getLatestMessage($post_id)));
 	}
 
+	function sendJson($json) {
+ 		return $this->output
+         ->set_content_type('application/json')
+         ->set_status_header(200)
+         ->set_output($json);
+ 	}
 	public function emp_module_20181029($id=null) {
 
 		//no id is provided and user is not logged in
@@ -436,12 +442,40 @@ function view_employee1()
 		$data['id']=$id;
 
 		$data["emp"]= $this->Employee_model->getUserData($id);
+		$data["details"]= $this->Employee_model->getUserDetailed($id);
 		$data["oldCv"]= $this->Employee_model->getArchieveCvData($id);
 		$data["oldOffer"]= $this->Employee_model->getArchieveOfferData($id);
 
 		//var_dump($data["oldCv"]); echo "<br/><br/>";
 		//var_dump($data["oldOffer"]); die();
 		$this->load->view('emp_module_20181029', $data);
+	}
+
+	//add "id" in "opt" array if table contains primary key named other than "id"
+	public function detailsCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "newbm_user_details";
+		$opt = array('id' => "id");
+		$id= $data->id;
+		unset($data->id);
+
+		if($operation=="list")
+			sendJson($this->Employee_model->genericRead($table));
+		else if($operation=="show")
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		else if($operation=="delete")
+			$this->Employee_model->genericDelete($table, $id, $opt);
+		else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg));
+			}
+			else
+				$this->Employee_model->genericCreate($table, $data);
+		}
 	}
 
 	function saveOfferHistory(){
@@ -474,12 +508,6 @@ function view_employee1()
 	function deleteCV($id, $red){
 		$this->Employee_model->clrArchieveCv($id);
 		redirect (base_url("Employee_reg/emp_module_20181029/".$red));
-	}
-	function sendJson($json) {
-		return $this->output
-        ->set_content_type('application/json')
-        ->set_status_header(200)
-        ->set_output($json);
 	}
 
 	function emp_module_1($id = null)
