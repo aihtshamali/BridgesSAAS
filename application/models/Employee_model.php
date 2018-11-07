@@ -1,16 +1,21 @@
 <?php
 class Employee_model extends CI_Model {
 
-	public function genericCreate($table, $data) {
+	public function genericCreate($table, $data, $opt) {
+			if($opt===null) $opt= array();
 			$this->db->insert($table, $data);
 			return $this->db->insert_id();
 	}
-	public function genericRead($table) {
+	public function genericRead($table, $opt) {
+		if($opt===null) $opt= array();
 		$this->db->select('*');
 		$this->db->from($table);
+		if(isset($opt["where"]))
+			$this->db->where($opt["where"]);
 		return $this->db->get()->result();
 	}
 	public function genericShow($table, $id, $opt) {
+		if($opt===null) $opt= array();
 		$this->db->select('*');
 		$this->db->from($table);
 		if(isset($opt["id"]))
@@ -20,6 +25,7 @@ class Employee_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 	public function genericUpdate($table, $data, $id, $opt) {
+		if($opt===null) $opt= array();
 		if(isset($opt["id"]))
 			$this->db->where($opt["id"], $id);
 		else
@@ -32,6 +38,7 @@ class Employee_model extends CI_Model {
 			return null;
 	}
 	public function genericDelete($table, $id, $opt) {
+		if($opt===null) $opt= array();
 		if(isset($opt["id"]))
 			$this->db->where($opt["id"], $id);
 		else

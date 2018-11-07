@@ -5,14 +5,16 @@ var app = angular.module('profileApp', []);
 app.controller('cluster1', function($scope, $http) {
 
   function loader () {
-    $scope.basicSection.loadDataAll()
-    $scope.personalSeciton.loadDataAll();
-    $scope.offerSection.loadDataAll();
+    if($scope.conf.user_id!=null) {
+      $scope.basicSection.loadDataAll()
+      $scope.personalSeciton.loadDataAll();
+      $scope.offerSection.loadDataAll();
+    }
   };
 
   $scope.conf = {
     base: "<?=base_url();?>",
-    user_id: <?=$id;?>,
+    user_id: <?=$id!==null? $id: "null";?>,
     base_url: function(url=""){
       return this.base + url;
     },
@@ -40,10 +42,14 @@ app.controller('cluster1', function($scope, $http) {
     displayImage: 0,
 
     getId: function() {
+      if(this.cvData.length < 1)
+        return;
       return this.cvData[this.displayImage].id;
     },
 
     getCvData: function() {
+      if(this.cvData.length < 1)
+        return;
       return $scope.conf.base_url(this.cvData[this.displayImage].link);
     },
 
@@ -62,14 +68,49 @@ app.controller('cluster1', function($scope, $http) {
           socialCapital: "NA",
           uniqueAboutCandidate: "NA", uniqueDescription: "NA",
         },
-        //education, awards, project, skills, workExperience, references
       },
-      loadDataAll: function() {
-        this.model.basic= <?=json_encode($details);?> ;  //use api or direct bind with php
+      education: {},
+      awards: {},
+      projects: {},
+      skills: {},
+      workExperience: {},
+      references: {},
+      defination: {
+          education:{id:null, user_id: $scope.conf.user_id, institute: "", certificate: "", duration:""},
+          awards:{id:null,user_id: $scope.conf.user_id, title: "", description: "", givenAt: "",},
+          projects:{id:null,user_id: $scope.conf.user_id, title: "", description: "", givenAt: "",},
+          skills:{id:null,user_id: $scope.conf.user_id, areaOfExpertise: "", specificSkill: "", rating: "",},
+          workExperience:{id:null,user_id: $scope.conf.user_id, company: "", position: "", fromAt: "", toAt: "",},
+          references:{id:null,user_id: $scope.conf.user_id, personName: "", occupation: "", address: "", email: "", contact: "",},
+      },
+      loadDataAll: function() { //use api or direct bind with php
+        this.model.basic= <?=json_encode($details);?>;
+        this.education= <?=json_encode($education);?>; this.education.push(JSON.clone(this.defination.education));
+        this.awards= <?=json_encode($awards);?>; this.awards.push(JSON.clone(this.defination.awards));
+        this.projects= <?=json_encode($projects);?>; this.projects.push(JSON.clone(this.defination.projects));
+        this.skills= <?=json_encode($skills);?>; this.skills.push(JSON.clone(this.defination.skills));
+        this.workExperience= <?=json_encode($experience);?>; this.workExperience.push(JSON.clone(this.defination.workExperience));
+        this.references= <?=json_encode($references);?>; this.references.push(JSON.clone(this.defination.references));
       },
       saveBasic: function() {
         $scope.resource("Employee_reg/detailsCRUD", "add", this.model.basic, function(res){
           console.log(res.data);
+        });
+      },
+      saveListItem: function(controller, list, idx, define, id="id"){
+        $scope.resource("Employee_reg/"+controller, "add", list[idx], function(res){
+          if(res.data.flag=="created"){
+            list[idx][id] = res.data[id];
+            console.log($scope.personalSeciton.education[idx]);
+            list.push(JSON.clone(define));
+          }
+        });
+      },
+      deleteListItem: function(controller, list, idx, id=""){
+        $scope.resource("Employee_reg/"+controller, "delete", list[idx], function(res){
+          if(res.data.flag=="deleted"){
+            list.splice(idx,1);
+          }
         });
       },
   }
@@ -134,6 +175,10 @@ app.controller('cluster1', function($scope, $http) {
       else
         document.getElementById(name).style.display='none';
   }
+
+  JSON.clone = function(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  };
 
   $scope.printContent= function(divName){
     var printContents = document.getElementById(divName).innerHTML;

@@ -19,97 +19,259 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <style media="screen">
-  body{font-family: San Francisco,Roboto,Segoe UI Bold,Arial,sans-serif !important;font-size: 14px !important;color: #212529a8 !important;}
-  @media (min-width:1200px){.container{max-width:1250px}}
-  @media (min-width: 768px){
-    .col-md-1 {-ms-flex: 0 0 5.333333% !important;flex: 0 0 5.333333% !important;max-width: 5.333333% !important;}}
-    .col-md-1 b{color: #ab2727 !important;}
-    .pointer{cursor: pointer;}
-    .bgred{background: #ab2727 !important;}
-    .white{color: #fff;}
-    .h1, h1 {font-size: 4rem !important;}
-    .clearfix{clear: both !important;}
-    .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{margin-bottom: 0% !important;line-height: 1;padding: 0% 0.5%;width: fit-content;font-weight: 900 !important;}
-    p,b,td,h1,h2,h3,h4,h5,h6,span,div{text-transform: capitalize;}
-    button{border-radius: 3px;background: #77777738;border: none;font-size: 11px !important;color: #fff;width:50% !important;}
-    .fileContainer button{width: 100% !important;}
-    .p_bg{margin: -1px !important;padding: 0px !important;width:fit-content;}
-    .dropdown{background:#77777740 !important;border-radius:3px;}
-    i{font-size: 14px !important;}
-    .col-md-2 b,td b{text-transform: none !important;}
-    .onhoverborder:hover{border: 1px solid #ab2727 !important;background: #8080805e;border-radius: 5px;box-shadow: 3px 2px 7px #777;-webkit-transition: all 600ms ease;transition: all 600ms ease;cursor: pointer;}
-    .notcapitalize{text-transform: uppercase !important;}
-    .border_botred{border-bottom: 2px solid #840a0a;}
-    .border{border: 1px solid #840a0a;}
-    .left{float: left !important;}
-    .right{float: right !important;}
-    .pad1per{padding: 1% 1% 0% 1%;}
-    .redclr{color: #ab2727 !important;}
-    .mainheading{color: #ab2727 !important;padding: .5% 0% 0% 5.3% !important;margin:0;font-weight: 700;font-style: italic !important;letter-spacing: -1px;}
-    .flow_root{display: flow-root !important}
-    .capitalize{text-transform: capitalize;}
-    .uppercase{text-transform: uppercase;}
-    .mar_outerdiv{margin: 1% 0% !important;}
-    table{width:100%; border-color: #80808021 !important;}
-    /* td{padding-left: 5% !important;} */
-    .textcenter{text-align: center !important;}
-    .nopad_nomar{padding: 0px !important;margin: 0px important;}
-    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto
-    {padding-right:0px !important;padding-left:0px !important;}
-    .fullDiv{background-color: #8080805e;margin-top: -1% !important;}
-    /* .objftmain{height: 100px;} */
-    .objftimg{object-fit: contain;;width: 100%; height: 100%;}
-    .left{float: left !important;}
-    .right{float: right !important;}
-    .fileContainer {
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
+  html{scroll-behavior: smooth;}
+        body{font-family: San Francisco,Roboto,Segoe UI Bold,Arial,sans-serif !important;font-size: 14px !important;color: #212529a8 !important;}
+        /* body{font-family: San Francisco,Roboto,Segoe UI Bold,Arial,sans-serif !important;font-size: 14px !important;color: #212529a8 !important;} */
+        @media (min-width:1200px){.container{max-width:1250px}}
+        @media (min-width: 768px){
+        .col-md-1 {-ms-flex: 0 0 5.333333% !important;flex: 0 0 5.333333% !important;max-width: 5.333333% !important;}}
+        .col-md-1 b{color: #ab2727 !important;}
+        .pointer{cursor: pointer;}
+        .bgred{background: #ab2727 !important;}
+        .white{color: #fff;}
+        .h1, h1 {font-size: 4rem !important;}
+        .clearfix{clear: both !important;}
+        .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{margin-bottom: 0% !important;line-height: 1;padding: 0% 0.5%;width: fit-content;font-weight: 900 !important;}
+        p,b,td,h1,h2,h3,h4,h5,h6,span,div{text-transform: capitalize;}
+  	  p{margin-bottom:-5px !important;}
+        button{border-radius: 3px;background: #77777757;border: none;font-size: 11px !important;color: #fff;width:50% !important;}
+        .fileContainer button{width: 100% !important;}
+  	  .p_bg{margin: -1px !important;padding: 0px !important;width:fit-content;}
+  	  .dropdown{background:#77777740 !important;border-radius:3px;}
+        i{font-size: 14px !important;}
+        .col-md-2 b,td b{text-transform: none !important;}
+        .onhoverborder:hover{border: 1px solid #ab2727 !important;background: #8080805e;border-radius: 5px;box-shadow: 3px 2px 7px #777;-webkit-transition: all 600ms ease;transition: all 600ms ease;cursor: pointer;}
+        .notcapitalize{text-transform: uppercase !important;}
+        .border_botred{border-bottom: 2px solid #840a0a;}
+        .border{border: 1px solid #840a0a;}
+        .left{float: left !important;}
+        .right{float: right !important;}
+        .pad1per{padding: 1% 1% 0% 1%;}
+        .redclr{color: #ab2727 !important;font-style:initial;}
+        .redclr td{color: #ab2727 !important;font-style:initial;}
+        .mainheading{color: #ab2727 !important;padding: .5% 0% 0% 7.3% !important;font-weight: 700;font-style: italic !important;letter-spacing: -1px;line-height: 33px}
+        .flow_root{display: flow-root !important}
+        .capitalize{text-transform: capitalize;}
+        .uppercase{text-transform: uppercase;}
+        .mar_outerdiv{margin: 1% 0% !important;}
+        table{width:100%; border-color: #80808021 !important;}
+        /* td{padding-left: 5% !important;} */
+        .textcenter{text-align: center !important;}
+        .nopad_nomar{padding: 0px !important;margin: 0px important;}
+        .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto
+        {padding-right:0px !important;padding-left:0px !important;}
+        .fullDiv{background-color: #8080805e;margin-top: -1% !important;}
+        /* .objftmain{height: 100px;} */
+        .objftimg{object-fit: contain;;width: 100%; height: 100%;}
+        .left{float: left !important;}
+        .right{float: right !important;}
+        .fileContainer {
+              overflow: hidden;
+              position: relative;
+              cursor: pointer;
+          }
 
-    .fileContainer [type=file] {
-      cursor: inherit;
-      display: block;
-      font-size: 999px;
-      filter: alpha(opacity=0);
-      min-height: 100%;
-      min-width: 100%;
-      opacity: 0;
+          .fileContainer [type=file] {
+              cursor: inherit;
+              display: block;
+              font-size: 999px;
+              filter: alpha(opacity=0);
+              min-height: 100%;
+              min-width: 100%;
+              opacity: 0;
+              position: absolute;
+              right: 0;
+              text-align: right;
+              top: 0;
+          }
+          td{item-align:center !important;width: 22%;line-height:15px;vertical-align:top;}
+  		/* td b, td,th{font-style:italic;} */
+          th{line-height:14px;}
+          /* th{width:200px !important;} */
+          textarea{width: 100%;text-align: left;padding-top:0px !important;border-radius:3px !important;background:#ab27271c;font-style:italic;border:none;height: 14px;font-size: 12px;overflow-y: -webkit-paged-x !important;scrollbar-base-color: #ff8c00;
+  scrollbar-arrow-color: white;}
+          label {display: inline-block;margin-bottom: -8px !important;}
+  		.lightred{color: #840a0a42}
+      .lt_gr{color: #77777796 !important;}
+      .pt_12{padding-left: 12%;}
+      .pt_9{padding-left: 9%;}
+      .nodisplay{display: none;}
+  	button:hover{cursor:pointer;-webkit-transition: all 600ms ease;transition: all 600ms ease;background:#fff;color:#ab2727c7;border: 1px solid #ab2727c7;padding:0px !important;}
+  	.upload{font-size: 12px !important;}
+  	.marginTop{margin-top:4%;}
+  	label{width:118px !important;}
+  	.triplenine{color: #999999 !important;}
+  	.padleftwo{padding-left:2% !important;}
+  	::-webkit-resizer {
+  		  border: 1px solid #ab272752 !important;
+  		  background: #ab272752 !important;
+  		  box-shadow: 0 0 5px 5px #ab272752 !important;
+  		  outline: 2px solid #ab272752 !important;
+  		  border-radius: 10px !important;
+  			display: none;}
+  		.bg_pink{background:#f6e7e7;}
+  		.wrap {
+  		position: relative;
+  		}
+      .wrap:after {
+      content:"";
+      border: 6px solid #f6e7e7;
+      /* border-left: 4px solid transparent;
+      border-right: 4px solid transparent; */
+      -webkit-transform: rotate(-4deg);
+      z-index: 1;
+      /* opacity: 0.5; */
       position: absolute;
       right: 0;
-      text-align: right;
-      top: 0;
-    }
-    td{item-align:center !important;width: 22%;line-height:14px;vertical-align:top;}
-    td b, td,th{font-style:italic;}
-    th{line-height:14px;}
-    /* th{width:200px !important;} */
-    textarea{width: 100%;text-align: left;padding-top:0px !important;border-radius:3px !important;background:#ab27271c;font-style:italic;border:none;height: 14px;font-size: 12px;}
-    label {display: inline-block;margin-bottom: -8px !important;}
-    .lightred{color: #840a0a42}
-    .lt_gr{color: #77777796 !important;}
-    .pt_12{padding-left: 12%;}
-    .pt_9{padding-left: 9%;}
-    .nodisplay{display: none;}
-    button:hover{cursor:pointer;-webkit-transition: all 600ms ease;transition: all 600ms ease;background:#fff;color:#ab2727c7;border: 1px solid #ab2727c7;padding:0px !important;}
-    .upload{font-size: 12px !important;}
-    .marginTop{margin-top:4%;}
-    label{width:118px !important;}
-    .triplenine{color: #999999 !important;}
-    .padleftwo{padding-left:2% !important;}
-    ::-webkit-resizer {
-      border: 1px solid #e1e1e1;
-      background: #e1e1e1;
-      box-shadow: 0 0 5px 5px #e1e1e1;
-      outline: 2px solid #e1e1e1;
-      border-radius: 10px !important;
-    }
-    .bg_pink{background:#f6e7e7;}
-    .rightbtnform{margin: 0% 0.5% !important;float: right;}
-    /*input {outline: none !important;}*/
-
+      bottom: 3px;
+      pointer-events: none;
 
   }
+  		.pull-tab {
+  			height: 0px;
+  			width: 0px;
+  			border-top: 6px solid #ab272752;
+  			border-left: 4px solid transparent;
+  			border-right: 4px solid transparent;
+  			-webkit-transform: rotate(-3deg);
+  			position: absolute;
+  			bottom: 6.5px;
+  			right: 5px;
+  			pointer-events: none;
+  			z-index: 2;
+  		}
+      .padright{padding-right: 2% !important;}
+      .rightxt{text-align: right;}
+      .leftxt{text-align: left;}
+      .widthp5{width:0.5% !important;}
+      .width1{width:1% !important;}
+      .width11{width:11% !important;}
+      .width11p5{width:11.5% !important;}
+      .width14{width:14% !important;}
+      .width12{width:12.5% !important;}
+      .width13{width:13% !important;}
+      .width13p2{width:13.2% !important;}
+      .width15{width:15% !important;}
+      .width5{width: 5% !important;}
+      .width5p6{width: 5.6% !important;}
+      .width2{width: 2% !important;}
+      .width2p7{width: 2.7% !important;}
+      .width3{width: 3% !important;}
+      .width3p2{width: 3.2% !important;}
+      .width3p3{width: 3.3% !important;}
+      .width3p5{width: 3.5% !important;}
+      .width3p7{width: 3.7% !important;}
+      .width3p8{width: 3.8% !important;}
+      .width4{width: 4% !important;}
+      .width4p4{width: 4.4% !important;}
+      .width4p5{width: 4.5% !important;}
+      .width4p7{width: 4.7% !important;}
+      .width4p2{width: 4.2% !important;}
+      .width4p1{width: 4.1% !important;}
+  		/* .spacebtwntwobtn{} */
+  	.width1p2{width:1.2% !important}
+  	.right{float:right !important;}
+    .width1p5{width: 1.5% !important;}
+    .width9{width: 9% !important;}
+  	/*start header*/
+  	header.container{ display: block; }
+
+        .bullet-container {
+          float: left;
+
+          height: 80px;
+          width: 80px;
+          background-color: #f4f4f4;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+          position: relative;
+        }
+
+        .top-bar {
+          background-color: #bbbbbb;
+          width: 100%;
+          height: 18px;
+          position: absolute;
+          top: 0;
+          -webkit-border-top-left-radius: 10px;
+          -webkit-border-top-right-radius: 10px;
+          -moz-border-radius-topleft: 10px;
+          -moz-border-radius-topright: 10px;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          z-index: 97;
+        }
+
+        .middle-bar {
+          background-color: #a81c1c;
+          width: 100%;
+          height: 25px;
+          position: relative;
+          top: 18px;
+          z-index: 98;
+        }
+
+        .bottom-bar {
+          background-color: #730707;
+          width: 100%;
+          height: 40px;
+          position: absolute;
+          bottom: 1px;
+          -webkit-border-bottom-right-radius: 10px;
+          -webkit-border-bottom-left-radius: 10px;
+          -moz-border-radius-bottomright: 10px;
+          -moz-border-radius-bottomleft: 10px;
+          border-bottom-right-radius: 10px;
+          border-bottom-left-radius: 10px;
+          z-index: 99;
+
+        }
+        .img_module_number {
+          position: absolute;
+          height: 80px;
+          width: auto;
+          z-index: 999;
+          right: 10px;
+        }
+
+        .seprator_line {
+          line-height: 150px;
+          position: relative;
+          border: 0;
+          height: 5px;
+          background: #730707;
+          top: 75px;
+        }
+
+        .module-heading {
+          position: relative;
+          color: #730707;
+          left: 35px;
+          font-size: 32px;
+          font-style: italic;
+  		line-height: 1.7em;
+  		display: inline-block;
+        }
+
+        .module-description {
+          position: relative;
+          color: #a81c1c;
+          left: 35px;
+          top:35px;
+          font-size: 22px;
+          font-style: italic;
+        }
+
+        .caan-logo img {
+          max-width: 170px;
+        }
+
+        @media print{.caan-logo img{max-width: 10px !important;}}
+        .f-weight{font-weight: normal !important;}
+  	/*end header*/
+    form{width: fit-content !important;
+    float: right !important;}
 </style>
 
 </head>
@@ -118,10 +280,24 @@
   <div class="container pad1per "  ng-controller="cluster1">
     <div> {{conf.base}} </div>
     <div class="flow_root">
-      <h1 class="bgred white left">1</h1>
-      <p class="border_botred mainheading"><span class="uppercase">offer & hiring<span><span class="right capitalize">Report 1, Report 2, Report 3, Report 4</span></p>
-      <p class="mainheading capitalize">Select Employee Info, Offer, Hiring<span class="right lightred capitalize">CAAN – Admin Module </span></p>
-    </div>
+
+        <!-- <h1 class="bgred white left">1</h1> -->
+
+        <div class="bullet-container">
+         <img src="http://bridge.com/assets/heading_nums/01.png" class="img_module_number" alt="">
+          <div class="top-bar"></div>
+          <div class="middle-bar"></div>
+          <div class="bottom-bar"></div>
+        </div>
+
+
+        <p class="border_botred mainheading"><span class="uppercase">offer &amp; hiring<span><span class="right capitalize">Report 1, Report 2, Report 3, Report 4</span></span></span></p>
+        <p class="mainheading capitalize">Select Employee basic Info, Offer, Hiring
+          <!--
+          <span class="right lightred capitalize caan-logo"><img src="./images/caan-logo.png" alt="CAAN "></span>
+        -->
+        </p>
+      </div>
 
     <div class="row mar_outerdiv">
       <div class="col-md-1 ">
@@ -162,7 +338,7 @@
             <td><span class="lt_gr">Last:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.lname" ng-blur="basicSection.saveBasic()"></textarea> </td>
             <td><span class="lt_gr">Mid:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.mid_name" ng-blur="basicSection.saveBasic()"></textarea> </td>
             <td><span class="lt_gr">First:</span> <textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.fname" ng-blur="basicSection.saveBasic()"></textarea> </td></td>
-            <td><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.notes" ng-blur="basicSection.saveBasic()"></textarea></td>
+            <td><span class="lt_gr">Note:</span><textarea style="width: 100%;" placeholder="NA" ng-model="basicSection.model.notes" ng-blur="basicSection.saveBasic()"></textarea></td>
           </tr>
           <tr>
             <td>
@@ -250,7 +426,7 @@
               </label>
             </form>
 
-            <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/SaveCV");?>" style="margin-right:0 !important" enctype="multipart/form-data">
+            <form class="rightbtnform" method="POST" action="<?=base_url("/Employee_reg/SaveCV");?>" style="margin-right:0.5% !important" enctype="multipart/form-data">
               <label class="fileContainer marginTop">
                 <input type="hidden" name="user" value="<?=$id;?>">
                 <button type="button" class="upload" name="button"><label for="userfileArchive">Add Latest</label></button>
@@ -616,6 +792,15 @@
           </table>
         </td>
       </tr>
+      <!-- nodisplay showonetwoA -->
+      <tr class="" ng-repeat="(header, value) in personalSeciton.education">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Institute {{$index+1}} </td></tr></table></td>
+        <td><textarea placeholder="Institute" ng-blur="personalSeciton.saveListItem('userEducationCRUD', personalSeciton.education, $index, personalSeciton.defination.education)" ng-model="value.institute"></textarea> </td>
+        <td><textarea placeholder="Certificate" ng-blur="personalSeciton.saveListItem('userEducationCRUD', personalSeciton.education, $index, personalSeciton.defination.education)" ng-model="value.certificate"></textarea> </td>
+        <td><textarea placeholder="From-To" ng-blur="personalSeciton.saveListItem('userEducationCRUD', personalSeciton.education, $index, personalSeciton.defination.education)" ng-model="value.duration"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userEducationCRUD', personalSeciton.education, $index)" class="fa fa-times" style="color:#ab2727; float:left; margin-left:10px;"></i></td>
+      </tr>
+      <!--
       <tr>
         <td>
           <table>
@@ -627,6 +812,7 @@
         </td>
         <td>The Bridges Consortium</td>
       </tr>
+    -->
     </table>
   </div>
 </div>
@@ -654,6 +840,14 @@
           </table>
         </td>
       </tr>
+      <tr class="" ng-repeat="(header, value) in personalSeciton.awards">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Award {{$index+1}} </td></tr></table></td>
+        <td><textarea placeholder="Title" ng-blur="personalSeciton.saveListItem('userAwardsCRUD', personalSeciton.awards, $index, personalSeciton.defination.awards)" ng-model="value.title"></textarea> </td>
+        <td><textarea placeholder="Description" ng-blur="personalSeciton.saveListItem('userAwardsCRUD', personalSeciton.awards, $index, personalSeciton.defination.awards)" ng-model="value.description"></textarea> </td>
+        <td><textarea placeholder="Date" ng-blur="personalSeciton.saveListItem('userAwardsCRUD', personalSeciton.awards, $index, personalSeciton.defination.awards)" ng-model="value.givenAt"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userAwardsCRUD', personalSeciton.awards, $index)" class="fa fa-times" style="color:#ab2727; float:left; margin-left:10px;"></i></td>
+      </tr>
+      <!--
       <tr>
         <td>
           <table>
@@ -687,6 +881,7 @@
         </td>
         <td>XYZ</td>
       </tr>
+    -->
     </table>
   </div>
 </div>
@@ -714,6 +909,14 @@
           </table>
         </td>
       </tr>
+      <tr class="" ng-repeat="(header, value) in personalSeciton.projects">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Project {{$index+1}} </td></tr></table></td>
+        <td><textarea placeholder="Title" ng-blur="personalSeciton.saveListItem('userProjectsCRUD', personalSeciton.projects, $index, personalSeciton.defination.projects)" ng-model="value.title"></textarea> </td>
+        <td><textarea placeholder="Description" ng-blur="personalSeciton.saveListItem('userProjectsCRUD', personalSeciton.projects, $index, personalSeciton.defination.projects)" ng-model="value.description"></textarea> </td>
+        <td><textarea placeholder="Date" ng-blur="personalSeciton.saveListItem('userProjectsCRUD', personalSeciton.projects, $index, personalSeciton.defination.projects)" ng-model="value.givenAt"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userProjectsCRUD', personalSeciton.projects, $index)" class="fa fa-times" style="color:#ab2727; float:left; margin-left:10px;"></i></td>
+      </tr>
+      <!--
       <tr>
         <td>
           <table>
@@ -747,6 +950,7 @@
         </td>
         <td>XYZ</td>
       </tr>
+    -->
     </table>
   </div>
 </div>
@@ -774,27 +978,12 @@
           </table>
         </td>
       </tr>
-      <tr>
-        <td>
-          <table>
-            <tr class="redclr">
-              <td class="padright rightxt width11p5">1</td>
-              <td colspan="2">Area of Experties</td>
-            </tr>
-          </table>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <table>
-            <tr class="redclr">
-              <td class="padright rightxt width11p5">2</td>
-              <td colspan="2">specific skills within the Area of Experties</td>
-            </tr>
-          </table>
-        </td>
-        <td></td>
+      <tr class="" ng-repeat="(header, value) in personalSeciton.skills">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Skill {{$index+1}} </td></tr></table></td>
+        <td><textarea placeholder="Area of expertise" ng-blur="personalSeciton.saveListItem('userSkillsCRUD', personalSeciton.skills, $index, personalSeciton.defination.skills)" ng-model="value.areaOfExpertise"></textarea> </td>
+        <td><textarea placeholder="Specific skills" ng-blur="personalSeciton.saveListItem('userSkillsCRUD', personalSeciton.skills, $index, personalSeciton.defination.skills)" ng-model="value.specificSkill"></textarea> </td>
+        <td><textarea placeholder="Rating" ng-blur="personalSeciton.saveListItem('userSkillsCRUD', personalSeciton.skills, $index, personalSeciton.defination.skills)" ng-model="value.rating"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userSkillsCRUD', personalSeciton.skills, $index)" class="fa fa-times" style="color:#ab2727; float:left; margin-left:10px;"></i></td>
       </tr>
     </table>
   </div>
@@ -918,6 +1107,16 @@
           </table>
         </td>
       </tr>
+      <tr class="" ng-repeat="(header, value) in personalSeciton.workExperience">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Experience {{$index+1}} </td></tr></table></td>
+        <td><textarea placeholder="Company" ng-blur="personalSeciton.saveListItem('userExperienceCRUD', personalSeciton.workExperience, $index, personalSeciton.defination.workExperience)" ng-model="value.company"></textarea> </td>
+        <td><textarea placeholder="Position" ng-blur="personalSeciton.saveListItem('userExperienceCRUD', personalSeciton.workExperience, $index, personalSeciton.defination.workExperience)" ng-model="value.position"></textarea> </td>
+        <td><textarea placeholder="From" ng-blur="personalSeciton.saveListItem('userExperienceCRUD', personalSeciton.workExperience, $index, personalSeciton.defination.workExperience)" ng-model="value.fromAt"></textarea> </td>
+        <td><textarea placeholder="To" ng-blur="personalSeciton.saveListItem('userExperienceCRUD', personalSeciton.workExperience, $index, personalSeciton.defination.workExperience)" ng-model="value.toAt"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userExperienceCRUD', personalSeciton.workExperience, $index)" class="fa fa-times" style="color:#ab2727; float:left; margin-left:10px;"></i></td>
+      </tr>
+
+      <!--
       <tr>
         <td>
           <table>
@@ -973,6 +1172,7 @@
         </td>
         <td></td>
       </tr>
+    -->
     </table>
   </div>
 </div>
@@ -1000,6 +1200,17 @@
           </table>
         </td>
       </tr>
+      <tr class="" ng-repeat="(header, value) in personalSeciton.references">
+        <td><table><tr class="redclr"> <td width="30%"> </td> <td width="30%"></td> <td width="40%"> Reference {{$index+1}} </td></tr></table></td>
+        <td><textarea class="col-md-5" placeholder="Person" ng-blur="personalSeciton.saveListItem('userReferencesCRUD', personalSeciton.references, $index, personalSeciton.defination.references)" ng-model="value.personName"></textarea>
+<textarea class="col-md-5" placeholder="Occupation" ng-blur="personalSeciton.saveListItem('userReferencesCRUD', personalSeciton.references, $index, personalSeciton.defination.references)" ng-model="value.occupation"></textarea>
+        </td>
+        <td><textarea placeholder="Adress" ng-blur="personalSeciton.saveListItem('userReferencesCRUD', personalSeciton.references, $index, personalSeciton.defination.references)" ng-model="value.address"></textarea> </td>
+        <td><textarea placeholder="Email" ng-blur="personalSeciton.saveListItem('userReferencesCRUD', personalSeciton.references, $index, personalSeciton.defination.references)" ng-model="value.email"></textarea> </td>
+        <td><textarea placeholder="Contact" ng-blur="personalSeciton.saveListItem('userReferencesCRUD', personalSeciton.references, $index, personalSeciton.defination.references)" ng-model="value.contact"></textarea> </td>
+        <td ng-hide="value.id==null"><i ng-click="personalSeciton.deleteListItem('userReferencesCRUD', personalSeciton.references, $index)" class="fa fa-times" style="color:#ab2727; float:s; margin-left:10px;"></i></td>
+      </tr>
+      <!--
       <tr>
         <td>
           <table>
@@ -1055,6 +1266,7 @@
         </td>
         <td>+93-321-8796589</td>
       </tr>
+      -->
     </table>
   </div>
 </div>
@@ -1112,6 +1324,7 @@
 (header, value) in offerSection.offerData
 ng-repeat="x in offerSection.traverseRange(3) track by $index"
 -->
+
   <tr class="nodisplay showonetwoA" ng-repeat="(header, value) in offerSection.offerData">
       <td ng-hide="offerSection.maxLength<=$index">
         <table>
@@ -1211,6 +1424,9 @@ ng-repeat="x in offerSection.traverseRange(3) track by $index"
 <script type="text/javascript">
 $(".onhovshowonetwoA").click(function(){
   $(".showonetwoA").toggle('slow');
+});
+$(".btn2p2").click(function(){
+  $(".div2p2").toggle('slow');
 });
 
 function modalVisible(name, bool) {

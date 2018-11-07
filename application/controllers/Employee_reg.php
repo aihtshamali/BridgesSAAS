@@ -446,6 +446,13 @@ function view_employee1()
 		$data["oldCv"]= $this->Employee_model->getArchieveCvData($id);
 		$data["oldOffer"]= $this->Employee_model->getArchieveOfferData($id);
 
+		$data["awards"]= $this->Employee_model->genericRead("fhk_user_awards", array('where' => array('user_id' => $id)));
+		$data["education"]= $this->Employee_model->genericRead("fhk_user_education", array('where' => array('user_id' => $id)));
+		$data["experience"]= $this->Employee_model->genericRead("fhk_user_experience", array('where' => array('user_id' => $id)));
+		$data["projects"]= $this->Employee_model->genericRead("fhk_user_projects", array('where' => array('user_id' => $id)));
+		$data["references"]= $this->Employee_model->genericRead("fhk_user_references", array('where' => array('user_id' => $id)));
+		$data["skills"]= $this->Employee_model->genericRead("fhk_user_skills", array('where' => array('user_id' => $id)));
+
 		//var_dump($data["oldCv"]); echo "<br/><br/>";
 		//var_dump($data["oldOffer"]); die();
 		$this->load->view('emp_module_20181029', $data);
@@ -459,22 +466,202 @@ function view_employee1()
 
 		$table= "newbm_user_details";
 		$opt = array('id' => "id");
-		$id= $data->id;
-		unset($data->id);
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
 
-		if($operation=="list")
-			sendJson($this->Employee_model->genericRead($table));
-		else if($operation=="show")
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
 			sendJson($this->Employee_model->genericShow($table, $id, $opt));
-		else if($operation=="delete")
+		} else if($operation=="delete") {
 			$this->Employee_model->genericDelete($table, $id, $opt);
-		else if($operation=="add") {
+			$this->sendJson('{"flag": "deleted"');
+		} else if($operation=="add") {
 			if($id!=null) {
 				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
 				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg));
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg);
 			}
-			else
-				$this->Employee_model->genericCreate($table, $data);
+		}
+	}
+
+	public function userEducationCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_education";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
+		}
+	}
+
+	public function userAwardsCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_awards";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
+		}
+	}
+
+	public function userProjectsCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_projects";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
+		}
+	}
+	public function userSkillsCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_skills";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
+		}
+	}
+
+	public function userExperienceCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_experience";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
+		}
+	}
+	public function userReferencesCRUD(){
+		$post= json_decode(file_get_contents("php://input"));
+		$operation= $post->operation;
+		$data= $post->data;
+
+		$table= "fhk_user_references";
+		$opt = array('id' => "id", 'where' => array('user_id' => $data->user_id));
+		$id= $data->{$opt["id"]};
+		unset($data->{$opt["id"]});
+
+		if($operation=="list") {
+			sendJson($this->Employee_model->genericRead($table, null));
+		} else if($operation=="show") {
+			sendJson($this->Employee_model->genericShow($table, $id, $opt));
+		} else if($operation=="delete") {
+			if($id!=null) {
+				$this->Employee_model->genericDelete($table, $id, $opt);
+				$this->sendJson('{"flag": "deleted"'. '}');
+			}
+		} else if($operation=="add") {
+			if($id!=null) {
+				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
+			} else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. '}');
+			}
 		}
 	}
 
@@ -483,13 +670,19 @@ function view_employee1()
 		$operation= $post->operation;
 		$data= $post->data;
 
+		//var_dump($data); die();
 		$table= "newba_users";
 		$opt = array('id' => "id");
-		$id= $data->id;
-		unset($data->id);
+
+		$id= null;
+		if(isset($data->{$opt["id"]})) {
+			$id= $data->{$opt["id"]};
+			unset($data->{$opt["id"]});
+		}
+
 
 		if($operation=="list")
-			sendJson($this->Employee_model->genericRead($table));
+			sendJson($this->Employee_model->genericRead($table, null));
 		else if($operation=="show")
 			sendJson($this->Employee_model->genericShow($table, $id, $opt));
 		else if($operation=="delete")
@@ -497,10 +690,13 @@ function view_employee1()
 		else if($operation=="add") {
 			if($id!=null) {
 				$msg= $this->Employee_model->genericUpdate($table, $data, $id, $opt);
-				//$this->sendJson('{"flag": "updated", "err": '. json_encode($msg));
+				$this->sendJson('{"flag": "updated", "err": '. json_encode($msg). '}');
 			}
-			else
-				$this->Employee_model->genericCreate($table, $data);
+			else {
+				$msg= $this->Employee_model->genericCreate($table, $data, null);
+				$this->sendJson('{"flag": "created", "id":'. $msg. ', "redirect":"'. base_url('Employee_reg/emp_module_20181029/'.$msg).'"}');
+			}
+
 		}
 	}
 
